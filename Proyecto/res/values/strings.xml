@@ -1,4 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">RoomMe</string>
+    <string-array name="drawer_options">
+        <item>LookMe</item>
+        <item>MeFavs</item>
+        <item>Me</item>
+        <item>MeGo</item>
+    </string-array>
+
+    <string name="drawer_open">Open navigation drawer</string>
+    <string name="drawer_close">Close navigation drawer</string>
+    <string name="pressed">Pressed Item</string>
+    <string name="loading">Loading...</string>
 </resources>
