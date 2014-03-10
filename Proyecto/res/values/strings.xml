@@ -11,5 +11,11 @@
     <string name="drawer_open">Open navigation drawer</string>
     <string name="drawer_close">Close navigation drawer</string>
     <string name="pressed">Pressed Item</string>
-    <string name="loading">Loading...</string>
+    <string name="loading">Loading&#8230;</string>
+
+    <!-- Layout strings -->
+    <string name="img_content">RoommImage</string>
+    <string name="registra">Registrate!</string>
+    <string name="facebook">Facebook!</string>
+    <string name="settings">Ajustes</string>
 </resources>

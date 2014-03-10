@@ -10,6 +10,16 @@
     <color name="translucent_white">#70ffffff</color>
     <color name="traslucent_amarillo">#70ffff00</color>
 
+    <!--Colores Panda-->
+    <color name="green_aquamarine">#10F773</color>
+    <color name="blue_scribe">#0086CE</color>
+    <color name="blue_aquamarine">#08AD9B</color>
+    <color name="panda_tornazul">#08394A</color>
+    <color name="panda_gray">#31515A</color>
+    <color name="panda_light_gray">#195163</color>
+    <color name="dark_purple">#300769</color>
+    <color name="dark_indigo">#195163</color>
+
     <color name="sample_drawer">#304F9D</color>
 
     <string-array name="colors">
