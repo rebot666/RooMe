@@ -20,6 +20,7 @@ import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.MenuItem;
 import com.rebot.roomme.Adapters.MenuListAdapter;
 import com.rebot.roomme.MeLook.MelookActivityHostFragment;
+import com.rebot.roomme.MeProfile.MeProfileActivityHostFragment;
 
 public class MainDrawer extends SherlockFragmentActivity {
     private Context context = this;
@@ -46,7 +47,7 @@ public class MainDrawer extends SherlockFragmentActivity {
         app = (Roome) getApplication();
 
         // Get the Title
-        mTitle = mDrawerTitle = "Brounie";
+        mTitle = mDrawerTitle = "RooMe";
 
         // Generate title
         //title = new String[] {  getString(R.string.calendario),getString( R.string.servicios ),getString( R.string.datos ), getString(R.string.afiliados), getString(R.string.multimedia)};
@@ -137,7 +138,6 @@ public class MainDrawer extends SherlockFragmentActivity {
         // Locate Position
         switch (position) {
             case 0:
-
                 fragment= new MelookActivityHostFragment();
                 break;
             case 1:
@@ -149,8 +149,7 @@ public class MainDrawer extends SherlockFragmentActivity {
                 //fragment= new DataActivityHostFragment();
                 break;
             case 3:
-
-                //fragment= new AfiliatesActivityHostFragment();
+                fragment= new MeProfileActivityHostFragment();
                 break;
         }
 

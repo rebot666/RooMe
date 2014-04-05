@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">RoomMe</string>
+    <string name="app_name">Roome</string>
     <string-array name="drawer_options">
         <item>LookMe</item>
         <item>MeFavs</item>
@@ -13,9 +13,19 @@
     <string name="pressed">Pressed Item</string>
     <string name="loading">Loading&#8230;</string>
 
+    <!-- Facebook -->
+    <string name="app_id">618912721522669</string>
+
     <!-- Layout strings -->
+    <string name="text_rooMe">Text_RooMe</string>
     <string name="img_content">RoommImage</string>
-    <string name="registra">Registrate!</string>
-    <string name="facebook">Facebook!</string>
+    <string name="btn_text_register">Registrate!</string>
+    <string name="btn_text_facebook">Facebook!</string>
     <string name="settings">Ajustes</string>
+
+    <!-- Profile buttons -->
+    <string name="btn_text_publicaciones">Mis Publicaciones</string>
+    <string name="btn_text_borradores">Borradores</string>
+    <string name="btn_text_nuevo">Publica +1</string>
+    <string name="btn_text_ofertas">Ofertas</string>
 </resources>

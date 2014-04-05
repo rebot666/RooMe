@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/RoomMe.iml" filepath="$PROJECT_DIR$/RoomMe.iml" />
       <module fileurl="file://$PROJECT_DIR$/../Librerias/actionbarsherlock/actionbarsherlock.iml" filepath="$PROJECT_DIR$/../Librerias/actionbarsherlock/actionbarsherlock.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../Librerias/facebook-sdk/facebook/facebook.iml" filepath="$PROJECT_DIR$/../Librerias/facebook-sdk/facebook/facebook.iml" />
       <module fileurl="file://$PROJECT_DIR$/../Librerias/google-play-services_lib/google-play-services_lib.iml" filepath="$PROJECT_DIR$/../Librerias/google-play-services_lib/google-play-services_lib.iml" />
     </modules>
   </component>
