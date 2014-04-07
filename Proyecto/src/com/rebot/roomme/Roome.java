@@ -8,7 +8,6 @@ import com.parse.ParseFacebookUtils;
  * Created by Toshiba on 8/03/14.
  */
 public class Roome extends Application {
-
     @Override
     public void onCreate() {
         super.onCreate();

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:facebook="http://schemas.android.com/apk/res-auto"
               android:orientation="vertical"
               android:layout_width="match_parent"
               android:layout_height="match_parent" android:id="@+id/linear_main"
@@ -13,8 +14,10 @@
                 android:orientation="horizontal"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/linear_profile" android:paddingRight="10dp" android:paddingLeft="5dp">
-            <ImageView
+                android:id="@+id/linear_profile"
+                android:paddingRight="5dp"
+                android:paddingLeft="10dp">
+            <com.facebook.widget.ProfilePictureView
                     android:layout_width="120dp"
                     android:layout_height="120dp"
                     android:id="@+id/img_profile"
@@ -22,18 +25,19 @@
                     android:contentDescription="@string/img_content"
                     android:layout_marginLeft="10dp"
                     android:layout_marginTop="10dp"
-                    android:layout_marginBottom="10dp"/>
+                    facebook:preset_size="large"/>
             <LinearLayout
                     android:orientation="vertical"
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent" android:paddingLeft="5dp"
-                    android:id="@+id/info_profile" android:layout_marginLeft="5dp">
+                    android:id="@+id/info_profile" android:layout_marginLeft="5dp" android:weightSum="1">
                 <TextView
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:textAppearance="?android:attr/textAppearanceMedium"
                         android:text="@string/text_rooMe"
-                        android:id="@+id/name_profie" android:gravity="top" android:layout_marginTop="35dp"/>
+                        android:id="@+id/name_profie" android:gravity="top" android:layout_marginTop="20dp"
+                        android:layout_weight="0.51"/>
                 <Button
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
@@ -60,7 +64,7 @@
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    />
+                    android:layout_marginLeft="3dp" android:layout_marginRight="3dp"/>
         </LinearLayout>
     </RelativeLayout>
     <ScrollView

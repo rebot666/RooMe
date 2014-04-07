@@ -43,7 +43,6 @@ public class MainDrawer extends SherlockFragmentActivity {
 
         setContentView(R.layout.drawer_layout);
 
-
         app = (Roome) getApplication();
 
         // Get the Title
@@ -149,7 +148,7 @@ public class MainDrawer extends SherlockFragmentActivity {
                 //fragment= new DataActivityHostFragment();
                 break;
             case 3:
-                fragment= new MeProfileActivityHostFragment();
+                fragment = new MeProfileActivityHostFragment();
                 break;
         }
 
