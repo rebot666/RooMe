@@ -134,4 +134,33 @@ public class MeProfileLogin extends SherlockFragmentActivity {
                 });
         request.executeAsync();
     }
+
+
+    private void requestMusic() {
+        interestList = new ArrayList<String>();
+        Request request = Request.newGraphPathRequest(ParseFacebookUtils.getSession(), "me/music",
+                new Request.Callback() {
+                    @Override
+                    public void onCompleted(Response response) {
+                        if(response.getGraphObject() != null){
+                            JSONObject userBooks = response.getGraphObject().getInnerJSONObject();
+
+                            try {
+                                JSONArray info = userBooks.getJSONArray("data");
+                                for (int i = 0; i < info.length(); i++) {
+                                    String book = (info.getJSONObject(i).getString("name"));
+                                    interestList.add(book);
+                                }
+
+                                ParseUser current = ParseUser.getCurrentUser();
+                                current.put("music", interestList);
+                                current.saveInBackground();
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+                });
+        request.executeAsync();
+    }
 }
