@@ -1,12 +1,16 @@
 package com.rebot.roomme.Adapters;
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.assist.ImageSize;
 import com.parse.ParseObject;
 import com.rebot.roomme.R;
 import com.rebot.roomme.Roome;
@@ -44,6 +48,10 @@ public class LookMeAdpater extends ArrayAdapter<ParseObject> {
             holder = new GenericListHolder();
             holder.male = (ImageView) row.findViewById(R.id.circle_male);
             holder.female = (ImageView) row.findViewById(R.id.circle_women);
+            holder.layout_female = (View) row.findViewById(R.id.branch_left);
+            holder.layout_male = (View) row.findViewById(R.id.branch_right);
+            holder.name_female = (TextView) row.findViewById(R.id.name_female);
+            holder.name_male = (TextView) row.findViewById(R.id.name_male);
 
             row.setTag(holder);
         } else {
@@ -55,15 +63,35 @@ public class LookMeAdpater extends ArrayAdapter<ParseObject> {
 
         try {
             if(profile.getString("gender").equals("male")){
-                holder.female.setVisibility(View.INVISIBLE);
+                holder.layout_female.setVisibility(View.GONE);
+                holder.female.setVisibility(View.GONE);
+                holder.layout_male.setVisibility(View.VISIBLE);
                 holder.male.setVisibility(View.VISIBLE);
+                holder.name_male.setVisibility(View.VISIBLE);
+                holder.name_female.setVisibility(View.GONE);
 
-                ImageLoader.getInstance().displayImage("", holder.male, app.options, app.animateFirstListener);
+                holder.name_male.setText(profile.getString("name"));
+                if(objeto.getString("urlImage") != null){
+                    ImageLoader.getInstance().displayImage(objeto.getString("urlImage"), holder.male, app.options, app.animateFirstListener);
+                }else{
+                    ImageLoader.getInstance().displayImage("", holder.male, app.options, app.animateFirstListener);
+                }
+
+
             } else {
+                holder.layout_female.setVisibility(View.VISIBLE);
                 holder.female.setVisibility(View.VISIBLE);
-                holder.male.setVisibility(View.INVISIBLE);
+                holder.layout_male.setVisibility(View.GONE);
+                holder.male.setVisibility(View.GONE);
+                holder.name_male.setVisibility(View.GONE);
+                holder.name_female.setVisibility(View.VISIBLE);
 
-                ImageLoader.getInstance().displayImage("", holder.female, app.options, app.animateFirstListener);
+                holder.name_female.setText(profile.getString("name"));
+                if(objeto.getString("urlImage") != null){
+                    ImageLoader.getInstance().displayImage(objeto.getString("urlImage"), holder.female, app.options, app.animateFirstListener);
+                }else{
+                    ImageLoader.getInstance().displayImage("", holder.female, app.options, app.animateFirstListener);
+                }
             }
         } catch (JSONException e) {
             e.printStackTrace();
@@ -76,5 +104,7 @@ public class LookMeAdpater extends ArrayAdapter<ParseObject> {
     {
         ImageView male;
         ImageView female;
+        View layout_female, layout_male;
+        TextView name_female, name_male;
     }
 }

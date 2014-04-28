@@ -41,16 +41,39 @@
               android:background="@color/Orange"
               android:layout_gravity="right"
                 />
-        <TextView android:layout_width="fill_parent" android:layout_height="fill_parent"
-                  android:textSize="25dp"
-                  android:text="@string/slogan"
-                  android:layout_gravity="left|bottom"
-                  android:gravity="center"
-                  android:id="@+id/slogan"
-                  android:layout_weight="1"
-                  android:textStyle="italic"
-                  android:padding="15dp"
-                />
+        <LinearLayout android:layout_width="fill_parent"
+                      android:layout_height="fill_parent"
+                      android:layout_weight="1"
+                      android:orientation="vertical"
+                >
+            <TextView android:layout_width="fill_parent"
+                      android:layout_height="fill_parent"
+                      android:layout_weight="1"
+                      android:textSize="18dp"
+                      android:text="@string/slogan1"
+                      android:layout_gravity="left|bottom"
+                      android:gravity="left|bottom"
+                      android:id="@+id/slogan1"
+                      android:textStyle="italic"
+                      android:paddingTop="15dp"
+                      android:paddingLeft="15dp"
+                      android:paddingRight="15dp"
+                    />
+            <TextView android:layout_width="fill_parent"
+                      android:layout_height="fill_parent"
+                      android:layout_weight="1"
+                      android:textSize="18dp"
+                      android:text="@string/slogan2"
+                      android:layout_gravity="left|bottom"
+                      android:gravity="left|top"
+                      android:id="@+id/slogan2"
+                      android:textStyle="italic"
+                      android:paddingLeft="15dp"
+                      android:paddingRight="15dp"
+                    />
+
+        </LinearLayout>
+
     </LinearLayout>
 
 </FrameLayout>

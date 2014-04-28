@@ -9,23 +9,79 @@
             android:orientation="horizontal"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent">
-        <ImageView
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/circle_women"
-                android:src="@drawable/icon_search"
-                android:layout_weight="1"/>
+        <LinearLayout android:layout_width="fill_parent"
+                      android:layout_height="110dp"
+                      android:layout_weight="1"
+                      android:orientation="horizontal"
+                      android:id="@+id/layout_left"
+                >
+            <TextView android:layout_width="fill_parent"
+                      android:layout_height="fill_parent"
+                      android:layout_gravity="center_vertical"
+                      android:gravity="right|center_vertical"
+                      android:textSize="18dp"
+                      android:id="@+id/name_male"
+                      android:layout_marginRight="15dp"
+                    />
+            <ImageView
+                    android:layout_width="75dp"
+                    android:layout_height="75dp"
+                    android:id="@+id/circle_women"
+
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginBottom="15dp"
+                    />
+            <View android:layout_width="fill_parent"
+                  android:layout_height="2dp"
+                  android:background="@color/dark_indigo"
+                  android:layout_gravity="center"
+                  android:id="@+id/branch_left"
+                  android:visibility="gone"
+                    />
+
+
+        </LinearLayout>
+
         <View android:layout_width="2dp"
               android:layout_height="fill_parent"
-              android:background="@color/Orange"
+              android:background="@color/dark_indigo"
               android:layout_gravity="center"
+
               />
-        <ImageView
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/circle_male"
-                android:src="@drawable/icon_search"
-                android:layout_weight="1"
-                />
+        <LinearLayout android:layout_width="fill_parent"
+                      android:layout_height="110dp"
+                      android:layout_weight="1"
+                      android:gravity="right"
+                      android:orientation="horizontal"
+                      android:id="@+id/layout_right"
+                >
+
+            <View android:layout_width="fill_parent"
+                  android:layout_height="2dp"
+                  android:background="@color/dark_indigo"
+                  android:layout_gravity="center"
+                  android:id="@+id/branch_right"
+                    />
+            <ImageView
+                    android:layout_width="75dp"
+                    android:layout_height="75dp"
+                    android:id="@+id/circle_male"
+                    android:layout_marginRight="15dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginBottom="15dp"
+                    />
+            <TextView android:layout_width="fill_parent"
+                      android:layout_height="fill_parent"
+                      android:layout_gravity="center_vertical"
+                      android:gravity="left|center_vertical"
+                      android:textSize="18dp"
+                      android:id="@+id/name_female"
+                      android:layout_marginLeft="15dp"
+                    />
+
+
+        </LinearLayout>
+
     </LinearLayout>
 </LinearLayout>

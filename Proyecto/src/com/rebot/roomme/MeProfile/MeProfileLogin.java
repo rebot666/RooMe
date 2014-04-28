@@ -147,11 +147,11 @@ public class MeProfileLogin extends SherlockFragmentActivity {
 
 
     private void requestMusic() {
-        interestList = new ArrayList<String>();
-        Request request = Request.newGraphPathRequest(ParseFacebookUtils.getSession(), "me/music",
-                new Request.Callback() {
-                    @Override
-                    public void onCompleted(Response response) {
+                        interestList = new ArrayList<String>();
+                        Request request = Request.newGraphPathRequest(ParseFacebookUtils.getSession(), "me/music",
+                                new Request.Callback() {
+                                    @Override
+                                    public void onCompleted(Response response) {
                         if(response.getGraphObject() != null){
                             JSONObject userBooks = response.getGraphObject().getInnerJSONObject();
 

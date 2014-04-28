@@ -10,8 +10,10 @@ import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.ImageLoadingListener;
+import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.nostra13.universalimageloader.core.assist.SimpleImageLoadingListener;
 import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
+import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
 import com.nostra13.universalimageloader.utils.StorageUtils;
 import com.parse.Parse;
 import com.parse.ParseFacebookUtils;
@@ -49,8 +51,10 @@ public class Roome extends Application {
                 .showImageOnFail(R.drawable.roomme_title)
                 .cacheInMemory(true)
                 .cacheOnDisc(true)
-                        //.displayer(new RoundedBitmapDisplayer(100)) //if want rounded image
+                .displayer(new RoundedBitmapDisplayer(100)) //if want rounded image
+                .imageScaleType(ImageScaleType.EXACTLY_STRETCHED)
                 .build();
+
 
         ImageLoader.getInstance().init(config);
     }

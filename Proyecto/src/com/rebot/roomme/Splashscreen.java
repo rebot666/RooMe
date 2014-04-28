@@ -16,8 +16,8 @@ public class Splashscreen extends SherlockActivity {
      */
 
     private boolean mIsBackButtonPressed;
-    private static final int SPLASH_DURATION = 2000; // Tiempo del Splash
-    //private TextView title, slogan;
+    private static final int SPLASH_DURATION = 3000; // Tiempo del Splash
+    private TextView slogan1, slogan2, title;
 
 
     @Override
@@ -26,6 +26,12 @@ public class Splashscreen extends SherlockActivity {
         getSupportActionBar().hide();
 
         setContentView(R.layout.splashscreen_layout);
+        slogan1 = (TextView) findViewById(R.id.slogan1);
+        slogan2 = (TextView) findViewById(R.id.slogan2);
+
+        Typeface fontslogan = Typeface.createFromAsset(getAssets(), "fonts/abeezee_regular.ttf");
+        slogan1.setTypeface(fontslogan);
+        slogan2.setTypeface(fontslogan);
 
         Handler handler = new Handler();
 

@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">RoomMe</string>
-    <string name="slogan">
+    <string name="slogan1">
         LA EXPERIENCIA DE ROOMIES Y
+    </string>
+    <string name="slogan2">
         DEPARTAMENTOS QUE TU NECESITAS
     </string>
     <string-array name="drawer_options">
