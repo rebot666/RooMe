@@ -22,6 +22,7 @@
                       android:textSize="18dp"
                       android:id="@+id/name_male"
                       android:layout_marginRight="15dp"
+                      android:layout_marginLeft="15dp"
                     />
             <ImageView
                     android:layout_width="75dp"
@@ -78,6 +79,7 @@
                       android:textSize="18dp"
                       android:id="@+id/name_female"
                       android:layout_marginLeft="15dp"
+                      android:layout_marginRight="15dp"
                     />
 
 

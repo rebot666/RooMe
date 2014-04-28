@@ -19,6 +19,11 @@
     <string name="pressed">Pressed Item</string>
     <string name="loading">Loading&#8230;</string>
 
+    <!-- Opciones -->
+    <string name="si">Sí</string>
+    <string name="no">No</string>
+    <string name="pregunta_roomie">Soy Roomie</string>
+
     <!-- Facebook -->
     <string name="app_id">618912721522669</string>
 

@@ -194,9 +194,39 @@ public class MeProfileLogin extends SherlockFragmentActivity {
                                 ParseUser current = ParseUser.getCurrentUser();
                                 current.put("movies", interestList);
                                 current.saveInBackground();
+                                requestPicture();
+
+
+                                //NavUtils.navigateUpFromSameTask(MeProfileLogin.this);
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+                });
+        request.executeAsync();
+    }
+
+    private void requestPicture() {
+        interestList = new ArrayList<String>();
+        Request request = Request.newGraphPathRequest(ParseFacebookUtils.getSession(), "me/picture?redirect=false",
+                new Request.Callback() {
+                    @Override
+                    public void onCompleted(Response response) {
+                        if(response.getGraphObject() != null){
+                            JSONObject userBooks = response.getGraphObject().getInnerJSONObject();
+
+                            try {
+                                JSONObject info = userBooks.getJSONObject("data");
+                                String imageUrl = info.getString("url");
+                                ParseUser current = ParseUser.getCurrentUser();
+                                current.put("urlImage", interestList);
+                                current.saveInBackground();
 
                                 loader.stopSpinning();
-                                NavUtils.navigateUpFromSameTask(MeProfileLogin.this);
+                                finish();
+                                //NavUtils.navigateUpFromSameTask(MeProfileLogin.this);
+
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }

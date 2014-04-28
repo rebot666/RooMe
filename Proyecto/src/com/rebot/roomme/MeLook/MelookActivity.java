@@ -38,6 +38,7 @@ public class MelookActivity extends FragmentActivity {
 
 
     private RelativeLayout loading_info;
+    private LinearLayout no_info;
     private ProgressWheel loader;
 
     private LinearLayout linear_list;
@@ -60,6 +61,8 @@ public class MelookActivity extends FragmentActivity {
         linear_list = (LinearLayout) findViewById(R.id.linear_list);
         people = (ListView) findViewById(R.id.listView);
 
+        no_info = (LinearLayout) findViewById(R.id.layout_no_info);
+
         profiles = new ArrayList<ParseObject>();
 
         btn_map.setOnClickListener(new View.OnClickListener() {
@@ -78,12 +81,14 @@ public class MelookActivity extends FragmentActivity {
         });
 
         loader.spin();
+
         ParseQuery<ParseUser>  query = ParseUser.getQuery();
         query.findInBackground(new FindCallback<ParseUser>() {
             @Override
             public void done(List<ParseUser> list, ParseException e) {
                 if(e == null){
                     if(list.size() > 0){
+
                         for(ParseUser temp : list){
                             profiles.add(temp);
                         }
@@ -96,6 +101,7 @@ public class MelookActivity extends FragmentActivity {
                 } else {
                     Log.d("", "");
                     loading_info.setVisibility(View.GONE);
+                    no_info.setVisibility(View.VISIBLE);
                     loader.stopSpinning();
                 }
             }

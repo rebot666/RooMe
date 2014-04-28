@@ -3,6 +3,7 @@ package com.rebot.roomme;
 import android.app.Application;
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.Typeface;
 import android.view.View;
 import android.widget.ImageView;
 import com.nostra13.universalimageloader.cache.memory.impl.LruMemoryCache;
@@ -35,6 +36,11 @@ public class Roome extends Application {
     public void onCreate() {
         super.onCreate();
         Parse.initialize(this, "jbaHqREvwHAb7zukf78Ot7B9zb6AFsy5NHHUq2SA", "5k7ozpMi1BrlDy1wranTtV2Us5xeytE7M9rn8orL");
+
+        FontsOverride.setDefaultFont(this, "DEFAULT", "fonts/abeezee_regular.ttf");
+        //FontsOverride.setDefaultFont(this, "MONOSPACE", "MyFontAsset2.ttf");
+        //FontsOverride.setDefaultFont(this, "SANS_SERIF", "MyFontAsset3.ttf");
+
         File cacheDir = StorageUtils.getCacheDirectory(context);
         ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(context)
                 .memoryCacheExtraOptions(480, 800) // default = device screen dimensions
@@ -75,4 +81,6 @@ public class Roome extends Application {
             }
         }
     }
+
+
 }
