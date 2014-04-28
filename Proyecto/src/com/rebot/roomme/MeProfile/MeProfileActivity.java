@@ -2,16 +2,17 @@ package com.rebot.roomme.MeProfile;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
-import android.widget.LinearLayout;
-import android.widget.TextView;
+import android.widget.*;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.facebook.widget.ProfilePictureView;
+import com.google.android.gms.plus.model.people.Person;
 import com.parse.ParseFacebookUtils;;
 import com.parse.ParseUser;
 import com.rebot.roomme.R;
+import com.todddavies.components.progressbar.ProgressWheel;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -19,17 +20,15 @@ import org.json.JSONObject;
  * Created by Strike on 4/4/14.
  */
 
-public class MeProfileActivity extends SherlockFragmentActivity {
+public class MeProfileActivity extends FragmentActivity {
     private ParseUser currentUser;
 
     private LinearLayout linear_registro;
     private Button btn_sign_facebook;
-    private Button btn_registro;
 
     private LinearLayout linear_profile;
     private ProfilePictureView img_profile;
     private TextView txt_name_profile;
-    private Button btn_settings;
 
     private LinearLayout whole_wrap;
     private Button btn_publish;
@@ -46,7 +45,6 @@ public class MeProfileActivity extends SherlockFragmentActivity {
         this.linear_profile = (LinearLayout) findViewById(R.id.linear_profile);
         this.img_profile = (ProfilePictureView) findViewById(R.id.img_profile);
         this.txt_name_profile = (TextView) findViewById(R.id.name_profie);
-        this.btn_settings = (Button) findViewById(R.id.btn_settings);
 
         this.linear_registro = (LinearLayout) findViewById(R.id.linear_register);
         this.btn_sign_facebook = (Button) findViewById(R.id.btn_facebook);
@@ -80,7 +78,6 @@ public class MeProfileActivity extends SherlockFragmentActivity {
             this.linear_profile.setVisibility(View.VISIBLE);
 
             //Habilitar los componentes necesarios
-            //this.whole_wrap.setEnabled(true);
             this.btn_publish.setEnabled(true);
             this.btn_borradores.setEnabled(true);
             this.btn_nuevo.setEnabled(true);
@@ -125,26 +122,6 @@ public class MeProfileActivity extends SherlockFragmentActivity {
                 } else {
                     txt_name_profile.setText("");
                 }
-
-                /*if (userProfile.getString("gender") != null) {
-                    userGenderView.setText(userProfile.getString("gender"));
-                } else {
-                    userGenderView.setText("");
-                }*/
-
-                /*if (userProfile.getString("birthday") != null) {
-                    userDateOfBirthView.setText(userProfile
-                            .getString("birthday"));
-                } else {
-                    userDateOfBirthView.setText("");
-                }*/
-
-                /*if (userProfile.getString("relationship_status") != null) {
-                    userRelationshipView.setText(userProfile
-                            .getString("relationship_status"));
-                } else {
-                    userRelationshipView.setText("");
-                }*/
             } catch (JSONException e) {
                 Log.d("JSON", e.toString());
             }

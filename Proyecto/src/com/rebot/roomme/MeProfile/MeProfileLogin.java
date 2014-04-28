@@ -8,9 +8,11 @@ import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.facebook.Request;
 import com.facebook.Response;
 import com.facebook.Session;
+import com.facebook.model.GraphLocation;
 import com.facebook.model.GraphUser;
 import com.parse.*;
 import com.rebot.roomme.R;
+import com.todddavies.components.progressbar.ProgressWheel;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -24,12 +26,17 @@ import java.util.List;
  */
 public class MeProfileLogin extends SherlockFragmentActivity {
     public ArrayList<String> interestList;
+    private ProgressWheel loader;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.profilelogin_layout);
         ParseFacebookUtils.initialize(getString(R.string.app_id));
 
+        this.loader = (ProgressWheel) findViewById(R.id.pw_spinner);
+
+        this.loader.spin();
         login_facebook();
     }
 
@@ -71,7 +78,8 @@ public class MeProfileLogin extends SherlockFragmentActivity {
                                 // Populate the JSON object
                                 userProfile.put("facebookId", user.getId());
                                 userProfile.put("name", user.getName());
-                                if (user.getLocation().getProperty("name") != null) {
+
+                                if (user.getLocation() != null) {
                                     userProfile.put("location", (String) user
                                             .getLocation().getProperty("name"));
                                 }
@@ -93,7 +101,8 @@ public class MeProfileLogin extends SherlockFragmentActivity {
                                 ParseUser current = ParseUser.getCurrentUser();
                                 current.put("profile", userProfile);
                                 current.saveInBackground();
-                                NavUtils.navigateUpFromSameTask(MeProfileLogin.this);
+
+                                requestBook();
                             } catch (JSONException e) {
                                 Log.d("Error",
                                         "Error parsing returned user data.");
@@ -126,6 +135,7 @@ public class MeProfileLogin extends SherlockFragmentActivity {
                                 ParseUser current = ParseUser.getCurrentUser();
                                 current.put("books", interestList);
                                 current.saveInBackground();
+                                requestMusic();
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
@@ -155,6 +165,38 @@ public class MeProfileLogin extends SherlockFragmentActivity {
                                 ParseUser current = ParseUser.getCurrentUser();
                                 current.put("music", interestList);
                                 current.saveInBackground();
+                                requestMovie();
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+                });
+        request.executeAsync();
+    }
+
+    private void requestMovie() {
+        interestList = new ArrayList<String>();
+        Request request = Request.newGraphPathRequest(ParseFacebookUtils.getSession(), "me/movies",
+                new Request.Callback() {
+                    @Override
+                    public void onCompleted(Response response) {
+                        if(response.getGraphObject() != null){
+                            JSONObject userBooks = response.getGraphObject().getInnerJSONObject();
+
+                            try {
+                                JSONArray info = userBooks.getJSONArray("data");
+                                for (int i = 0; i < info.length(); i++) {
+                                    String book = (info.getJSONObject(i).getString("name"));
+                                    interestList.add(book);
+                                }
+
+                                ParseUser current = ParseUser.getCurrentUser();
+                                current.put("movies", interestList);
+                                current.saveInBackground();
+
+                                loader.stopSpinning();
+                                NavUtils.navigateUpFromSameTask(MeProfileLogin.this);
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }

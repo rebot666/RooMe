@@ -1,8 +1,10 @@
 package com.rebot.roomme;
 
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
+import android.widget.TextView;
 import com.actionbarsherlock.app.SherlockActivity;
 
 /**
@@ -15,6 +17,8 @@ public class Splashscreen extends SherlockActivity {
 
     private boolean mIsBackButtonPressed;
     private static final int SPLASH_DURATION = 2000; // Tiempo del Splash
+    //private TextView title, slogan;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

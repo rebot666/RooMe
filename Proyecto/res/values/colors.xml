@@ -19,8 +19,10 @@
     <color name="panda_light_gray">#195163</color>
     <color name="dark_purple">#300769</color>
     <color name="dark_indigo">#195163</color>
+    <color name="dark_indigo_transparent">#80195163</color>
 
     <color name="sample_drawer">#304F9D</color>
+    <color name="back_purple">#D0E3E8</color>
 
     <string-array name="colors">
         <item>#EEC103</item>

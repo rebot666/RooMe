@@ -4,9 +4,10 @@
               xmlns:facebook="http://schemas.android.com/apk/res-auto"
               android:orientation="vertical"
               android:layout_width="match_parent"
-              android:layout_height="match_parent" android:id="@+id/linear_main"
-              android:background="@drawable/ab_stacked_solid_roomme">
-
+              android:layout_height="match_parent"
+              android:id="@+id/linear_main"
+              android:background="@color/back_purple"
+              >
     <RelativeLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content">
@@ -16,34 +17,36 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/linear_profile"
                 android:paddingRight="5dp"
-                android:paddingLeft="10dp">
+                android:paddingLeft="10dp"
+                android:background="@color/back_purple">
             <com.facebook.widget.ProfilePictureView
-                    android:layout_width="120dp"
-                    android:layout_height="120dp"
+                    android:layout_width="fill_parent"
+                    android:layout_height="140dp"
                     android:id="@+id/img_profile"
                     android:src="@drawable/ic_launcher"
                     android:contentDescription="@string/img_content"
-                    android:layout_marginLeft="10dp"
+                    facebook:preset_size="large"
                     android:layout_marginTop="10dp"
-                    facebook:preset_size="large"/>
+                    android:layout_marginLeft="6dp"
+                    android:layout_weight="1"/>
             <LinearLayout
                     android:orientation="vertical"
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent" android:paddingLeft="5dp"
-                    android:id="@+id/info_profile" android:layout_marginLeft="5dp" android:weightSum="1">
+                    android:id="@+id/info_profile"
+                    android:paddingRight="8dp"
+                    android:layout_weight="1">
                 <TextView
                         android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="fill_parent"
                         android:textAppearance="?android:attr/textAppearanceMedium"
                         android:text="@string/text_rooMe"
-                        android:id="@+id/name_profie" android:gravity="top" android:layout_marginTop="20dp"
-                        android:layout_weight="0.51"/>
-                <Button
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/settings"
-                        android:id="@+id/btn_settings"
-                        android:layout_marginTop="25dp"/>
+                        android:textColor="@color/Black"
+                        android:id="@+id/name_profie"
+                        android:gravity="center"
+                        android:layout_marginTop="20dp"
+                        android:layout_marginLeft="4dp"
+                        android:layout_marginRight="20dp"/>
             </LinearLayout>
         </LinearLayout>
         <LinearLayout
@@ -52,19 +55,17 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_centerInParent="true" android:paddingLeft="10dp" android:paddingRight="10dp">
-            <Button
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/btn_text_register"
-                    android:id="@+id/btn_register"
-                    />
+                android:layout_centerInParent="true"
+                android:paddingLeft="10dp" android:paddingRight="10dp">
             <com.facebook.widget.LoginButton
                     android:id="@+id/btn_facebook"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:layout_marginLeft="3dp" android:layout_marginRight="3dp"/>
+                    android:layout_marginLeft="3dp"
+                    android:layout_marginRight="3dp"
+                    android:layout_marginTop="15dp"
+                    />
         </LinearLayout>
     </RelativeLayout>
     <ScrollView
@@ -78,29 +79,52 @@
                 android:gravity="center_vertical|center_horizontal" android:id="@+id/whole_wrap">
             <LinearLayout
                     android:orientation="horizontal"
-                    android:layout_width="wrap_content"
+                    android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:gravity="center_horizontal"
-                    android:id="@+id/first_wrap">
+                    android:id="@+id/first_wrap"
+                    android:paddingRight="15dp"
+                    android:paddingLeft="15dp"
+                    android:layout_marginTop="15dp">
                 <Button
-                        android:layout_width="170dp"
+                        android:layout_width="fill_parent"
                         android:layout_height="170dp"
-                        android:text="@string/btn_text_publicaciones"
-                        android:id="@+id/btn_publicaciones" android:layout_gravity="right"/>
+                        android:id="@+id/btn_publicaciones"
+                        android:scaleType="centerCrop"
+                        android:background="@drawable/btn_pub"
+                        android:layout_weight="1"/>
                 <Button
-                        android:layout_width="170dp"
+                        android:layout_width="fill_parent"
                         android:layout_height="170dp"
-                        android:text="@string/btn_text_borradores"
-                        android:id="@+id/btn_borradores" android:layout_gravity="left"/>
+                        android:background="@drawable/btn_bor"
+                        android:id="@+id/btn_borradores"
+                        android:scaleType="centerCrop"
+                        android:layout_gravity="left"
+                        android:layout_weight="1"/>
             </LinearLayout>
-            <LinearLayout android:orientation="horizontal" android:layout_width="wrap_content"
-                          android:layout_height="wrap_content" android:layout_gravity="center"
-                          android:gravity="center_horizontal" android:id="@+id/second_wrap">
-                <Button android:layout_width="170dp" android:layout_height="170dp" android:text="@string/btn_text_nuevo"
-                        android:id="@+id/btn_nuevo" android:layout_gravity="right"/>
-                <Button android:layout_width="170dp" android:layout_height="170dp" android:text="@string/btn_text_ofertas"
-                        android:id="@+id/btn_oferta" android:layout_gravity="left"/>
+            <LinearLayout android:orientation="horizontal"
+                          android:layout_width="fill_parent"
+                          android:layout_height="wrap_content"
+                          android:layout_gravity="center"
+                          android:gravity="center_horizontal"
+                          android:id="@+id/second_wrap"
+                          android:paddingRight="15dp"
+                          android:paddingLeft="15dp">
+                <Button android:layout_width="fill_parent"
+                           android:layout_height="170dp"
+                           android:id="@+id/btn_nuevo"
+                           android:layout_gravity="right"
+                           android:background="@drawable/btn_nvo"
+                           android:scaleType="centerCrop"
+                           android:layout_weight="1"/>
+                <Button android:layout_width="fill_parent"
+                           android:layout_height="170dp"
+                        android:id="@+id/btn_oferta"
+                        android:layout_gravity="left"
+                        android:background="@drawable/btn_ofe"
+                        android:scaleType="centerCrop"
+                        android:layout_weight="1"/>
             </LinearLayout>
         </LinearLayout>
     </ScrollView>

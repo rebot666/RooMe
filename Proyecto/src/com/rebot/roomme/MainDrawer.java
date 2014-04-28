@@ -19,6 +19,8 @@ import butterknife.InjectView;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.MenuItem;
 import com.rebot.roomme.Adapters.MenuListAdapter;
+import com.rebot.roomme.MeFavs.MeFavsActivityHostFragment;
+import com.rebot.roomme.MeGo.MeGoActivityHostFragment;
 import com.rebot.roomme.MeLook.MelookActivityHostFragment;
 import com.rebot.roomme.MeProfile.MeProfileActivityHostFragment;
 
@@ -55,7 +57,7 @@ public class MainDrawer extends SherlockFragmentActivity {
         subtitle = new String[] { "", "", "", ""};
 
         // Generate icon
-        icon = new int[] {R.drawable.ic_launcher,R.drawable.ic_launcher, R.drawable.ic_launcher, R.drawable.ic_launcher};
+        icon = new int[] {R.drawable.icon_search,R.drawable.icon_star, R.drawable.icon_user, R.drawable.icon_nuevo};
 
         // Locate DrawerLayout in drawer_main.xml
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout_element);
@@ -82,7 +84,7 @@ public class MainDrawer extends SherlockFragmentActivity {
 
         // ActionBarDrawerToggle ties together the the proper interactions
         // between the sliding drawer and the action bar app icon
-        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,R.drawable.drawer, R.string.drawer_open,R.string.drawer_close) {
+        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,R.drawable.icon_drawer, R.string.drawer_open,R.string.drawer_close) {
 
             public void onDrawerClosed(View view) {
                 // TODO Auto-generated method stub
@@ -140,18 +142,15 @@ public class MainDrawer extends SherlockFragmentActivity {
                 fragment= new MelookActivityHostFragment();
                 break;
             case 1:
-
-                //fragment= new ServicesActivityHostFragment();
+                fragment = new MeFavsActivityHostFragment();
                 break;
             case 2:
-
-                //fragment= new DataActivityHostFragment();
-                break;
-            case 3:
                 fragment = new MeProfileActivityHostFragment();
                 break;
+            case 3:
+                fragment = new MeGoActivityHostFragment();
+                break;
         }
-
 
         fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).commit();
 

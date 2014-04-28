@@ -3,11 +3,79 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:orientation="vertical"
               android:layout_width="match_parent"
-              android:layout_height="match_parent">
-    <fragment
-            android:id="@+id/map"
-            android:name="com.google.android.gms.maps.SupportMapFragment"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
-
+              android:layout_height="match_parent"
+              android:background="@color/back_purple">
+    <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone">
+        <Button
+                android:layout_width="fill_parent"
+                android:layout_height="60dp"
+                android:text="Mapas"
+                android:id="@+id/showMap"
+                android:layout_gravity="left|top"
+                android:layout_weight="1"
+                />
+        <Button
+                android:layout_width="fill_parent"
+                android:layout_height="match_parent"
+                android:text="Listas"
+                android:id="@+id/showList"
+                android:layout_weight="1"
+                />
+    </LinearLayout>
+    <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:id="@+id/linear_map"
+            android:visibility="gone">
+        <fragment android:id="@+id/map"
+                  android:name="com.google.android.gms.maps.SupportMapFragment"
+                  android:layout_width="match_parent"
+                  android:layout_height="match_parent"
+                  android:layout_gravity="center_horizontal|bottom"/>
+    </LinearLayout>
+    <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:id="@+id/linear_list"
+            android:clickable="false">
+        <RelativeLayout xmlns:ProgressWheel="http://schemas.android.com/apk/res-auto"
+                        android:orientation="vertical"
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:gravity="center"
+                        android:id="@+id/loading_info"
+                        android:background="@android:color/transparent">
+            <com.todddavies.components.progressbar.ProgressWheel
+                    android:id="@+id/pw_spinner"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
+                    android:layout_gravity="center"
+                    ProgressWheel:textColor="#222"
+                    ProgressWheel:textSize="14sp"
+                    ProgressWheel:rimColor="#330097D6"
+                    ProgressWheel:barLength="60dp"
+                    ProgressWheel:barColor="@color/dark_indigo"
+                    ProgressWheel:barWidth="5dp"
+                    ProgressWheel:rimWidth="2dp"
+                    />
+            <ImageView android:layout_width="150dp"
+                       android:layout_height="150dp"
+                       android:layout_gravity="center"
+                       android:src="@drawable/roomme_title"
+                       android:padding="15dp"
+                    />
+        </RelativeLayout>
+        <ListView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/listView"
+                android:divider="@android:color/transparent"
+                />
+    </LinearLayout>
 </LinearLayout>
