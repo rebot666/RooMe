@@ -22,7 +22,8 @@
     <!-- Opciones -->
     <string name="si">Sí</string>
     <string name="no">No</string>
-    <string name="pregunta_roomie">Soy Roomie</string>
+    <string name="pregunta_roomie">¿Soy Roomie?</string>
+    <string name="logout">Cerrar Sesión</string>
 
     <!-- Facebook -->
     <string name="app_id">618912721522669</string>

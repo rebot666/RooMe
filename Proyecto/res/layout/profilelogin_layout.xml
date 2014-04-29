@@ -6,7 +6,7 @@
               android:layout_width="fill_parent"
               android:layout_height="fill_parent"
               android:gravity="center"
-              android:background="@android:color/transparent">
+              android:background="@color/back_purple">
     <com.todddavies.components.progressbar.ProgressWheel
             android:id="@+id/pw_spinner"
             android:layout_width="150dp"
@@ -16,9 +16,10 @@
             ProgressWheel:textSize="14sp"
             ProgressWheel:rimColor="#330097D6"
             ProgressWheel:barLength="60dp"
-            ProgressWheel:barColor="@color/back_purple"
+            ProgressWheel:barColor="@color/dark_indigo"
             ProgressWheel:barWidth="5dp"
             ProgressWheel:rimWidth="2dp"
+
             />
     <ImageView android:layout_width="150dp"
                android:layout_height="150dp"

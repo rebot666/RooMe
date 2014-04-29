@@ -60,8 +60,12 @@ public class LookMeAdpater extends ArrayAdapter<ParseObject> {
 
         final ParseObject objeto = data[position];
         JSONObject profile = objeto.getJSONObject("profile");
+        String idUser = "";
+
+
 
         try {
+            idUser = profile.getString("facebookId");
             if(profile.getString("gender").equals("male")){
                 holder.layout_female.setVisibility(View.GONE);
                 holder.female.setVisibility(View.GONE);
@@ -71,11 +75,10 @@ public class LookMeAdpater extends ArrayAdapter<ParseObject> {
                 holder.name_female.setVisibility(View.GONE);
 
                 holder.name_male.setText(profile.getString("name"));
-                if(objeto.getString("urlImage") != null){
-                    ImageLoader.getInstance().displayImage(objeto.getString("urlImage"), holder.male, app.options, app.animateFirstListener);
-                }else{
-                    ImageLoader.getInstance().displayImage("", holder.male, app.options, app.animateFirstListener);
-                }
+
+                //ImageLoader.getInstance().displayImage(objeto.getString("urlImage"), holder.male, app.options, app.animateFirstListener);
+                ImageLoader.getInstance().displayImage("http://graph.facebook.com/"+idUser+"/picture?type=large", holder.male, app.options, app.animateFirstListener);
+
 
 
             } else {
@@ -87,11 +90,10 @@ public class LookMeAdpater extends ArrayAdapter<ParseObject> {
                 holder.name_female.setVisibility(View.VISIBLE);
 
                 holder.name_female.setText(profile.getString("name"));
-                if(objeto.getString("urlImage") != null){
-                    ImageLoader.getInstance().displayImage(objeto.getString("urlImage"), holder.female, app.options, app.animateFirstListener);
-                }else{
-                    ImageLoader.getInstance().displayImage("", holder.female, app.options, app.animateFirstListener);
-                }
+
+                //ImageLoader.getInstance().displayImage(objeto.getString("urlImage"), holder.female, app.options, app.animateFirstListener);
+                ImageLoader.getInstance().displayImage("http://graph.facebook.com/"+idUser+"/picture?type=large", holder.female, app.options, app.animateFirstListener);
+
             }
         } catch (JSONException e) {
             e.printStackTrace();

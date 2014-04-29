@@ -34,7 +34,7 @@
                     android:layout_marginBottom="15dp"
                     />
             <View android:layout_width="fill_parent"
-                  android:layout_height="2dp"
+                  android:layout_height="3dp"
                   android:background="@color/dark_indigo"
                   android:layout_gravity="center"
                   android:id="@+id/branch_left"
@@ -44,7 +44,7 @@
 
         </LinearLayout>
 
-        <View android:layout_width="2dp"
+        <View android:layout_width="3dp"
               android:layout_height="fill_parent"
               android:background="@color/dark_indigo"
               android:layout_gravity="center"
@@ -59,7 +59,7 @@
                 >
 
             <View android:layout_width="fill_parent"
-                  android:layout_height="2dp"
+                  android:layout_height="3dp"
                   android:background="@color/dark_indigo"
                   android:layout_gravity="center"
                   android:id="@+id/branch_right"

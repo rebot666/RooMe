@@ -47,7 +47,8 @@ public class MeProfileLogin extends SherlockFragmentActivity {
             public void done(ParseUser user, ParseException err) {
                 if (user == null) {
                     //Mensaje de error
-                    NavUtils.navigateUpFromSameTask(MeProfileLogin.this);
+                    //NavUtils.navigateUpFromSameTask(MeProfileLogin.this);
+                    onBackPressed();
                 } else if (user.isNew()) {
                     Session session = ParseFacebookUtils.getSession();
                     if (session != null && session.isOpened()) {
@@ -55,7 +56,10 @@ public class MeProfileLogin extends SherlockFragmentActivity {
                     }
                 } else {
                     //Mensaje de error
-                    NavUtils.navigateUpFromSameTask(MeProfileLogin.this);
+                    //NavUtils.navigateUpFromSameTask(MeProfileLogin.this);
+                    //requestPicture();
+                    onBackPressed();
+
                 }
             }
         });
@@ -194,7 +198,8 @@ public class MeProfileLogin extends SherlockFragmentActivity {
                                 ParseUser current = ParseUser.getCurrentUser();
                                 current.put("movies", interestList);
                                 current.saveInBackground();
-                                requestPicture();
+                                onBackPressed();
+                                //requestPicture();
 
 
                                 //NavUtils.navigateUpFromSameTask(MeProfileLogin.this);
@@ -209,6 +214,7 @@ public class MeProfileLogin extends SherlockFragmentActivity {
 
     private void requestPicture() {
         interestList = new ArrayList<String>();
+        Session session = ParseFacebookUtils.getSession();
         Request request = Request.newGraphPathRequest(ParseFacebookUtils.getSession(), "me/picture?redirect=false",
                 new Request.Callback() {
                     @Override
@@ -224,7 +230,7 @@ public class MeProfileLogin extends SherlockFragmentActivity {
                                 current.saveInBackground();
 
                                 loader.stopSpinning();
-                                finish();
+                                onBackPressed();
                                 //NavUtils.navigateUpFromSameTask(MeProfileLogin.this);
 
                             } catch (JSONException e) {

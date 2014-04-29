@@ -7,10 +7,13 @@ import android.util.Log;
 import android.view.View;
 import android.widget.*;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
+import com.facebook.Session;
 import com.facebook.widget.ProfilePictureView;
 import com.google.android.gms.plus.model.people.Person;
+import com.parse.ParseException;
 import com.parse.ParseFacebookUtils;;
 import com.parse.ParseUser;
+import com.parse.SaveCallback;
 import com.rebot.roomme.R;
 import com.todddavies.components.progressbar.ProgressWheel;
 import org.json.JSONException;
@@ -24,7 +27,7 @@ public class MeProfileActivity extends FragmentActivity {
     private ParseUser currentUser;
 
     private LinearLayout linear_registro;
-    private Button btn_sign_facebook;
+    private Button btn_sign_facebook, btn_sign_facebook2;
 
     private LinearLayout linear_profile;
     private ProfilePictureView img_profile;
@@ -35,6 +38,7 @@ public class MeProfileActivity extends FragmentActivity {
     private Button btn_borradores;
     private Button btn_nuevo;
     private Button btn_oferta;
+    private ToggleButton esRoomie;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -48,6 +52,7 @@ public class MeProfileActivity extends FragmentActivity {
 
         this.linear_registro = (LinearLayout) findViewById(R.id.linear_register);
         this.btn_sign_facebook = (Button) findViewById(R.id.btn_facebook);
+        this.btn_sign_facebook2 = (Button) findViewById(R.id.btn_facebook_2);
 
         this.whole_wrap = (LinearLayout) findViewById(R.id.whole_wrap);
         this.btn_publish = (Button) findViewById(R.id.btn_publicaciones);
@@ -55,12 +60,57 @@ public class MeProfileActivity extends FragmentActivity {
         this.btn_nuevo = (Button) findViewById(R.id.btn_nuevo);
         this.btn_oferta = (Button) findViewById(R.id.btn_oferta);
 
+        this.esRoomie = (ToggleButton) findViewById(R.id.toggle_roomie);
+
+        ParseUser user = ParseUser.getCurrentUser();
+
+        if(user !=null){
+            if(user.getBoolean("esRoomie")){
+                this.esRoomie.setChecked(true);
+            }else{
+                this.esRoomie.setChecked(false);
+            }
+        }
+
+        this.esRoomie.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                esRoomie.setEnabled(false);
+                ParseUser user = ParseUser.getCurrentUser();
+                if(esRoomie.isChecked()){
+                    user.put("esRoomie", true);
+                    user.saveInBackground(new SaveCallback() {
+                        @Override
+                        public void done(ParseException e) {
+                            esRoomie.setEnabled(true);
+                        }
+                    });
+                }else{
+                    user.put("esRoomie", false);
+                    user.saveInBackground(new SaveCallback() {
+                        @Override
+                        public void done(ParseException e) {
+                            esRoomie.setEnabled(true);
+                        }
+                    });
+                }
+            }
+        });
         //Acciones de los botones
         this.btn_sign_facebook.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent signIn = new Intent(MeProfileActivity.this, MeProfileLogin.class);
                 startActivity(signIn);
+            }
+        });
+        this.btn_sign_facebook2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ParseUser.logOut();
+                Session session = Session.getActiveSession();
+                session.closeAndClearTokenInformation();
+                onResume();
             }
         });
     }
@@ -82,6 +132,7 @@ public class MeProfileActivity extends FragmentActivity {
             this.btn_borradores.setEnabled(true);
             this.btn_nuevo.setEnabled(true);
             this.btn_oferta.setEnabled(true);
+            //this.btn_sign_facebook2.setVisibility(View.VISIBLE);
 
             //Actualizar la UI con la información del usuario
             updateUI();
@@ -98,6 +149,7 @@ public class MeProfileActivity extends FragmentActivity {
             this.btn_borradores.setEnabled(false);
             this.btn_nuevo.setEnabled(false);
             this.btn_oferta.setEnabled(false);
+            this.btn_sign_facebook2.setVisibility(View.GONE);
         }
     }
 

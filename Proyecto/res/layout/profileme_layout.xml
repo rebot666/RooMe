@@ -21,7 +21,7 @@
                 android:background="@color/back_purple">
             <com.facebook.widget.ProfilePictureView
                     android:layout_width="fill_parent"
-                    android:layout_height="140dp"
+                    android:layout_height="120dp"
                     android:id="@+id/img_profile"
                     android:src="@drawable/ic_launcher"
                     android:contentDescription="@string/img_content"
@@ -58,6 +58,8 @@
                               android:layout_weight="1"
                               android:gravity="center"
                               android:text="@string/pregunta_roomie"
+                              android:textColor="@color/Black"
+                              android:textStyle="bold"
                             />
                     <ToggleButton
                             android:id="@+id/toggle_roomie"
@@ -66,7 +68,11 @@
                             android:layout_weight="1"
                             android:textOn="@string/si"
                             android:textOff="@string/no"
-                            android:checked="true" />
+                            android:checked="true"
+                            android:background="@color/dark_indigo"
+                            android:textColor="@color/White"
+                            android:textStyle="bold"
+                            />
                 </LinearLayout>
 
             </LinearLayout>
@@ -148,6 +154,33 @@
                         android:scaleType="centerCrop"
                         android:layout_weight="1"/>
             </LinearLayout>
+        <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center_horizontal"
+                android:id="@+id/first_wrap"
+                android:paddingRight="15dp"
+                android:paddingLeft="15dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                >
+            <com.facebook.widget.LoginButton
+                    android:id="@+id/btn_facebook_2"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginLeft="3dp"
+                    android:layout_marginRight="3dp"
+                    android:layout_marginTop="15dp"
+                    android:padding="15dp"
+                    android:text="@string/logout"
+                    android:visibility="gone"
+                    />
+            </LinearLayout>
+
         </LinearLayout>
     </ScrollView>
 

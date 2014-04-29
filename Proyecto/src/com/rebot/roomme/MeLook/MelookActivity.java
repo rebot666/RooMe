@@ -89,9 +89,25 @@ public class MelookActivity extends FragmentActivity {
                 if(e == null){
                     if(list.size() > 0){
 
-                        for(ParseUser temp : list){
-                            profiles.add(temp);
+                        ParseUser me = ParseUser.getCurrentUser();
+                        if(me != null){
+                            for(ParseUser temp : list){
+                                if(temp.getBoolean("esRoomie")){
+                                    if(!me.getObjectId().equals(temp.getObjectId())){
+                                        profiles.add(temp);
+                                    }
+
+                                }
+                            }
+                        }else{
+                            for(ParseUser temp : list){
+                                if(temp.getBoolean("esRoomie")){
+                                    profiles.add(temp);
+                                }
+
+                            }
                         }
+
 
                         people.setAdapter(new LookMeAdpater(context,
                                 R.layout.lookme_list_item, profiles, app));
