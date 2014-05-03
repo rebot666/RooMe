@@ -19,16 +19,29 @@
                 android:paddingRight="5dp"
                 android:paddingLeft="10dp"
                 android:background="@color/back_purple">
-            <com.facebook.widget.ProfilePictureView
-                    android:layout_width="fill_parent"
-                    android:layout_height="120dp"
-                    android:id="@+id/img_profile"
-                    android:src="@drawable/ic_launcher"
-                    android:contentDescription="@string/img_content"
-                    facebook:preset_size="large"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginLeft="6dp"
-                    android:layout_weight="1"/>
+            <RelativeLayout android:layout_width="fill_parent"
+                            android:layout_height="120dp"
+                            android:layout_weight="1"
+                            android:layout_gravity="center"
+                            android:gravity="center"
+                    >
+                <ImageView android:layout_width="fill_parent"
+                           android:layout_height="fill_parent"
+                           android:src="@drawable/frame_image"
+                        />
+                <com.facebook.widget.ProfilePictureView
+                        android:layout_width="fill_parent"
+                        android:layout_height="120dp"
+                        android:id="@+id/img_profile"
+                        android:src="@drawable/ic_launcher"
+                        android:contentDescription="@string/img_content"
+                        facebook:preset_size="large"
+                        android:layout_marginTop="35dp"
+                        android:layout_marginLeft="6dp"
+                        
+                        />
+            </RelativeLayout>
+
             <LinearLayout
                     android:orientation="vertical"
                     android:layout_width="fill_parent"

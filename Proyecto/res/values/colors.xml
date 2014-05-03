@@ -4,6 +4,12 @@
     <color name="rojo">#ff0033</color>
     <color name="azul">#0066ff</color>
     <color name="amarillo">#ffff00</color>
+    <color name="verde">#007845</color>
+    <color name="verde_degradado">#60007845</color>
+    <color name="azul_claro">#802CC2D9</color>
+    <color name="amarillo_r">#FFC468</color>
+    <color name="verde_circulo_progress">#1C5459</color>
+    <color name="naranja_circulo_progress">#FE804D</color>
 
     <!--Colores Traslucent-->
     <color name="translucent_black">#80000000</color>

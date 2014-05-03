@@ -1,6 +1,8 @@
 package com.rebot.roomme.MeLook;
 
 import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -13,20 +15,26 @@ import butterknife.InjectView;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.markupartist.android.widget.PullToRefreshListView;
 import com.parse.*;
 import com.rebot.roomme.Adapters.LookMeAdpater;
+import com.rebot.roomme.CBR;
+import com.rebot.roomme.Models.Users;
 import com.rebot.roomme.R;
 import com.rebot.roomme.Roome;
 import com.todddavies.components.progressbar.ProgressWheel;
+import org.json.JSONException;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 /**
  * Created by Toshiba on 8/03/14.
  */
 public class MelookActivity extends FragmentActivity {
-    private ArrayList<ParseObject> profiles;
+    private ArrayList<Users> profiles;
     private Context context = this;
     private Roome app;
 
@@ -42,7 +50,9 @@ public class MelookActivity extends FragmentActivity {
     private ProgressWheel loader;
 
     private LinearLayout linear_list;
-    private ListView people;
+    private PullToRefreshListView people;
+
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -59,11 +69,11 @@ public class MelookActivity extends FragmentActivity {
         loader = (ProgressWheel) findViewById(R.id.pw_spinner);
 
         linear_list = (LinearLayout) findViewById(R.id.linear_list);
-        people = (ListView) findViewById(R.id.listView);
+        people = (PullToRefreshListView) findViewById(R.id.listView);
 
         no_info = (LinearLayout) findViewById(R.id.layout_no_info);
 
-        profiles = new ArrayList<ParseObject>();
+        profiles = new ArrayList<Users>();
 
         btn_map.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -82,52 +92,25 @@ public class MelookActivity extends FragmentActivity {
 
         loader.spin();
 
-        ParseQuery<ParseUser>  query = ParseUser.getQuery();
-        query.findInBackground(new FindCallback<ParseUser>() {
-            @Override
-            public void done(List<ParseUser> list, ParseException e) {
-                if(e == null){
-                    if(list.size() > 0){
+        if(isOnline()){
+            queryLoadData();
+        }
 
-                        ParseUser me = ParseUser.getCurrentUser();
-                        if(me != null){
-                            for(ParseUser temp : list){
-                                if(temp.getBoolean("esRoomie")){
-                                    if(!me.getObjectId().equals(temp.getObjectId())){
-                                        profiles.add(temp);
-                                    }
-
-                                }
-                            }
-                        }else{
-                            for(ParseUser temp : list){
-                                if(temp.getBoolean("esRoomie")){
-                                    profiles.add(temp);
-                                }
-
-                            }
-                        }
-
-
-                        people.setAdapter(new LookMeAdpater(context,
-                                R.layout.lookme_list_item, profiles, app));
-                        loading_info.setVisibility(View.GONE);
-                        loader.stopSpinning();
-                    }
-                } else {
-                    Log.d("", "");
-                    loading_info.setVisibility(View.GONE);
-                    no_info.setVisibility(View.VISIBLE);
-                    loader.stopSpinning();
-                }
-            }
-        });
 
         btn_list.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 linear_map.setVisibility(View.GONE);
                 linear_list.setVisibility(View.VISIBLE);
+            }
+        });
+
+        people.setOnRefreshListener(new PullToRefreshListView.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                profiles.clear();
+                queryLoadData();
+
             }
         });
     }
@@ -156,5 +139,66 @@ public class MelookActivity extends FragmentActivity {
     protected void onResume() {
         super.onResume();
         initilizeMap();
+    }
+
+    public boolean isOnline() {
+        ConnectivityManager cm =
+                (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = cm.getActiveNetworkInfo();
+        if (netInfo != null && netInfo.isConnectedOrConnecting()) {
+            return true;
+        }
+        return false;
+    }
+
+    public void queryLoadData(){
+
+        ParseQuery<ParseUser>  query = ParseUser.getQuery();
+        query.findInBackground(new FindCallback<ParseUser>() {
+            @Override
+            public void done(List<ParseUser> list, ParseException e) {
+                if(e == null){
+                    if(list.size() > 0){
+                        ParseUser me = ParseUser.getCurrentUser();
+                        if(me != null){
+                            for(ParseUser temp : list){
+                                if(temp.getBoolean("esRoomie")){
+                                    if(!me.getObjectId().equals(temp.getObjectId())){
+                                        double porcentaje = CBR.calculaCBR(me, temp);
+                                        Users tempUser = new Users(temp, porcentaje);
+                                        profiles.add(tempUser);
+                                    }
+                                }
+                            }
+
+                            Collections.sort(profiles);
+                        }else{
+                            for(ParseUser temp : list){
+                                if(temp.getBoolean("esRoomie")){
+                                    double porcentaje = -1.0;
+                                    Users tempUser = new Users(temp, porcentaje);
+                                    profiles.add(tempUser);
+                                }
+
+                            }
+                        }
+
+
+                        people.setAdapter(new LookMeAdpater(context,
+                                R.layout.lookme_list_item, profiles, app));
+                        loading_info.setVisibility(View.GONE);
+                        loader.stopSpinning();
+                    }
+                } else {
+                    Log.d("", "");
+                    loading_info.setVisibility(View.GONE);
+                    no_info.setVisibility(View.VISIBLE);
+                    loader.stopSpinning();
+                }
+
+                people.onRefreshComplete();
+            }
+        });
+
     }
 }
