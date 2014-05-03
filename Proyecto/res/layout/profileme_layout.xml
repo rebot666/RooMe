@@ -38,7 +38,7 @@
                         facebook:preset_size="large"
                         android:layout_marginTop="35dp"
                         android:layout_marginLeft="6dp"
-                        
+
                         />
             </RelativeLayout>
 
