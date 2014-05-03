@@ -70,8 +70,8 @@ public class LookMeAdpater extends ArrayAdapter<Users> {
         String idUser = "";
         double porcentaje = -1.0;
         if(me != null){
-           porcentaje  = CBR.calculaCBR(me, objeto);
-           porcentaje = (porcentaje * 360) / 100;
+            porcentaje  = CBR.calculaCBR(me, objeto);
+            porcentaje = (porcentaje * 360) / 100;
         }else{
             holder.percentage_female.setVisibility(View.GONE);
             holder.percentage_male.setVisibility(View.GONE);

@@ -20,8 +20,11 @@ public class CBR {
     private static final double PELICULAS = 5;
     private static final double LIBROS = 5;
     private static final double MUSICA = 5;
+    private static final double PELICULAS_NO = 7;
+    private static final double LIBROS_NO = 7;
+    private static final double MUSICA_NO = 7;
     private static final double PUNTOS = GENERO + ESTADO + PELICULAS
-            + LIBROS + MUSICA + CUMPLEANOS;
+            + LIBROS + MUSICA + CUMPLEANOS + PELICULAS_NO + LIBROS_NO + MUSICA_NO;
 
     public static double calculaCBR(ParseObject current, ParseObject other) {
         double sumatoria = 0.0;
@@ -46,16 +49,25 @@ public class CBR {
         sumatoria += libros(currentList.toArray(new String[currentList.size()]),
                 otherList.toArray(new String[otherList.size()]));
 
+        sumatoria += librosNo(currentList.toArray(new String[currentList.size()]),
+                otherList.toArray(new String[otherList.size()]));
+
         currentList = current.getList("movies");
         otherList = other.getList("movies");
 
         sumatoria += peliculas(currentList.toArray(new String[currentList.size()]),
                 otherList.toArray(new String[otherList.size()]));
 
+        sumatoria += peliculasNo(currentList.toArray(new String[currentList.size()]),
+                otherList.toArray(new String[otherList.size()]));
+
         currentList = current.getList("music");
         otherList = other.getList("music");
 
         sumatoria += musica(currentList.toArray(new String[currentList.size()]),
+                otherList.toArray(new String[otherList.size()]));
+
+        sumatoria += musicaNo(currentList.toArray(new String[currentList.size()]),
                 otherList.toArray(new String[otherList.size()]));
 
         try {
@@ -238,6 +250,37 @@ public class CBR {
         }
         return 0;
     }
+
+    public static double peliculasNo(String[] current, String[] other){
+        if(current.length > other.length){
+            return (other.length / current.length) * PELICULAS_NO;
+        }else if(other.length > current.length){
+            return (current.length / other.length) * PELICULAS_NO;
+        }else{
+            return PELICULAS_NO;
+        }
+    }
+
+    public static double librosNo(String[] current, String[] other){
+        if(current.length > other.length){
+            return (other.length / current.length) * LIBROS_NO;
+        }else if(other.length > current.length){
+            return (current.length / other.length) * LIBROS_NO;
+        }else{
+            return LIBROS_NO;
+        }
+    }
+
+    public static double musicaNo(String[] current, String[] other){
+        if(current.length > other.length){
+            return (other.length / current.length) * PELICULAS_NO;
+        }else if(other.length > current.length){
+            return (current.length / other.length) * PELICULAS_NO;
+        }else{
+            return PELICULAS_NO;
+        }
+    }
+
 
     public static double regla3(double cachichen, double valorObtener){
         return (valorObtener * 100) / cachichen;

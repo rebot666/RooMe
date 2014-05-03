@@ -1,6 +1,7 @@
 package com.rebot.roomme.MeLook;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -17,11 +18,10 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.markupartist.android.widget.PullToRefreshListView;
 import com.parse.*;
+import com.rebot.roomme.*;
 import com.rebot.roomme.Adapters.LookMeAdpater;
-import com.rebot.roomme.CBR;
 import com.rebot.roomme.Models.Users;
 import com.rebot.roomme.R;
-import com.rebot.roomme.Roome;
 import com.todddavies.components.progressbar.ProgressWheel;
 import org.json.JSONException;
 
@@ -188,6 +188,14 @@ public class MelookActivity extends FragmentActivity {
                                 R.layout.lookme_list_item, profiles, app));
                         loading_info.setVisibility(View.GONE);
                         loader.stopSpinning();
+                        people.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                app.roomieSeleccionado = profiles.get(position - 1);
+                                Intent intent = new Intent(MelookActivity.this, MeLookRoomie.class);
+                                MelookActivity.this.startActivity(intent);
+                            }
+                        });
                     }
                 } else {
                     Log.d("", "");

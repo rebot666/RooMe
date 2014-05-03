@@ -18,6 +18,7 @@ import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
 import com.nostra13.universalimageloader.utils.StorageUtils;
 import com.parse.Parse;
 import com.parse.ParseFacebookUtils;
+import com.rebot.roomme.Models.Users;
 
 import java.io.File;
 import java.util.Collections;
@@ -31,6 +32,7 @@ public class Roome extends Application {
     private Context context = this;
     public DisplayImageOptions options;
     public ImageLoadingListener animateFirstListener = new AnimateFirstDisplayListener();
+    public Users roomieSeleccionado;
 
     @Override
     public void onCreate() {
