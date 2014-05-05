@@ -1,5 +1,6 @@
 package com.rebot.roomme;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -16,6 +17,9 @@ import org.json.JSONObject;
 
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
 /**
  * Created by Toshiba on 3/05/14.
@@ -28,7 +32,8 @@ public class MeLookRoomie extends SherlockActivity{
     private Handler progressHandler = new Handler();
     private int actualProgress;
     private int porcentaje;
-    private TextView percentageText;
+    private TextView percentageText, txt_name, txt_edad, txt_localidad, txt_genero;
+    private ImageView gender_icon;
 
     public void onCreate(Bundle savedInstance){
         super.onCreate(savedInstance);
@@ -37,6 +42,11 @@ public class MeLookRoomie extends SherlockActivity{
         image = (ImageView) findViewById(R.id.image);
         progressWheel = (ProgressWheel) findViewById(R.id.percentage);
         percentageText = (TextView) findViewById(R.id.percentage_text);
+        txt_edad = (TextView) findViewById(R.id.edad);
+        txt_name = (TextView) findViewById(R.id.name);
+        txt_localidad = (TextView) findViewById(R.id.localidad);
+        txt_genero = (TextView) findViewById(R.id.gender);
+        gender_icon = (ImageView) findViewById(R.id.gender_icon);
 
         app = (Roome) getApplication();
         user = app.roomieSeleccionado;
@@ -49,7 +59,8 @@ public class MeLookRoomie extends SherlockActivity{
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        ImageLoader.getInstance().displayImage("http://graph.facebook.com/"+idUser+"/picture?type=large", image, app.options, app.animateFirstListener);
+        ImageLoader.getInstance().displayImage("http://graph.facebook.com/"+idUser+"/picture?type=large", image,
+                app.options, app.animateFirstListener);
         porcentaje = (int)user.getPercentage();
 
         if(porcentaje != -1){
@@ -72,7 +83,48 @@ public class MeLookRoomie extends SherlockActivity{
         DecimalFormat df = new DecimalFormat("###.##", otherSymbols);
 
         percentageText.setText(df.format(user.getPercentage()) + "%");
+        txt_name.setText("Nombre: " + profile.optString("name", ""));
 
+        String genero = profile.optString("gender","");
+        if(genero.equalsIgnoreCase("male")){
+            gender_icon.setImageResource(R.drawable.male_icon);
+        } else {
+            gender_icon.setImageResource(R.drawable.female_icon);
+        }
+        txt_genero.setText("Género: ");
+
+
+        String localidad = "Localidad: " + profile.optString("location", "");
+        if(!localidad.equalsIgnoreCase("Localidad: ")){
+            txt_localidad.setText(localidad);
+        }
+
+        String edad = "Edad: " + Double.toString(cumpleanos(profile.optString("birthday")));
+        if(!edad.equalsIgnoreCase("Edad: ")){
+            txt_edad.setText(edad);
+        }
+
+    }
+
+    public static double cumpleanos(String current){
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+        Date actual = new Date();
+
+        try {
+            Date birthdayCurrent = formatter.parse(current);
+
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(birthdayCurrent);
+            int yearCurrent = cal.get(Calendar.YEAR);
+            cal.setTime(actual);
+            int yearActual = cal.get(Calendar.YEAR);
+
+            return yearActual-yearCurrent;
+
+        } catch (java.text.ParseException e) {
+            e.printStackTrace();
+        }
+        return 0;
     }
 
     public void onResume(){
@@ -89,11 +141,33 @@ public class MeLookRoomie extends SherlockActivity{
 
     private Runnable progress_status = new Runnable(){
 
+        @SuppressLint("ResourceAsColor")
         @Override
         public void run() {
             if(porcentaje != -1){
                 if(actualProgress < porcentaje){
                     actualProgress++;
+
+                    if(actualProgress == 90){
+                        progressWheel.setBarColor(getResources().getColor(R.color.quarter));
+                        progressWheel.refreshTheWheel();
+                    }
+
+                    if(actualProgress == 180){
+                        progressWheel.setBarColor(getResources().getColor(R.color.fifty));
+                        progressWheel.refreshTheWheel();
+                    }
+
+                    if(actualProgress == 270){
+                        progressWheel.setBarColor(getResources().getColor(R.color.naranja_circulo_progress));
+                        progressWheel.refreshTheWheel();
+                    }
+
+                    if(actualProgress == 360){
+                        progressWheel.setBarColor(getResources().getColor(R.color.amarillo_r));
+                        progressWheel.refreshTheWheel();
+                    }
+
                     progressWheel.incrementProgress();
                     progressHandler.postDelayed(progress_status, 5);
                 }else{

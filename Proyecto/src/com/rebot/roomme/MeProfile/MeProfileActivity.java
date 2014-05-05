@@ -6,19 +6,18 @@ import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.*;
-import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.facebook.Request;
 import com.facebook.Response;
 import com.facebook.Session;
 import com.facebook.model.GraphUser;
 import com.facebook.widget.ProfilePictureView;
-import com.google.android.gms.plus.model.people.Person;
 import com.parse.ParseException;
 import com.parse.ParseFacebookUtils;;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 import com.rebot.roomme.R;
-import com.todddavies.components.progressbar.ProgressWheel;
+import de.keyboardsurfer.android.widget.crouton.Crouton;
+import de.keyboardsurfer.android.widget.crouton.Style;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -31,6 +30,7 @@ import java.util.ArrayList;
 
 public class MeProfileActivity extends FragmentActivity {
     private ParseUser currentUser;
+    private Crouton crouton;
 
     private LinearLayout linear_registro;
     private Button btn_sign_facebook, btn_sign_facebook2;
@@ -89,6 +89,8 @@ public class MeProfileActivity extends FragmentActivity {
                 esRoomie.setEnabled(false);
                 ParseUser user = ParseUser.getCurrentUser();
                 if(esRoomie.isChecked()){
+                    crouton = Crouton.makeText(MeProfileActivity.this, "Eres roommie :)", Style.INFO);
+                    crouton.show();
                     user.put("esRoomie", true);
                     user.saveInBackground(new SaveCallback() {
                         @Override
@@ -97,6 +99,8 @@ public class MeProfileActivity extends FragmentActivity {
                         }
                     });
                 }else{
+                    crouton = Crouton.makeText(MeProfileActivity.this, "Ya no eres roommie :(", Style.INFO);
+                    crouton.show();
                     user.put("esRoomie", false);
                     user.saveInBackground(new SaveCallback() {
                         @Override
@@ -122,6 +126,38 @@ public class MeProfileActivity extends FragmentActivity {
                 Session session = Session.getActiveSession();
                 session.closeAndClearTokenInformation();
                 onResume();
+            }
+        });
+
+        this.btn_publish.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                crouton = Crouton.makeText(MeProfileActivity.this, "Funcionalidad Próximamente", Style.INFO);
+                crouton.show();
+            }
+        });
+
+        this.btn_oferta.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                crouton = Crouton.makeText(MeProfileActivity.this, "Funcionalidad Próximamente", Style.INFO);
+                crouton.show();
+            }
+        });
+
+        this.btn_nuevo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                crouton = Crouton.makeText(MeProfileActivity.this, "Funcionalidad Próximamente", Style.INFO);
+                crouton.show();
+            }
+        });
+
+        this.btn_borradores.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                crouton = Crouton.makeText(MeProfileActivity.this, "Funcionalidad Próximamente", Style.INFO);
+                crouton.show();
             }
         });
     }

@@ -11,9 +11,6 @@ import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.*;
-import butterknife.ButterKnife;
-import butterknife.InjectView;
-import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.markupartist.android.widget.PullToRefreshListView;
@@ -23,11 +20,11 @@ import com.rebot.roomme.Adapters.LookMeAdpater;
 import com.rebot.roomme.Models.Users;
 import com.rebot.roomme.R;
 import com.todddavies.components.progressbar.ProgressWheel;
-import org.json.JSONException;
+import de.keyboardsurfer.android.widget.crouton.Crouton;
+import de.keyboardsurfer.android.widget.crouton.Style;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -36,6 +33,7 @@ import java.util.List;
 public class MelookActivity extends FragmentActivity {
     private ArrayList<Users> profiles;
     private Context context = this;
+    private Crouton crouton;
     private Roome app;
 
     private Button btn_map;
@@ -51,8 +49,6 @@ public class MelookActivity extends FragmentActivity {
 
     private LinearLayout linear_list;
     private PullToRefreshListView people;
-
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -113,6 +109,11 @@ public class MelookActivity extends FragmentActivity {
 
             }
         });
+
+        if (ParseUser.getCurrentUser() == null){
+            crouton = Crouton.makeText(MelookActivity.this, "Inicia sesión para ver compatibilidad", Style.ALERT);
+            crouton.show();
+        }
     }
 
     /**
@@ -152,7 +153,6 @@ public class MelookActivity extends FragmentActivity {
     }
 
     public void queryLoadData(){
-
         ParseQuery<ParseUser>  query = ParseUser.getQuery();
         query.findInBackground(new FindCallback<ParseUser>() {
             @Override

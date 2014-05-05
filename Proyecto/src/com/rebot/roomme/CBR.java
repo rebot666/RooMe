@@ -186,6 +186,7 @@ public class CBR {
                     contador += 1;
                 }
             }
+
             return (contador/current.length) * MUSICA;
         } else {
             for (int i = 0; i < other.length; i++) {
@@ -197,6 +198,7 @@ public class CBR {
                     contador += 1;
                 }
             }
+
             if(contador == 0){
                 return 0;
             } else {
@@ -273,14 +275,13 @@ public class CBR {
 
     public static double musicaNo(String[] current, String[] other){
         if(current.length > other.length){
-            return (other.length / current.length) * PELICULAS_NO;
+            return (other.length / current.length) * MUSICA_NO;
         }else if(other.length > current.length){
-            return (current.length / other.length) * PELICULAS_NO;
+            return (current.length / other.length) * MUSICA_NO;
         }else{
-            return PELICULAS_NO;
+            return  MUSICA_NO;
         }
     }
-
 
     public static double regla3(double cachichen, double valorObtener){
         return (valorObtener * 100) / cachichen;
