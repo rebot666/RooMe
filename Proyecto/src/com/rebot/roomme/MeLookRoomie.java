@@ -8,7 +8,12 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.actionbarsherlock.app.SherlockActivity;
+import com.facebook.HttpMethod;
+import com.facebook.Request;
+import com.facebook.Response;
+import com.facebook.Session;
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.parse.ParseFacebookUtils;
 import com.parse.ParseUser;
 import com.rebot.roomme.Models.Users;
 import com.todddavies.components.progressbar.ProgressWheel;
@@ -18,6 +23,7 @@ import org.json.JSONObject;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -25,7 +31,7 @@ import java.util.Date;
  * Created by Toshiba on 3/05/14.
  */
 public class MeLookRoomie extends SherlockActivity{
-    private ImageView image;
+    private ImageView image, wall_image;
     private ProgressWheel progressWheel;
     private Roome app;
     private Users user;
@@ -34,12 +40,16 @@ public class MeLookRoomie extends SherlockActivity{
     private int porcentaje;
     private TextView percentageText, txt_name, txt_edad, txt_localidad, txt_genero;
     private ImageView gender_icon;
+    private String idUser;
 
     public void onCreate(Bundle savedInstance){
         super.onCreate(savedInstance);
         setContentView(R.layout.lookme_roomite_layout);
 
+        ParseFacebookUtils.initialize(getString(R.string.app_id));
+
         image = (ImageView) findViewById(R.id.image);
+        wall_image = (ImageView) findViewById(R.id.wall_image);
         progressWheel = (ProgressWheel) findViewById(R.id.percentage);
         percentageText = (TextView) findViewById(R.id.percentage_text);
         txt_edad = (TextView) findViewById(R.id.edad);
@@ -53,7 +63,7 @@ public class MeLookRoomie extends SherlockActivity{
 
         ParseUser userParseInfo = user.getUser();
         JSONObject profile = userParseInfo.getJSONObject("profile");
-        String idUser = "";
+        idUser = "";
         try {
             idUser = profile.getString("facebookId");
         } catch (JSONException e) {
@@ -61,6 +71,14 @@ public class MeLookRoomie extends SherlockActivity{
         }
         ImageLoader.getInstance().displayImage("http://graph.facebook.com/"+idUser+"/picture?type=large", image,
                 app.options, app.animateFirstListener);
+        if(userParseInfo.getString("urlFacebookCover") != null){
+            ImageLoader.getInstance().displayImage(userParseInfo.getString("urlFacebookCover"), wall_image,
+                    app.options2, app.animateFirstListener2);
+        }else{
+            wall_image.setImageDrawable(getBaseContext().getResources().getDrawable(R.drawable.background_rounded));
+        }
+
+
         porcentaje = (int)user.getPercentage();
 
         if(porcentaje != -1){
@@ -99,14 +117,16 @@ public class MeLookRoomie extends SherlockActivity{
             txt_localidad.setText(localidad);
         }
 
-        String edad = "Edad: " + Double.toString(cumpleanos(profile.optString("birthday")));
+        String edad = "Edad: " + Integer.toString(cumpleanos(profile.optString("birthday")));
         if(!edad.equalsIgnoreCase("Edad: ")){
             txt_edad.setText(edad);
+        }else{
+            txt_edad.setVisibility(View.GONE);
         }
 
     }
 
-    public static double cumpleanos(String current){
+    public static int cumpleanos(String current){
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
         Date actual = new Date();
 
@@ -151,6 +171,7 @@ public class MeLookRoomie extends SherlockActivity{
                     if(actualProgress == 90){
                         progressWheel.setBarColor(getResources().getColor(R.color.quarter));
                         progressWheel.refreshTheWheel();
+
                     }
 
                     if(actualProgress == 180){
@@ -180,4 +201,6 @@ public class MeLookRoomie extends SherlockActivity{
 
         }
     };
+
+
 }

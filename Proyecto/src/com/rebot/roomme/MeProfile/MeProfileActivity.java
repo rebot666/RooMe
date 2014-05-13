@@ -16,11 +16,13 @@ import com.parse.ParseFacebookUtils;;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 import com.rebot.roomme.R;
+import de.keyboardsurfer.android.widget.crouton.Configuration;
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
@@ -89,23 +91,46 @@ public class MeProfileActivity extends FragmentActivity {
                 esRoomie.setEnabled(false);
                 ParseUser user = ParseUser.getCurrentUser();
                 if(esRoomie.isChecked()){
-                    crouton = Crouton.makeText(MeProfileActivity.this, "Eres roommie :)", Style.INFO);
-                    crouton.show();
+
                     user.put("esRoomie", true);
                     user.saveInBackground(new SaveCallback() {
                         @Override
                         public void done(ParseException e) {
                             esRoomie.setEnabled(true);
+                            View view = getLayoutInflater().inflate(R.layout.crouton_custom_view, null);
+                            TextView title = (TextView) view.findViewById(R.id.title);
+                            TextView subtitle = (TextView) view.findViewById(R.id.subtitle);
+                            title.setText(getResources().getString(R.string.si_roomie));
+                            subtitle.setVisibility(View.GONE);
+                            crouton = Crouton.make(MeProfileActivity.this, view);
+                            crouton.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    crouton.cancel();
+                                }
+                            });
+                            crouton.show();
                         }
                     });
                 }else{
-                    crouton = Crouton.makeText(MeProfileActivity.this, "Ya no eres roommie :(", Style.INFO);
-                    crouton.show();
                     user.put("esRoomie", false);
                     user.saveInBackground(new SaveCallback() {
                         @Override
                         public void done(ParseException e) {
                             esRoomie.setEnabled(true);
+                            View view = getLayoutInflater().inflate(R.layout.crouton_custom_view, null);
+                            TextView title = (TextView) view.findViewById(R.id.title);
+                            TextView subtitle = (TextView) view.findViewById(R.id.subtitle);
+                            title.setText(getResources().getString(R.string.no_roomie));
+                            subtitle.setText(getResources().getString(R.string.comparator));
+                            crouton = Crouton.make(MeProfileActivity.this, view);
+                            crouton.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    crouton.cancel();
+                                }
+                            });
+                            crouton.show();
                         }
                     });
                 }
@@ -115,6 +140,7 @@ public class MeProfileActivity extends FragmentActivity {
         this.btn_sign_facebook.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 Intent signIn = new Intent(MeProfileActivity.this, MeProfileLogin.class);
                 startActivity(signIn);
             }
@@ -132,15 +158,39 @@ public class MeProfileActivity extends FragmentActivity {
         this.btn_publish.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                crouton = Crouton.makeText(MeProfileActivity.this, "Funcionalidad Próximamente", Style.INFO);
+
+                View view = getLayoutInflater().inflate(R.layout.crouton_custom_view, null);
+                TextView title = (TextView) view.findViewById(R.id.title);
+                TextView subtitle = (TextView) view.findViewById(R.id.subtitle);
+                title.setText(getResources().getString(R.string.no_functionality));
+                subtitle.setVisibility(View.GONE);
+                crouton = Crouton.make(MeProfileActivity.this, view);
+                crouton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        crouton.cancel();
+                    }
+                });
                 crouton.show();
+
             }
         });
 
         this.btn_oferta.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                crouton = Crouton.makeText(MeProfileActivity.this, "Funcionalidad Próximamente", Style.INFO);
+                View view = getLayoutInflater().inflate(R.layout.crouton_custom_view, null);
+                TextView title = (TextView) view.findViewById(R.id.title);
+                TextView subtitle = (TextView) view.findViewById(R.id.subtitle);
+                title.setText(getResources().getString(R.string.no_functionality));
+                subtitle.setVisibility(View.GONE);
+                crouton = Crouton.make(MeProfileActivity.this, view);
+                crouton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        crouton.cancel();
+                    }
+                });
                 crouton.show();
             }
         });
@@ -148,7 +198,18 @@ public class MeProfileActivity extends FragmentActivity {
         this.btn_nuevo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                crouton = Crouton.makeText(MeProfileActivity.this, "Funcionalidad Próximamente", Style.INFO);
+                View view = getLayoutInflater().inflate(R.layout.crouton_custom_view, null);
+                TextView title = (TextView) view.findViewById(R.id.title);
+                TextView subtitle = (TextView) view.findViewById(R.id.subtitle);
+                title.setText(getResources().getString(R.string.no_functionality));
+                subtitle.setVisibility(View.GONE);
+                crouton = Crouton.make(MeProfileActivity.this, view);
+                crouton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        crouton.cancel();
+                    }
+                });
                 crouton.show();
             }
         });
@@ -156,7 +217,18 @@ public class MeProfileActivity extends FragmentActivity {
         this.btn_borradores.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                crouton = Crouton.makeText(MeProfileActivity.this, "Funcionalidad Próximamente", Style.INFO);
+                View view = getLayoutInflater().inflate(R.layout.crouton_custom_view, null);
+                TextView title = (TextView) view.findViewById(R.id.title);
+                TextView subtitle = (TextView) view.findViewById(R.id.subtitle);
+                title.setText(getResources().getString(R.string.no_functionality));
+                subtitle.setVisibility(View.GONE);
+                crouton = Crouton.make(MeProfileActivity.this, view);
+                crouton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        crouton.cancel();
+                    }
+                });
                 crouton.show();
             }
         });
@@ -360,13 +432,33 @@ public class MeProfileActivity extends FragmentActivity {
                                 current.put("movies", interestList);
                                 current.saveInBackground();
                                 //onBackPressed();
-                                //requestPicture();
+                                requestCover();
 
 
                                 //NavUtils.navigateUpFromSameTask(MeProfileLogin.this);
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
+                        }
+                    }
+                });
+        request.executeAsync();
+    }
+
+    private void requestCover() {
+        Request request = Request.newGraphPathRequest(ParseFacebookUtils.getSession(), "me?fields=cover",
+                new Request.Callback() {
+                    @Override
+                    public void onCompleted(Response response) {
+                        if(response.getGraphObject() != null){
+                            JSONObject userBooks = response.getGraphObject().getInnerJSONObject();
+
+                            String  urlInfo = userBooks.optString("source", "");
+                            ParseUser current = ParseUser.getCurrentUser();
+                            current.put("urlFacebookCover", urlInfo);
+                            current.saveInBackground();
+
+
                         }
                     }
                 });

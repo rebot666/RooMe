@@ -12,9 +12,13 @@
     <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Funcionalidad Próximamente"
+            android:text="@string/no_functionality"
             android:id="@+id/textView"
             android:gravity="center_vertical|center_horizontal"
             android:textStyle="bold"
-            android:textSize="22dp" android:layout_gravity="center" android:layout_marginTop="20dp"/>
+            android:textSize="22dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="20dp"
+            android:textColor="#FE804D"
+            />
 </LinearLayout>

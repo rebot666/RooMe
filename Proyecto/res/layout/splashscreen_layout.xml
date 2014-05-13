@@ -8,7 +8,7 @@
                android:layout_height="fill_parent"
                android:background="@color/White"
                android:src="@drawable/background"
-               android:scaleType="matrix"/>
+               android:scaleType="centerCrop"/>
     <ImageView android:layout_width="250dp"
                android:layout_height="250dp"
                android:src="@drawable/icono_roomee"
@@ -58,6 +58,7 @@
                       android:paddingTop="15dp"
                       android:paddingLeft="15dp"
                       android:paddingRight="15dp"
+                      android:textColor="@color/Black"
                     />
             <TextView android:layout_width="fill_parent"
                       android:layout_height="fill_parent"
@@ -70,6 +71,7 @@
                       android:textStyle="italic"
                       android:paddingLeft="15dp"
                       android:paddingRight="15dp"
+                      android:textColor="@color/Black"
                     />
 
         </LinearLayout>

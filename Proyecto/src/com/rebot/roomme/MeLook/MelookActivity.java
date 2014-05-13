@@ -50,6 +50,8 @@ public class MelookActivity extends FragmentActivity {
     private LinearLayout linear_list;
     private PullToRefreshListView people;
 
+    private LinearLayout no_connection;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,6 +70,8 @@ public class MelookActivity extends FragmentActivity {
         people = (PullToRefreshListView) findViewById(R.id.listView);
 
         no_info = (LinearLayout) findViewById(R.id.layout_no_info);
+
+        no_connection = (LinearLayout) findViewById(R.id.layout_no_connection);
 
         profiles = new ArrayList<Users>();
 
@@ -90,6 +94,9 @@ public class MelookActivity extends FragmentActivity {
 
         if(isOnline()){
             queryLoadData();
+        }else{
+            loading_info.setVisibility(View.GONE);
+            no_connection.setVisibility(View.VISIBLE);
         }
 
 
@@ -111,7 +118,20 @@ public class MelookActivity extends FragmentActivity {
         });
 
         if (ParseUser.getCurrentUser() == null){
-            crouton = Crouton.makeText(MelookActivity.this, "Inicia sesión para ver compatibilidad", Style.ALERT);
+            //crouton = Crouton.makeText(MelookActivity.this, "Inicia sesión para ver compatibilidad", Style.ALERT);
+            //crouton.show();
+            View view = getLayoutInflater().inflate(R.layout.crouton_custom_view, null);
+            TextView title = (TextView) view.findViewById(R.id.title);
+            TextView subtitle = (TextView) view.findViewById(R.id.subtitle);
+            title.setVisibility(View.GONE);
+            subtitle.setText(getResources().getString(R.string.no_session));
+            crouton = Crouton.make(MelookActivity.this, view);
+            crouton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    crouton.cancel();
+                }
+            });
             crouton.show();
         }
     }
@@ -154,11 +174,13 @@ public class MelookActivity extends FragmentActivity {
 
     public void queryLoadData(){
         ParseQuery<ParseUser>  query = ParseUser.getQuery();
+        //query.setCachePolicy(ParseQuery.CachePolicy.CACHE_THEN_NETWORK);
         query.findInBackground(new FindCallback<ParseUser>() {
             @Override
             public void done(List<ParseUser> list, ParseException e) {
                 if(e == null){
                     if(list.size() > 0){
+                        profiles.clear();
                         ParseUser me = ParseUser.getCurrentUser();
                         if(me != null){
                             for(ParseUser temp : list){

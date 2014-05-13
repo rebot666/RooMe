@@ -46,6 +46,9 @@ public class Users implements Comparator<Users>, Comparable<Users>{
 
     @Override
     public int compareTo(Users another) {
-        return (int) (another.getPercentage() - getPercentage());
+        Double anotherObject = new Double(another.getPercentage());
+        Double thisObject = new Double(getPercentage());
+
+        return anotherObject.compareTo(thisObject);
     }
 }

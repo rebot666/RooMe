@@ -86,11 +86,36 @@
             <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Funcionalidad Próximamente"
+                    android:text="@string/no_info"
                     android:id="@+id/textView"
                     android:gravity="center_vertical|center_horizontal"
                     android:textStyle="bold"
                     android:textSize="22dp" android:layout_gravity="center" android:layout_marginTop="20dp"/>
+        </LinearLayout>
+        <LinearLayout
+                      android:orientation="vertical"
+                      android:layout_width="match_parent"
+                      android:id="@+id/layout_no_connection"
+                      android:layout_height="match_parent"
+                      android:gravity="center"
+                      android:visibility="gone">
+            <ImageView
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
+                    android:id="@+id/imageView" android:src="@drawable/wifi_indigo"
+                    android:layout_gravity="center"/>
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/no_connection"
+                    android:id="@+id/textView"
+                    android:gravity="center_vertical|center_horizontal"
+                    android:textStyle="bold"
+                    android:textSize="22dp"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="20dp"
+                    android:textColor="@color/dark_indigo"
+                    />
         </LinearLayout>
         <com.markupartist.android.widget.PullToRefreshListView
                 android:layout_width="fill_parent"

@@ -59,7 +59,6 @@ public class MeProfileLogin extends SherlockFragmentActivity {
                     //NavUtils.navigateUpFromSameTask(MeProfileLogin.this);
                     //requestPicture();
                     onBackPressed();
-
                 }
             }
         });
@@ -197,6 +196,7 @@ public class MeProfileLogin extends SherlockFragmentActivity {
 
                                 ParseUser current = ParseUser.getCurrentUser();
                                 current.put("movies", interestList);
+                                current.put("esRoomie", true);
                                 current.saveInBackground();
                                 onBackPressed();
                                 //requestPicture();

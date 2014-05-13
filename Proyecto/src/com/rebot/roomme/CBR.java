@@ -17,9 +17,9 @@ public class CBR {
     private static final double CUMPLEANOS = 10;
     private static final double GENERO = 7;
     private static final double ESTADO = 7;
-    private static final double PELICULAS = 5;
-    private static final double LIBROS = 5;
-    private static final double MUSICA = 5;
+    private static final double PELICULAS = 2;
+    private static final double LIBROS = 2;
+    private static final double MUSICA = 2;
     private static final double PELICULAS_NO = 7;
     private static final double LIBROS_NO = 7;
     private static final double MUSICA_NO = 7;
