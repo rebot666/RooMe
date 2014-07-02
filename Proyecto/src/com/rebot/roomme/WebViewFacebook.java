@@ -2,14 +2,10 @@ package com.rebot.roomme;
 
 import android.app.ProgressDialog;
 import android.os.Bundle;
-import android.view.View;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.ImageView;
 import com.actionbarsherlock.app.SherlockActivity;
-import com.nostra13.universalimageloader.core.ImageLoader;
-import com.parse.ParseUser;
-import com.todddavies.components.progressbar.ProgressWheel;
+import com.actionbarsherlock.view.MenuItem;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -23,6 +19,7 @@ public class WebViewFacebook extends SherlockActivity {
     public void onCreate(Bundle savedInstance){
         super.onCreate(savedInstance);
         setContentView(R.layout.webview_facebook_layout);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         app = (Roome) getApplication();
         JSONObject profile = app.roomieSeleccionado.getUser().getJSONObject("profile");
@@ -76,5 +73,14 @@ public class WebViewFacebook extends SherlockActivity {
         webView.getSettings().setBuiltInZoomControls(true);
         //Load url in webview
         webView.loadUrl(url);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item){
+        if(item.getItemId() == android.R.id.home){
+            super.onBackPressed();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

@@ -19,6 +19,7 @@ import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
 import com.nostra13.universalimageloader.utils.StorageUtils;
 import com.parse.Parse;
 import com.parse.ParseFacebookUtils;
+import com.parse.ParseObject;
 import com.rebot.roomme.Models.Users;
 
 import java.io.File;
@@ -31,10 +32,11 @@ import java.util.List;
  */
 public class Roome extends Application {
     private static Context context;
-    public DisplayImageOptions options, options2;
+    public DisplayImageOptions options, options2, options3;
     public ImageLoadingListener animateFirstListener = new AnimateFirstDisplayListener();
     public ImageLoadingListener animateFirstListener2 = new AnimateFirstDisplayListener2();
     public Users roomieSeleccionado;
+    public ParseObject dptoSeleccionado, ofertaSeleccionada;
 
     @Override
     public void onCreate() {
@@ -73,6 +75,15 @@ public class Roome extends Application {
                 .cacheInMemory(true)
                 .cacheOnDisc(true)
                 .displayer(new RoundedBitmapDisplayer(7)) //if want rounded image
+                .imageScaleType(ImageScaleType.EXACTLY_STRETCHED)
+                .build();
+
+        options3 = new DisplayImageOptions.Builder()
+                .showStubImage(R.drawable.roomme_title)
+                .showImageForEmptyUri(R.drawable.roomme_title)
+                .showImageOnFail(R.drawable.roomme_title)
+                .cacheInMemory(true)
+                .cacheOnDisc(true)
                 .imageScaleType(ImageScaleType.EXACTLY_STRETCHED)
                 .build();
 

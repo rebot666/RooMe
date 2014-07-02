@@ -3,11 +3,13 @@
           package="com.rebot.roomme"
           android:versionCode="1"
           android:versionName="1.0">
-    <uses-sdk android:minSdkVersion="7"/>
+    <uses-sdk android:minSdkVersion="7"
+              android:targetSdkVersion="10" />
     <application android:label="@string/app_name"
                  android:icon="@drawable/icono_roomee"
                  android:name="Roome"
                  android:theme="@style/Theme.Roomme"
+                 android:largeHeap="true"
             >
 
         <activity android:name=".Splashscreen"
@@ -22,6 +24,7 @@
 
         <activity android:name=".MainDrawer"
                   android:label="@string/app_name"
+                  android:theme="@style/Theme.Roomme"
                   android:screenOrientation="portrait"
                 >
             <intent-filter>
@@ -32,7 +35,18 @@
         <activity
                 android:name=".MeLook.MelookActivity"
                 android:configChanges="keyboard|keyboardHidden|orientation"
-                android:theme="@style/Theme.Sherlock.NoActionBar"
+                android:theme="@style/Theme.Roomme"
+                android:screenOrientation="portrait"
+                android:windowSoftInputMode="stateHidden|adjustResize">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+            </intent-filter>
+        </activity>
+
+        <activity
+                android:name=".MeLook.MelookDpto"
+                android:configChanges="keyboard|keyboardHidden|orientation"
+                android:theme="@style/Theme.Roomme"
                 android:screenOrientation="portrait"
                 android:windowSoftInputMode="stateHidden|adjustResize">
             <intent-filter>
@@ -54,13 +68,22 @@
         <activity
                 android:name=".MeProfile.MeProfileLogin"
                 android:configChanges="keyboard|keyboardHidden|orientation"
-                android:theme="@style/Theme.Sherlock.NoActionBar"
+                android:theme="@style/Theme.Roomme"
                 android:screenOrientation="portrait"
                 android:windowSoftInputMode="stateHidden|adjustResize"
-                android:parentActivityName=".MeProfile.MeProfileActivity">
-            <meta-data
-                    android:name="android.support.PARENT_ACTIVITY"
-                    android:value=".MeProfile.MeProfileActivity" />
+                >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+            </intent-filter>
+        </activity>
+
+        <activity
+                android:name=".MeProfile.DepartmentOffers"
+                android:configChanges="keyboard|keyboardHidden|orientation"
+                android:theme="@style/Theme.Roomme"
+                android:screenOrientation="portrait"
+                android:windowSoftInputMode="stateHidden|adjustResize"
+                >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>
@@ -69,13 +92,10 @@
         <activity
                 android:name=".MeFavs.MeFavsActivity"
                 android:configChanges="keyboard|keyboardHidden|orientation"
-                android:theme="@style/Theme.Sherlock.NoActionBar"
+                android:theme="@style/Theme.Sherlock"
                 android:screenOrientation="portrait"
                 android:windowSoftInputMode="stateHidden|adjustResize"
-                android:parentActivityName=".MeProfile.MeProfileActivity">
-            <meta-data
-                    android:name="android.support.PARENT_ACTIVITY"
-                    android:value=".MeProfile.MeProfileActivity" />
+                >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>
@@ -84,13 +104,10 @@
         <activity
                 android:name=".MeGo.MeGoActivity"
                 android:configChanges="keyboard|keyboardHidden|orientation"
-                android:theme="@style/Theme.Sherlock.NoActionBar"
+                android:theme="@style/Theme.Sherlock"
                 android:screenOrientation="portrait"
                 android:windowSoftInputMode="stateHidden|adjustResize"
-                android:parentActivityName=".MeProfile.MeProfileActivity">
-            <meta-data
-                    android:name="android.support.PARENT_ACTIVITY"
-                    android:value=".MeProfile.MeProfileActivity" />
+                >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>
@@ -101,7 +118,7 @@
                 android:configChanges="keyboard|keyboardHidden|orientation"
                 android:screenOrientation="portrait"
                 android:windowSoftInputMode="stateHidden|adjustResize"
-                android:parentActivityName=".MeLook.MelookActivity">
+                >
             <meta-data
                     android:name="android.support.PARENT_ACTIVITY"
                     android:value=".MeProfile.MeProfileActivity" />
@@ -115,10 +132,129 @@
                 android:configChanges="keyboard|keyboardHidden|orientation"
                 android:screenOrientation="portrait"
                 android:windowSoftInputMode="stateHidden|adjustResize"
-                android:parentActivityName=".MeLookRoomie">
-            <meta-data
-                    android:name="android.support.PARENT_ACTIVITY"
-                    android:value=".MeLookRoomie" />
+                >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+            </intent-filter>
+        </activity>
+
+        <activity
+                android:name=".SingleDepartment"
+                android:configChanges="keyboard|keyboardHidden|orientation"
+                android:screenOrientation="portrait"
+                android:windowSoftInputMode="stateHidden|adjustResize"
+                >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+            </intent-filter>
+        </activity>
+
+        <activity
+                android:name=".MeProfile.MisPublicaciones"
+                android:configChanges="keyboard|keyboardHidden|orientation"
+                android:screenOrientation="portrait"
+                android:windowSoftInputMode="stateHidden|adjustResize"
+                >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+            </intent-filter>
+        </activity>
+
+        <activity
+                android:name=".MeProfile.Ofertas"
+                android:configChanges="keyboard|keyboardHidden|orientation"
+                android:screenOrientation="portrait"
+                android:windowSoftInputMode="stateHidden|adjustResize"
+                >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+            </intent-filter>
+        </activity>
+
+        <activity
+                android:name=".MeProfile.PublicacionNva"
+                android:configChanges="keyboard|keyboardHidden|orientation"
+                android:screenOrientation="portrait"
+                android:windowSoftInputMode="stateHidden|adjustResize"
+                >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+            </intent-filter>
+        </activity>
+
+        <activity
+                android:name=".MeProfile.MyDrafts"
+                android:configChanges="keyboard|keyboardHidden|orientation"
+                android:screenOrientation="portrait"
+                android:windowSoftInputMode="stateHidden|adjustResize"
+                >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+            </intent-filter>
+        </activity>
+
+
+        <activity
+                android:name=".DptoSingle.ContactoActivity"
+                android:configChanges="keyboard|keyboardHidden|orientation"
+                android:screenOrientation="portrait"
+                android:windowSoftInputMode="stateHidden|adjustResize"
+                >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+            </intent-filter>
+        </activity>
+
+        <activity
+                android:name=".DptoSingle.FirstDetailActivity"
+                android:configChanges="keyboard|keyboardHidden|orientation"
+                android:screenOrientation="portrait"
+                android:windowSoftInputMode="stateHidden|adjustResize"
+                >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+            </intent-filter>
+        </activity>
+
+        <activity
+                android:name=".DptoSingle.SecondDetailActivity"
+                android:configChanges="keyboard|keyboardHidden|orientation"
+                android:screenOrientation="portrait"
+                android:windowSoftInputMode="stateHidden|adjustResize"
+                >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+            </intent-filter>
+        </activity>
+
+        <activity
+                android:name=".DptoSingle.ServicesActivity"
+                android:configChanges="keyboard|keyboardHidden|orientation"
+                android:screenOrientation="portrait"
+                android:windowSoftInputMode="stateHidden|adjustResize"
+                >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".MeProfile.DetailOffert"
+            android:configChanges="keyboard|keyboardHidden|orientation"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustResize"
+            >
+        <intent-filter>
+            <action android:name="android.intent.action.MAIN" />
+        </intent-filter>
+    </activity>
+
+        <activity
+                android:name=".SearchActivity"
+                android:configChanges="keyboard|keyboardHidden|orientation"
+                android:theme="@style/Theme.Roomme"
+                android:screenOrientation="portrait"
+                android:windowSoftInputMode="stateHidden|adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>
@@ -130,17 +266,18 @@
                 android:name="com.google.android.gms.version"
                 android:value="@integer/google_play_services_version" />
         <!--Alex Debug Map Key-->
-        <meta-data
+        <!--<meta-data
                 android:name="com.google.android.maps.v2.API_KEY"
-                android:value="AIzaSyA5dXK8gr7xQH90V-MZ2hW0WdEJMxVUl0A"/>
+                android:value="AIzaSyA5dXK8gr7xQH90V-MZ2hW0WdEJMxVUl0A"/>-->
         <!--Denisse Debug Map Key-->
         <!--<meta-data
                 android:name="com.google.android.maps.v2.API_KEY"
-                android:value="API_KEY"/>-->
+                android:value="AIzaSyA_hk2pQanvYzEsjqVAVJKwKjBhicGHSXY"/>-->
         <!--Production Debug Map Key-->
-        <!--<meta-data
+        <meta-data
                 android:name="com.google.android.maps.v2.API_KEY"
-                android:value="AIzaSyAbwKr1HKB9_3im9DWaKrR2bcP5nIOW5nc"/>-->
+                android:value="AIzaSyAFdCXwO7GCv0g3nsTf9O9IYJ_2Wq_Xt84"/>
+
         <meta-data android:name="com.facebook.sdk.ApplicationId"
                    android:value="@string/app_id"/>
     </application>

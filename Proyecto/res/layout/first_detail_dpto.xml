@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/back_purple">
+    <LinearLayout android:layout_width="fill_parent"
+                  android:layout_height="fill_parent"
+                  android:id="@+id/no_connection"
+                  android:visibility="gone">
+        <ImageView
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:id="@+id/imageView" android:src="@drawable/wifi_indigo"
+                android:layout_gravity="center"/>
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/no_functionality"
+                android:id="@+id/textView"
+                android:gravity="center_vertical|center_horizontal"
+                android:textStyle="bold"
+                android:textSize="22dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="20dp"
+                android:textColor="#FE804D"
+                />
+    </LinearLayout>
+    <RelativeLayout xmlns:ProgressWheel="http://schemas.android.com/apk/res-auto"
+                    android:orientation="vertical"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:gravity="center"
+                    android:id="@+id/loading_info"
+                    android:background="@android:color/transparent" android:visibility="gone">
+        <com.todddavies.components.progressbar.ProgressWheel
+                android:id="@+id/pw_spinner"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:layout_gravity="center"
+                ProgressWheel:textColor="#222"
+                ProgressWheel:textSize="14sp"
+                ProgressWheel:rimColor="#330097D6"
+                ProgressWheel:barLength="60dp"
+                ProgressWheel:barColor="@color/dark_indigo"
+                ProgressWheel:barWidth="5dp"
+                ProgressWheel:rimWidth="2dp"
+                />
+        <ImageView android:layout_width="150dp"
+                   android:layout_height="150dp"
+                   android:layout_gravity="center"
+                   android:src="@drawable/roomme_title"
+                   android:padding="15dp"
+                />
+    </RelativeLayout>
+    <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent">
+        <TextView android:layout_width="fill_parent"
+                  android:layout_height="wrap_content"
+                  android:id="@+id/title_publicacion"
+                  android:text="Título de Publicación"
+                  android:padding="15dp"
+                  android:textSize="16sp"
+                  android:gravity="center"
+                  android:textStyle="bold"/>
+        <LinearLayout android:layout_width="fill_parent"
+                      android:layout_height="wrap_content"
+                      android:orientation="horizontal">
+            <RelativeLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="180dp"
+                    android:layout_weight=".5" android:layout_marginLeft="10dp">
+                <ImageView
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:id="@+id/img_dpto"
+                        android:layout_alignParentTop="true"
+                        android:scaleType="centerCrop"
+                        android:adjustViewBounds="true"/>
+                <ImageView
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:id="@+id/ribbon_roomme"
+                        android:src="@drawable/r_room"/>
+            </RelativeLayout>
+            <LinearLayout android:layout_width="fill_parent"
+                          android:layout_height="wrap_content"
+                          android:orientation="vertical"
+                          android:layout_weight=".5">
+                <TextView android:layout_width="fill_parent"
+                          android:layout_height="wrap_content"
+                          android:id="@+id/text_transaccion"
+                          android:text="Transacción"
+                          android:padding="10dp"
+                          android:textSize="16sp"
+                          android:gravity="center"/>
+                <TextView android:layout_width="fill_parent"
+                          android:layout_height="wrap_content"
+                          android:id="@+id/txt_inmueble"
+                          android:text="Inmueble"
+                          android:padding="10dp"
+                          android:textSize="16sp"
+                          android:gravity="center"/>
+                <TextView android:layout_width="fill_parent"
+                          android:layout_height="wrap_content"
+                          android:text="Precio"
+                          android:id="@+id/txt_precio"
+                          android:textSize="16sp"
+                          android:padding="10dp"
+                          android:gravity="center"/>
+                <LinearLayout android:layout_width="fill_parent"
+                              android:layout_height="wrap_content"
+                              android:orientation="horizontal"
+                              android:padding="10dp" android:id="@+id/linear_genero">
+                    <TextView android:layout_width="fill_parent"
+                              android:layout_height="wrap_content"
+                              android:text="Género: "
+                              android:textStyle="bold"
+                              android:textSize="16sp"
+                              android:layout_weight=".4" android:gravity="center" android:layout_marginTop="5dp"/>
+                    <ImageView android:layout_width="80dp"
+                               android:layout_height="30dp"
+                               android:layout_weight=".7" android:id="@+id/img_genero" android:adjustViewBounds="true"
+                               android:scaleType="centerCrop" android:baselineAlignBottom="false"
+                            />
+                </LinearLayout>
+                <TextView
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Fecha de Publicación"
+                        android:id="@+id/txt_fecha" android:padding="10dp" android:gravity="center"/>
+            </LinearLayout>
+        </LinearLayout>
+        <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="15dp" android:paddingRight="15dp" android:id="@+id/linear_photos">
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Fotos:"
+                    android:textStyle="bold"
+                    android:textSize="16sp"
+                    android:id="@+id/txt_two"
+                    />
+            <LinearLayout android:layout_width="fill_parent"
+                          android:layout_height="wrap_content"
+                          android:orientation="horizontal"
+                    >
+                <ImageView android:layout_width="fill_parent"
+                           android:layout_height="105dp"
+                           android:id="@+id/photo1"
+                           android:layout_weight=".5" android:scaleType="centerCrop" android:adjustViewBounds="true"
+                           android:layout_marginRight="2dp"/>
+                <ImageView android:layout_width="fill_parent"
+                           android:layout_height="fill_parent"
+                           android:layout_weight=".5"
+                           android:id="@+id/photo2" android:scaleType="centerCrop" android:adjustViewBounds="true"
+                           android:padding="2dp" android:layout_marginRight="2dp"/>
+                <ImageView android:layout_width="fill_parent"
+                           android:layout_height="fill_parent"
+                           android:layout_weight=".5"
+                           android:id="@+id/photo3" android:scaleType="centerCrop" android:adjustViewBounds="true"
+                           android:padding="2dp" android:layout_marginRight="2dp"/>
+                <ImageView android:layout_width="fill_parent"
+                           android:layout_height="fill_parent"
+                           android:layout_weight=".5"
+                           android:id="@+id/photo4" android:scaleType="centerCrop" android:adjustViewBounds="true"
+                           android:padding="2dp"/>
+            </LinearLayout>
+        </LinearLayout>
+        <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content" android:paddingLeft="10dp" android:paddingRight="10dp"
+                android:paddingTop="10dp">
+            <Button
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/btn_one"
+                    android:layout_weight=".5" android:background="@color/backgound_btn" android:text="Favorito"
+                    android:textColor="@color/White" android:layout_marginRight="5dp"/>
+            <Button
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/btn_three" android:layout_weight=".5" android:background="@color/backgound_btn"
+                    android:text="Mapa" android:textColor="@color/White" android:layout_marginLeft="5dp"/>
+        </LinearLayout>
+        <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:paddingLeft="10dp" android:paddingRight="10dp" android:paddingTop="5dp"
+                android:paddingBottom="5dp">
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Dirección: "
+                    android:id="@+id/txt_one"
+                    android:textStyle="bold"
+                    android:layout_gravity="center_vertical"
+                    android:textSize="16sp"/>
+            <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/txt_direccion"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight=".5"/>
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>

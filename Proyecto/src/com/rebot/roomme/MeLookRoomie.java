@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.actionbarsherlock.app.SherlockActivity;
+import com.actionbarsherlock.view.MenuItem;
 import com.facebook.HttpMethod;
 import com.facebook.Request;
 import com.facebook.Response;
@@ -45,6 +46,7 @@ public class MeLookRoomie extends SherlockActivity{
     public void onCreate(Bundle savedInstance){
         super.onCreate(savedInstance);
         setContentView(R.layout.lookme_roomite_layout);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         ParseFacebookUtils.initialize(getString(R.string.app_id));
 
@@ -71,13 +73,13 @@ public class MeLookRoomie extends SherlockActivity{
         }
         ImageLoader.getInstance().displayImage("http://graph.facebook.com/"+idUser+"/picture?type=large", image,
                 app.options, app.animateFirstListener);
+
         if(userParseInfo.getString("urlFacebookCover") != null){
             ImageLoader.getInstance().displayImage(userParseInfo.getString("urlFacebookCover"), wall_image,
                     app.options2, app.animateFirstListener2);
         }else{
             wall_image.setImageDrawable(getBaseContext().getResources().getDrawable(R.drawable.background_rounded));
         }
-
 
         porcentaje = (int)user.getPercentage();
 
@@ -198,9 +200,15 @@ public class MeLookRoomie extends SherlockActivity{
             }else{
                 progressHandler.removeCallbacks(progress_status);
             }
-
         }
     };
 
-
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item){
+        if(item.getItemId() == android.R.id.home){
+            super.onBackPressed();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 }

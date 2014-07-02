@@ -1,8 +1,7 @@
 package com.rebot.roomme;
 
-import android.app.Activity;
-
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
@@ -10,18 +9,19 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.TextView;
-import butterknife.ButterKnife;
-import butterknife.InjectView;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 import com.rebot.roomme.Adapters.MenuListAdapter;
 import com.rebot.roomme.MeFavs.MeFavsActivityHostFragment;
 import com.rebot.roomme.MeGo.MeGoActivityHostFragment;
 import com.rebot.roomme.MeLook.MelookActivityHostFragment;
+import com.rebot.roomme.MeLook.MelookDptoHostFrament;
 import com.rebot.roomme.MeProfile.MeProfileActivityHostFragment;
 
 public class MainDrawer extends SherlockFragmentActivity {
@@ -36,7 +36,8 @@ public class MainDrawer extends SherlockFragmentActivity {
     ListView mDrawerList;
     ActionBarDrawerToggle mDrawerToggle;
     MenuListAdapter mMenuAdapter;
-
+    private boolean menushow;
+    private boolean menunew;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -75,7 +76,7 @@ public class MainDrawer extends SherlockFragmentActivity {
         // Set the MenuListAdapter to the ListView
         mDrawerList.setAdapter(mMenuAdapter);
 
-        // Capture listview menu item click
+        // Capture listview menu_item item click
         mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
 
         // Enable ActionBar app icon to behave as action to toggle nav drawer
@@ -104,8 +105,9 @@ public class MainDrawer extends SherlockFragmentActivity {
 
         if (savedInstanceState == null) {
             selectItem(0);
+            menushow = true;
+            menunew = false;
         }
-
     }
 
     @Override
@@ -118,6 +120,19 @@ public class MainDrawer extends SherlockFragmentActivity {
             } else {
                 mDrawerLayout.openDrawer(mDrawerList);
             }
+        }
+
+        if (item.getItemId() == R.id.change){
+            if(mDrawerList.getCheckedItemPosition() == 0){
+                selectItem(4);
+            } else {
+                selectItem(0);
+            }
+        }
+
+        if (item.getItemId() == R.id.search){
+            Intent intent = new Intent(MainDrawer.this, SearchActivity.class);
+            MainDrawer.this.startActivity(intent);
         }
 
         return super.onOptionsItemSelected(item);
@@ -140,24 +155,41 @@ public class MainDrawer extends SherlockFragmentActivity {
         switch (position) {
             case 0:
                 fragment= new MelookActivityHostFragment();
+                menushow = true;
+                menunew = false;
                 break;
             case 1:
                 fragment = new MeFavsActivityHostFragment();
+                menushow = false;
+                menunew = false;
                 break;
             case 2:
                 fragment = new MeProfileActivityHostFragment();
+                menushow = false;
+                menunew = false;
                 break;
             case 3:
+                app.dptoSeleccionado = null;
                 fragment = new MeGoActivityHostFragment();
+                menushow = false;
+                menunew = true;
+                break;
+            case 4:
+                fragment = new MelookDptoHostFrament();
+                menushow = true;
+                menunew = false;
                 break;
         }
 
+        supportInvalidateOptionsMenu();
         fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).commit();
-
         // update selected item and title, then close the drawer
         mDrawerList.setItemChecked(position, true);
 
-        setTitle(title[position]);
+        if(position != 4){
+            setTitle(title[position]);
+        }
+
         mDrawerLayout.closeDrawer(mDrawerList);
     }
 
@@ -176,9 +208,37 @@ public class MainDrawer extends SherlockFragmentActivity {
     }
 
     @Override
+    public boolean onPrepareOptionsMenu(Menu menu){
+        if(menushow){
+            MenuItem item = menu.getItem(0);
+            if(mDrawerList.getCheckedItemPosition() == 4){
+                item.setIcon(R.drawable.icon_social);
+            } else {
+                item.setIcon(R.drawable.icon_color);
+            }
+        }
+        return super.onPrepareOptionsMenu(menu);
+    }
+
+    @Override
     public void setTitle(CharSequence title) {
         mTitle = title;
-        //getSupportActionBar().setTitle(mTitle);
         getSupportActionBar().setTitle(mTitle);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        if(menushow){
+            MenuInflater inflater = getSupportMenuInflater();
+            inflater.inflate(R.menu.menu_item, menu);
+            return super.onCreateOptionsMenu(menu);
+        }
+
+        if(menunew){
+            MenuInflater inflater = getSupportMenuInflater();
+            inflater.inflate(R.menu.menu_save, menu);
+            return super.onCreateOptionsMenu(menu);
+        }
+        return super.onCreateOptionsMenu(menu);
     }
 }

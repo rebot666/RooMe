@@ -7,6 +7,7 @@
     <color name="verde">#007845</color>
     <color name="verde_degradado">#60007845</color>
     <color name="azul_claro">#802CC2D9</color>
+    <color name="mini_back">#F0FFFF</color>
 
     <!--Colores Traslucent-->
     <color name="translucent_black">#80000000</color>
@@ -26,7 +27,7 @@
 
     <color name="sample_drawer">#304F9D</color>
     <color name="back_purple">#D0E3E8</color>
-
+    <color name="transparent_green">#1C6C33</color>
     <!-- Progress Wheel Colors -->
     <color name="quarter">#BDF90E</color>
     <color name="fifty">#0ABCEE</color>
@@ -34,6 +35,11 @@
     <color name="naranja_circulo_progress">#FE804D</color>
     <color name="amarillo_r">#FFC468</color>
     <color name="verde_circulo_progress">#1C5459</color>
+    <color name="light_red">#EB4138</color>
+    <color name="blue_box">#6696FB</color>
+    <color name="offer_item">#FA4944</color>
+    <color name="backgound_btn">#29408F</color>
+    <color name="green_favorite">#284848</color>
 
     <string-array name="colors">
         <item>#EEC103</item>

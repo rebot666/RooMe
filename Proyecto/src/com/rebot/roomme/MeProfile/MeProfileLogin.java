@@ -2,13 +2,11 @@ package com.rebot.roomme.MeProfile;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.NavUtils;
 import android.util.Log;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.facebook.Request;
 import com.facebook.Response;
 import com.facebook.Session;
-import com.facebook.model.GraphLocation;
 import com.facebook.model.GraphUser;
 import com.parse.*;
 import com.rebot.roomme.R;

@@ -47,28 +47,29 @@ public class MenuListAdapter extends BaseAdapter {
 
     public View getView(int position, View convertView, ViewGroup parent) {
         // Declare Variables
+        ImageView imgIcon;
         TextView txtTitle;
         TextView txtSubTitle;
-        ImageView imgIcon;
 
         inflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View itemView = inflater.inflate(R.layout.drawer_list_item, parent, false);
 
-        // Locate the TextViews in drawer_list_item.xml
-        txtTitle = (TextView) itemView.findViewById(R.id.title);
-        txtSubTitle = (TextView) itemView.findViewById(R.id.subtitle);
+        if(position != 4){
+            // Locate the TextViews in drawer_list_item.xml
+            txtTitle = (TextView) itemView.findViewById(R.id.title);
+            txtSubTitle = (TextView) itemView.findViewById(R.id.subtitle);
 
-        // Locate the ImageView in drawer_list_item.xml
-        imgIcon = (ImageView) itemView.findViewById(R.id.icon);
+            // Locate the ImageView in drawer_list_item.xml
+            imgIcon = (ImageView) itemView.findViewById(R.id.icon);
 
-        // Set the results into TextViews
-        txtTitle.setText(mTitle[position]);
-        txtSubTitle.setText(mSubTitle[position]);
+            // Set the results into TextViews
+            txtTitle.setText(mTitle[position]);
+            txtSubTitle.setText(mSubTitle[position]);
 
-        // Set the results into ImageView
-        imgIcon.setImageResource(mIcon[position]);
-
+            // Set the results into ImageView
+            imgIcon.setImageResource(mIcon[position]);
+        }
 
         return itemView;
     }

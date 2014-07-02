@@ -11,11 +11,13 @@ import com.facebook.Response;
 import com.facebook.Session;
 import com.facebook.model.GraphUser;
 import com.facebook.widget.ProfilePictureView;
+import com.google.android.gms.games.multiplayer.realtime.Room;
 import com.parse.ParseException;
 import com.parse.ParseFacebookUtils;;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 import com.rebot.roomme.R;
+import com.rebot.roomme.Roome;
 import de.keyboardsurfer.android.widget.crouton.Configuration;
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
@@ -31,6 +33,7 @@ import java.util.ArrayList;
  */
 
 public class MeProfileActivity extends FragmentActivity {
+    private Roome app;
     private ParseUser currentUser;
     private Crouton crouton;
 
@@ -56,6 +59,7 @@ public class MeProfileActivity extends FragmentActivity {
 
         ParseFacebookUtils.initialize(getString(R.string.app_id));
 
+        app = (Roome) getApplication();
         //Inicialización de componentes de la interfaz
         this.linear_profile = (LinearLayout) findViewById(R.id.linear_profile);
         this.img_profile = (ProfilePictureView) findViewById(R.id.img_profile);
@@ -78,7 +82,6 @@ public class MeProfileActivity extends FragmentActivity {
         if(user !=null){
             if(user.getBoolean("esRoomie")){
                 this.esRoomie.setChecked(true);
-
                 actualizarInfo();
             }else{
                 this.esRoomie.setChecked(false);
@@ -100,7 +103,7 @@ public class MeProfileActivity extends FragmentActivity {
                             View view = getLayoutInflater().inflate(R.layout.crouton_custom_view, null);
                             TextView title = (TextView) view.findViewById(R.id.title);
                             TextView subtitle = (TextView) view.findViewById(R.id.subtitle);
-                            title.setText(getResources().getString(R.string.si_roomie));
+                            title.setText(getResources().getString(R.string.whats));
                             subtitle.setVisibility(View.GONE);
                             crouton = Crouton.make(MeProfileActivity.this, view);
                             crouton.setOnClickListener(new View.OnClickListener() {
@@ -145,6 +148,7 @@ public class MeProfileActivity extends FragmentActivity {
                 startActivity(signIn);
             }
         });
+
         this.btn_sign_facebook2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -158,78 +162,33 @@ public class MeProfileActivity extends FragmentActivity {
         this.btn_publish.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                View view = getLayoutInflater().inflate(R.layout.crouton_custom_view, null);
-                TextView title = (TextView) view.findViewById(R.id.title);
-                TextView subtitle = (TextView) view.findViewById(R.id.subtitle);
-                title.setText(getResources().getString(R.string.no_functionality));
-                subtitle.setVisibility(View.GONE);
-                crouton = Crouton.make(MeProfileActivity.this, view);
-                crouton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        crouton.cancel();
-                    }
-                });
-                crouton.show();
-
+                Intent intent = new Intent(MeProfileActivity.this, MisPublicaciones.class);
+                MeProfileActivity.this.startActivity(intent);
             }
         });
 
         this.btn_oferta.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                View view = getLayoutInflater().inflate(R.layout.crouton_custom_view, null);
-                TextView title = (TextView) view.findViewById(R.id.title);
-                TextView subtitle = (TextView) view.findViewById(R.id.subtitle);
-                title.setText(getResources().getString(R.string.no_functionality));
-                subtitle.setVisibility(View.GONE);
-                crouton = Crouton.make(MeProfileActivity.this, view);
-                crouton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        crouton.cancel();
-                    }
-                });
-                crouton.show();
+                Intent intent = new Intent(MeProfileActivity.this, DepartmentOffers.class);
+                MeProfileActivity.this.startActivity(intent);
             }
         });
 
         this.btn_nuevo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                View view = getLayoutInflater().inflate(R.layout.crouton_custom_view, null);
-                TextView title = (TextView) view.findViewById(R.id.title);
-                TextView subtitle = (TextView) view.findViewById(R.id.subtitle);
-                title.setText(getResources().getString(R.string.no_functionality));
-                subtitle.setVisibility(View.GONE);
-                crouton = Crouton.make(MeProfileActivity.this, view);
-                crouton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        crouton.cancel();
-                    }
-                });
-                crouton.show();
+                app.dptoSeleccionado = null;
+                Intent intent = new Intent(MeProfileActivity.this, PublicacionNva.class);
+                MeProfileActivity.this.startActivity(intent);
             }
         });
 
         this.btn_borradores.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                View view = getLayoutInflater().inflate(R.layout.crouton_custom_view, null);
-                TextView title = (TextView) view.findViewById(R.id.title);
-                TextView subtitle = (TextView) view.findViewById(R.id.subtitle);
-                title.setText(getResources().getString(R.string.no_functionality));
-                subtitle.setVisibility(View.GONE);
-                crouton = Crouton.make(MeProfileActivity.this, view);
-                crouton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        crouton.cancel();
-                    }
-                });
-                crouton.show();
+                Intent intent = new Intent(MeProfileActivity.this, MyDrafts.class);
+                MeProfileActivity.this.startActivity(intent);
             }
         });
     }

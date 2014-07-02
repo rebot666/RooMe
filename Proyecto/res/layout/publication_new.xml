@@ -1,0 +1,469 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+    <ScrollView
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_weight=".4"
+            android:id="@+id/scrollView"
+            android:visibility="visible">
+        <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:id="@+id/first_detail"
+                android:visibility="visible">
+            <EditText android:layout_width="fill_parent"
+                      android:layout_height="wrap_content"
+                      android:id="@+id/title_publicacion"
+                      android:hint="Título de Publicación (*)"
+                      android:padding="15dp"
+                      android:textSize="16sp"
+                      android:gravity="center"
+                      android:textStyle="bold"/>
+            <LinearLayout android:layout_width="fill_parent"
+                          android:layout_height="wrap_content"
+                          android:orientation="horizontal">
+                <ImageView
+                        android:layout_marginLeft="10dp"
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:id="@+id/img_dpto"
+                        android:layout_alignParentTop="true"
+                        android:adjustViewBounds="true"
+                        android:layout_weight=".5"
+                        android:src="@drawable/camera"
+                        />
+                <LinearLayout android:layout_width="fill_parent"
+                              android:layout_height="wrap_content"
+                              android:orientation="vertical"
+                              android:layout_weight=".5">
+                    <LinearLayout android:layout_width="fill_parent"
+                                  android:layout_height="wrap_content"
+                                  android:orientation="horizontal"
+                                  >
+                        <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="¿Buscas Roome?"
+                                android:id="@+id/txt_fecha"
+                                android:padding="10dp"
+                                android:gravity="center"/>
+                        <CheckBox android:layout_width="wrap_content"
+                                  android:layout_height="wrap_content"
+                                  android:id="@+id/busco_roomme"/>
+                    </LinearLayout>
+                    <TextView android:layout_width="fill_parent"
+                              android:layout_height="wrap_content"
+                              android:text="Transacción: "
+                              android:textStyle="bold"
+                              android:textSize="16sp"
+                              android:layout_weight=".4"
+                              android:gravity="center"
+                              android:layout_marginTop="5dp"/>
+                    <RadioGroup
+                            android:id="@+id/rdgGrupo2"
+                            android:orientation="horizontal"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:checkedButton="@+id/rb_renta"
+                            android:gravity="center"
+                            >
+                        <RadioButton
+                                android:id="@+id/rb_renta"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Renta"
+                                />
+                        <RadioButton
+                                android:id="@+id/rb_venta"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Venta" android:checked="false"/>
+                    </RadioGroup>
+                    <EditText android:layout_width="fill_parent"
+                              android:layout_height="wrap_content"
+                              android:id="@+id/txt_inmueble"
+                              android:hint="Tipo de Inmueble"
+                              android:padding="10dp"
+                              android:textSize="16sp"
+                              android:gravity="center"/>
+                    <EditText android:layout_width="fill_parent"
+                              android:layout_height="wrap_content"
+                              android:hint="$ Precio (*)"
+                              android:id="@+id/txt_precio"
+                              android:textSize="16sp"
+                              android:padding="10dp"
+                              android:inputType="number"
+                              android:gravity="center"/>
+                    <TextView android:layout_width="fill_parent"
+                              android:layout_height="wrap_content"
+                              android:text="Género: "
+                              android:textStyle="bold"
+                              android:textSize="16sp"
+                              android:layout_weight=".4"
+                              android:gravity="center"
+                              android:layout_marginTop="5dp"/>
+                    <RadioGroup
+                            android:id="@+id/rdgGrupo"
+                            android:orientation="horizontal"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:checkedButton="@+id/rb_fem"
+                            android:gravity="center"
+                            >
+                        <RadioButton
+                                android:id="@+id/rb_fem"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="F"
+                                />
+                        <RadioButton
+                                android:id="@+id/rb_male"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="M"/>
+                        <RadioButton
+                                android:id="@+id/rb_both"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Ambos"/>
+                    </RadioGroup>
+                </LinearLayout>
+            </LinearLayout>
+            <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="15dp" android:paddingRight="15dp" android:id="@+id/linear_photos">
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Fotos:"
+                        android:textStyle="bold"
+                        android:textSize="16sp"
+                        android:id="@+id/txt_two"
+                        />
+                <LinearLayout android:layout_width="fill_parent"
+                              android:layout_height="wrap_content"
+                              android:orientation="horizontal"
+                        >
+                    <ImageView android:layout_width="fill_parent"
+                               android:layout_height="105dp"
+                               android:id="@+id/photo1"
+                               android:layout_weight=".5"
+                               android:adjustViewBounds="true"
+                               android:src="@drawable/camera"/>
+                    <ImageView android:layout_width="fill_parent"
+                               android:layout_height="fill_parent"
+                               android:layout_weight=".5"
+                               android:id="@+id/photo2"
+                               android:adjustViewBounds="true"
+                               android:src="@drawable/camera"/>
+                    <ImageView android:layout_width="fill_parent"
+                               android:layout_height="fill_parent"
+                               android:layout_weight=".5"
+                               android:id="@+id/photo3"
+                               android:adjustViewBounds="true"
+                               android:src="@drawable/camera"/>
+                    <ImageView android:layout_width="fill_parent"
+                               android:layout_height="fill_parent"
+                               android:layout_weight=".5"
+                               android:id="@+id/photo4"
+                               android:adjustViewBounds="true"
+                               android:src="@drawable/camera"/>
+                </LinearLayout>
+            </LinearLayout>
+            <View android:layout_width="fill_parent"
+                  android:layout_height="2dp"
+                  android:background="@color/LightGrey"
+                  android:layout_marginLeft="10dp"
+                  android:layout_marginRight="10dp"/>
+            <EditText
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:id="@+id/txt_direccion"
+                    android:layout_gravity="center_horizontal"
+                    android:hint="Dirección (*)"
+                    />
+        </LinearLayout>
+    </ScrollView>
+    <ScrollView
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_weight=".4"
+            android:id="@+id/scrollView2"
+            android:visibility="gone">
+    <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:padding="15dp"
+            android:id="@+id/second_detail"
+            android:visibility="gone"
+            android:layout_weight=".1">
+            <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    >
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Descripción"
+                        android:id="@+id/lbl_desc"
+                        android:textStyle="bold"/>
+                <EditText
+                        android:layout_width="fill_parent"
+                        android:layout_height="100dp"
+                        android:hint="Descripción de Zona, Búsqeda, etc"
+                        android:id="@+id/txt_descripcion"
+                        android:layout_marginTop="5dp"/>
+            </LinearLayout>
+            <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Especificaciones"
+                    android:id="@+id/txt_especificaciones"
+                    android:textStyle="bold"
+                    android:layout_marginTop="15dp"/>
+            <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    >
+                <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:layout_weight=".5"
+                        android:layout_marginTop="5dp">
+                    <LinearLayout android:layout_width="fill_parent"
+                                  android:layout_height="wrap_content"
+                                  android:orientation="horizontal">
+                        <TextView
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Tamaño: "
+                                android:paddingTop="5dp"
+                                android:paddingBottom="5dp"
+                                android:layout_weight=".3"/>
+                        <EditText
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/txt_tamano"
+                                android:paddingTop="5dp"
+                                android:paddingBottom="5dp"
+                                android:layout_marginRight="5dp"
+                                android:inputType="numberDecimal"
+                                android:layout_weight=".5"/>
+                    </LinearLayout>
+
+                    <LinearLayout android:layout_width="fill_parent"
+                                  android:layout_height="wrap_content"
+                                  android:orientation="horizontal">
+                        <TextView
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"
+                                android:text="No. Plantas:"
+                                android:paddingBottom="5dp"
+                                android:paddingTop="5dp"
+                                android:layout_weight=".3"/>
+                        <EditText
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/txt_plantas"
+                                android:paddingTop="5dp"
+                                android:paddingBottom="5dp"
+                                android:layout_marginRight="5dp"
+                                android:inputType="numberDecimal"
+                                android:layout_weight=".5"/>
+                    </LinearLayout>
+
+                    <LinearLayout android:layout_width="fill_parent"
+                                  android:layout_height="wrap_content"
+                                  android:orientation="horizontal">
+                        <TextView
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"
+                                android:text="No. Cuartos: "
+                                android:paddingTop="5dp"
+                                android:paddingBottom="5dp"
+                                android:layout_weight=".3"/>
+                        <EditText
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/txt_cuartos"
+                                android:paddingTop="5dp"
+                                android:paddingBottom="5dp"
+                                android:layout_marginRight="5dp"
+                                android:inputType="numberDecimal"
+                                android:layout_weight=".5"/>
+                    </LinearLayout>
+
+                    <LinearLayout android:layout_width="fill_parent"
+                                  android:layout_height="wrap_content"
+                                  android:orientation="horizontal">
+                        <TextView
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"
+                                android:text="No. Baños"
+                                android:paddingTop="5dp"
+                                android:layout_weight=".3"/>
+                        <EditText
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/txt_banos"
+                                android:paddingTop="5dp"
+                                android:paddingBottom="5dp"
+                                android:layout_marginRight="5dp"
+                                android:inputType="numberDecimal"
+                                android:layout_weight=".5"/>
+                    </LinearLayout>
+                </LinearLayout>
+                <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:layout_weight=".5"
+                        android:layout_marginTop="5dp">
+                    <LinearLayout android:layout_width="fill_parent"
+                                  android:layout_height="wrap_content"
+                                  android:orientation="horizontal">
+                        <TextView
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"
+                                android:text="No. Cocina"
+                                android:paddingTop="5dp"
+                                android:paddingBottom="5dp"
+                                android:layout_weight=".3"/>
+                        <EditText
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/txt_cocina"
+                                android:paddingTop="5dp"
+                                android:paddingBottom="5dp"
+                                android:layout_marginRight="5dp"
+                                android:inputType="numberDecimal"
+                                android:layout_weight=".5"/>
+                    </LinearLayout>
+
+                    <LinearLayout android:layout_width="fill_parent"
+                                  android:layout_height="wrap_content"
+                                  android:orientation="horizontal">
+                        <TextView
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"
+                                android:text="No. Comedor"
+                                android:paddingTop="5dp"
+                                android:paddingBottom="5dp"
+                                android:layout_weight=".3"/>
+                        <EditText
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/txt_comedor"
+                                android:paddingTop="5dp"
+                                android:paddingBottom="5dp"
+                                android:layout_marginRight="5dp"
+                                android:inputType="numberDecimal"
+                                android:layout_weight=".5"/>
+                    </LinearLayout>
+
+                    <LinearLayout android:layout_width="fill_parent"
+                                  android:layout_height="wrap_content"
+                                  android:orientation="horizontal">
+                        <TextView
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"
+                                android:text="¿Amueblado?"
+                                android:paddingTop="5dp"
+                                android:paddingBottom="5dp"
+                                android:layout_weight=".2"/>
+                        <CheckBox android:layout_width="fill_parent"
+                                  android:layout_height="wrap_content"
+                                  android:id="@+id/amueblado"
+                                  android:layout_weight=".5"
+                                  android:gravity="center"
+                                  android:layout_gravity="center"/>
+                    </LinearLayout>
+
+                    <LinearLayout android:layout_width="fill_parent"
+                                  android:layout_height="wrap_content"
+                                  android:orientation="horizontal">
+                        <TextView
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Estacionamiento"
+                                android:paddingTop="5dp"
+                                android:layout_weight=".3"/>
+                        <EditText
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/txt_estacionamiento"
+                                android:paddingTop="5dp"
+                                android:paddingBottom="5dp"
+                                android:layout_marginRight="5dp"
+                                android:inputType="numberDecimal"
+                                android:layout_weight=".5"/>
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+            <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp">
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Notas Adicionales"
+                        android:id="@+id/lbl_adicional"
+                        android:textStyle="bold"/>
+                <EditText
+                        android:layout_width="fill_parent"
+                        android:layout_height="100dp"
+                        android:hint="Notas adicionales que se quieran agregar al departameno"
+                        android:id="@+id/txt_adicional"
+                        android:layout_marginTop="5dp"/>
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+    <GridView android:id="@+id/services_grid"
+              android:layout_width="fill_parent"
+              android:layout_height="wrap_content"
+              android:numColumns="auto_fit"
+              android:verticalSpacing="10dp"
+              android:horizontalSpacing="10dp"
+              android:columnWidth="105dp"
+              android:stretchMode="columnWidth"
+              android:gravity="center"
+              android:paddingTop="15dp"
+              android:paddingLeft="15dp"
+              android:paddingRight="15dp"
+              android:paddingBottom="10dp"
+              android:visibility="gone"
+              android:layout_weight=".1"
+              />
+    <Button android:layout_width="80dp"
+            android:layout_height="100dp"
+            android:background="@drawable/plus_service"
+            android:id="@+id/btn_plus"
+            android:visibility="gone"
+            android:layout_marginLeft="15dp"
+            android:layout_marginBottom="5dp"/>
+    <Button
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="Continuar"
+            android:id="@+id/btn_siguiente"
+            android:layout_weight=".0000001"
+            android:background="@drawable/ab_solid_roomme"
+            android:textColor="@color/MidnightBlue"
+            android:visibility="visible"
+            android:textStyle="bold"/>
+</LinearLayout>

@@ -69,6 +69,7 @@ public class LookMeAdpater extends ArrayAdapter<Users> {
         JSONObject profile = objeto.getJSONObject("profile");
         String idUser = "";
         double porcentaje = -1.0;
+
         if(me != null){
             porcentaje  = CBR.calculaCBR(me, objeto);
             porcentaje = (porcentaje * 360) / 100;
@@ -101,7 +102,6 @@ public class LookMeAdpater extends ArrayAdapter<Users> {
                 }else{
 
                 }
-
 
                 ImageLoader.getInstance().displayImage("http://graph.facebook.com/"+idUser+"/picture?type=large",
                         holder.male, app.options, app.animateFirstListener);

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+
+    <RelativeLayout
+            android:layout_width="140dp"
+            android:layout_height="150dp"
+            android:id="@+id/relative_grid"
+            android:background="@color/SkyBlue"
+            android:padding="2dp">
+        <ImageView
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:id="@+id/img_service"
+                android:src="@drawable/services"
+                android:padding="15dp"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="30dp"/>
+        <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="Nombre"
+                android:id="@+id/txt_name"
+                android:layout_marginTop="10dp"
+                android:layout_alignParentTop="true"
+                android:textStyle="bold"
+                android:gravity="left"
+                android:layout_marginLeft="10dp"
+                android:textColor="@color/Black"/>
+        <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/checkBox"
+                android:layout_marginLeft="37dp"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentRight="true"/>
+    </RelativeLayout>
+    <EditText
+            android:layout_width="140dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/txt_desc"
+            android:hint="Adicional"
+            android:gravity="center"
+            />
+</LinearLayout>
