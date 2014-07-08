@@ -42,6 +42,7 @@ public class MeLookRoomie extends SherlockActivity{
     private TextView percentageText, txt_name, txt_edad, txt_localidad, txt_genero;
     private ImageView gender_icon;
     private String idUser;
+    private JSONParser jsonParser;
 
     public void onCreate(Bundle savedInstance){
         super.onCreate(savedInstance);
@@ -59,6 +60,7 @@ public class MeLookRoomie extends SherlockActivity{
         txt_localidad = (TextView) findViewById(R.id.localidad);
         txt_genero = (TextView) findViewById(R.id.gender);
         gender_icon = (ImageView) findViewById(R.id.gender_icon);
+        jsonParser = new JSONParser();
 
         app = (Roome) getApplication();
         user = app.roomieSeleccionado;
@@ -74,12 +76,20 @@ public class MeLookRoomie extends SherlockActivity{
         ImageLoader.getInstance().displayImage("http://graph.facebook.com/"+idUser+"/picture?type=large", image,
                 app.options, app.animateFirstListener);
 
-        if(userParseInfo.getString("urlFacebookCover") != null){
+        String urlCover = "http://graph.facebook.com/"+idUser+"?fields=cover";
+        JSONObject json = jsonParser.makeHttpRequest(urlCover, "GET");
+        System.out.println("Salida->" + json.toString());
+
+        String cover = json.optString("source");
+        ImageLoader.getInstance().displayImage(cover, wall_image,
+                app.options2, app.animateFirstListener2);
+
+        /*if(userParseInfo.getString("urlFacebookCover") != null){
             ImageLoader.getInstance().displayImage(userParseInfo.getString("urlFacebookCover"), wall_image,
                     app.options2, app.animateFirstListener2);
         }else{
             wall_image.setImageDrawable(getBaseContext().getResources().getDrawable(R.drawable.background_rounded));
-        }
+        }*/
 
         porcentaje = (int)user.getPercentage();
 
