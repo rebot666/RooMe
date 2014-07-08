@@ -1,11 +1,13 @@
 package com.rebot.roomme;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.MenuItem;
+import com.parse.ParseGeoPoint;
 import com.parse.ParseUser;
 import com.rebot.roomme.Adapters.FragmentAdapter;
 import com.rebot.roomme.MeProfile.PublicacionNva;
@@ -84,12 +86,23 @@ public class SingleDepartment extends SherlockFragmentActivity {
         }
 
         if(item.getItemId() == R.id.share){
+            /*
             Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
             sharingIntent.setType("text/plain");
             String shareBody = "Here is the share content body";
             sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Subject Here");
             sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
             startActivity(Intent.createChooser(sharingIntent, "Share via"));
+            */
+            ParseGeoPoint geoPoint = app.dptoSeleccionado.getParseGeoPoint("location");
+            String myLatitude = String.valueOf(geoPoint.getLatitude());
+            String myLongitude = String.valueOf(geoPoint.getLongitude());
+            String labelLocation = app.dptoSeleccionado.getString("address");
+
+            String urlAddress = "http://maps.google.com/maps?q="+ myLatitude  +"," + myLongitude
+                    +"("+ labelLocation + ")&iwloc=A&hl=es";
+            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(urlAddress));
+            startActivity(intent);
             return true;
         }
 

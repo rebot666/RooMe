@@ -6,6 +6,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.View;
 import android.widget.*;
@@ -37,9 +38,12 @@ public class MelookActivity extends FragmentActivity {
     private LinearLayout no_info;
     private ProgressWheel loader;
 
-    private PullToRefreshListView people;
+    //private PullToRefreshListView people;
+    private ListView people;
 
     private LinearLayout no_connection;
+
+    private SwipeRefreshLayout swipeLayout;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -51,10 +55,26 @@ public class MelookActivity extends FragmentActivity {
         loading_info = (RelativeLayout) findViewById(R.id.loading_info);
         loader = (ProgressWheel) findViewById(R.id.pw_spinner);
 
-        people = (PullToRefreshListView) findViewById(R.id.listView);
+        //people = (PullToRefreshListView) findViewById(R.id.listView);
+        people = (ListView) findViewById(R.id.listView);
 
         no_info = (LinearLayout) findViewById(R.id.layout_no_info);
         no_connection = (LinearLayout) findViewById(R.id.layout_no_connection);
+
+        swipeLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_container);
+        swipeLayout.setColorScheme(R.color.rojo,
+                R.color.azul,
+                R.color.amarillo,
+                R.color.verde);
+        swipeLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                profiles.clear();
+                queryLoadData_roomies();
+            }
+        });
+
+
 
         profiles = new ArrayList<Users>();
 
@@ -67,6 +87,7 @@ public class MelookActivity extends FragmentActivity {
         }
 
 
+        /*
         people.setOnRefreshListener(new PullToRefreshListView.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -75,6 +96,7 @@ public class MelookActivity extends FragmentActivity {
 
             }
         });
+        */
 
         if (ParseUser.getCurrentUser() == null){
             //crouton = Crouton.makeText(MelookActivity.this, "Inicia sesión para ver compatibilidad", Style.ALERT);
@@ -136,7 +158,7 @@ public class MelookActivity extends FragmentActivity {
                         people.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                             @Override
                             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                                app.roomieSeleccionado = profiles.get(position - 1);
+                                app.roomieSeleccionado = profiles.get(position);
                                 Intent intent = new Intent(MelookActivity.this, MeLookRoomie.class);
                                 MelookActivity.this.startActivity(intent);
                             }
@@ -149,7 +171,8 @@ public class MelookActivity extends FragmentActivity {
                     loader.stopSpinning();
                 }
 
-                people.onRefreshComplete();
+                //people.onRefreshComplete();
+                swipeLayout.setRefreshing(false);
             }
         });
     }

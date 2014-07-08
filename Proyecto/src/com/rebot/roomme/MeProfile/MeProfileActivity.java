@@ -227,7 +227,7 @@ public class MeProfileActivity extends FragmentActivity {
             this.btn_borradores.setEnabled(false);
             this.btn_nuevo.setEnabled(false);
             this.btn_oferta.setEnabled(false);
-            this.btn_sign_facebook2.setVisibility(View.GONE);
+            //this.btn_sign_facebook2.setVisibility(View.GONE);
         }
     }
 

@@ -85,12 +85,25 @@
                     android:textColor="@color/dark_indigo"
                     />
         </LinearLayout>
-        <com.markupartist.android.widget.PullToRefreshListView
+        <android.support.v4.widget.SwipeRefreshLayout
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/swipe_container"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+            <ListView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/listView"
+                    android:divider="@android:color/transparent"
+                    android:fastScrollEnabled="true"
+                    />
+        </android.support.v4.widget.SwipeRefreshLayout>
+        <!--<com.markupartist.android.widget.PullToRefreshListView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/listView"
                 android:divider="@android:color/transparent"
                 android:fastScrollEnabled="true"
-                />
+                />-->
     </LinearLayout>
 </LinearLayout>

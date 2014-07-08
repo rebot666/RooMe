@@ -22,9 +22,9 @@
                 android:id="@+id/textView"
                 android:gravity="center_vertical|center_horizontal"
                 android:textStyle="bold"
-                android:textSize="22dp"
+                android:textSize="18dp"
                 android:layout_gravity="center"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="16dp"
                 android:textColor="#FE804D"
                 />
     </LinearLayout>
@@ -38,12 +38,16 @@
                 android:layout_height="wrap_content"
                 android:text="Descripción"
                 android:id="@+id/lbl_desc"
-                android:textStyle="bold"/>
+                android:textStyle="bold"
+                android:textSize="18dp"
+                />
         <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:text="New Text"
-                android:id="@+id/txt_descripcion" android:layout_marginTop="5dp"/>
+                android:id="@+id/txt_descripcion" android:layout_marginTop="5dp"
+                android:textSize="16dp"
+                />
     </LinearLayout>
     <TextView
             android:layout_width="fill_parent"
@@ -51,7 +55,9 @@
             android:text="Especificaciones"
             android:id="@+id/txt_especificaciones"
             android:textStyle="bold"
-            android:layout_marginTop="15dp"/>
+            android:layout_marginTop="15dp"
+            android:textSize="18dp"
+            />
     <LinearLayout
             android:orientation="horizontal"
             android:layout_width="fill_parent"
@@ -69,27 +75,35 @@
                     android:text="Tamaño15"
                     android:id="@+id/txt_tamano"
                     android:paddingTop="5dp"
-                    android:paddingBottom="5dp"/>
+                    android:paddingBottom="5dp"
+                    android:textSize="16dp"
+                    />
             <TextView
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:text="Plantas16"
                     android:id="@+id/txt_plantas"
                     android:paddingBottom="5dp"
-                    android:paddingTop="5dp"/>
+                    android:paddingTop="5dp"
+                    android:textSize="16dp"
+                    />
             <TextView
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:text="Cuartos15"
                     android:id="@+id/txt_cuartos"
                     android:paddingTop="5dp"
-                    android:paddingBottom="5dp"/>
+                    android:paddingBottom="5dp"
+                    android:textSize="16dp"
+                    />
             <TextView
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:text="Baños18"
                     android:id="@+id/txt_banos"
-                    android:paddingTop="5dp"/>
+                    android:paddingTop="5dp"
+                    android:textSize="16dp"
+                    />
         </LinearLayout>
         <LinearLayout
                 android:orientation="vertical"
@@ -103,27 +117,34 @@
                     android:text="Cocina18"
                     android:id="@+id/txt_cocina"
                     android:paddingTop="5dp"
-                    android:paddingBottom="5dp"/>
+                    android:paddingBottom="5dp"
+                    android:textSize="16dp"
+                    />
             <TextView
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:text="Comedor14"
                     android:id="@+id/txt_comedor"
                     android:paddingTop="5dp"
-                    android:paddingBottom="5dp"/>
+                    android:paddingBottom="5dp"
+                    android:textSize="16dp"
+                    />
             <TextView
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:text="Amueblado11"
                     android:id="@+id/txt_amueblado"
                     android:paddingTop="5dp"
-                    android:paddingBottom="5dp"/>
+                    android:paddingBottom="5dp"
+                    android:textSize="16dp"
+                    />
             <TextView
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:text="Estacionamiento2"
                     android:id="@+id/txt_estacionamiento"
                     android:paddingTop="5dp"
+                    android:textSize="16dp"
                     />
         </LinearLayout>
     </LinearLayout>
@@ -137,13 +158,17 @@
                 android:layout_height="wrap_content"
                 android:text="Notas Adicionales"
                 android:id="@+id/lbl_adicional"
-                android:textStyle="bold"/>
+                android:textStyle="bold"
+                android:textSize="18dp"
+                />
         <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:text="New Text"
                 android:id="@+id/txt_adicional"
-                android:layout_marginTop="5dp"/>
+                android:layout_marginTop="5dp"
+                android:textSize="16dp"
+                />
     </LinearLayout>
     <LinearLayout
             android:orientation="horizontal"
@@ -161,13 +186,17 @@
                     android:text="Usuario Desde:"
                     android:id="@+id/lbl_user_since"
                     android:textStyle="bold"
-                    android:layout_weight=".5"/>
+                    android:layout_weight=".5"
+                    android:textSize="18dp"
+                    />
             <TextView
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:text="New Text"
                     android:id="@+id/txt_user_since"
-                    android:paddingTop="5dp"/>
+                    android:paddingTop="5dp"
+                    android:textSize="16dp"
+                    />
         </LinearLayout>
         <LinearLayout
                 android:orientation="vertical"
@@ -179,13 +208,17 @@
                     android:layout_height="wrap_content"
                     android:text="Última Modificación"
                     android:id="@+id/lbl_modif"
-                    android:textStyle="bold" android:layout_weight=".5"/>
+                    android:textStyle="bold" android:layout_weight=".5"
+                    android:textSize="18dp"
+                    />
             <TextView
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:text="New Text"
                     android:id="@+id/txt_modif"
-                    android:paddingTop="5dp"/>
+                    android:paddingTop="5dp"
+                    android:textSize="16dp"
+                    />
         </LinearLayout>
     </LinearLayout>
     <LinearLayout android:layout_width="fill_parent"
@@ -197,6 +230,7 @@
                       android:layout_height="wrap_content"
                       android:text="Comentarios"
                       android:textStyle="bold"
+                      android:textSize="18dp"
                       />
             <ListView android:layout_width="fill_parent"
                       android:layout_height="fill_parent"

@@ -4,37 +4,55 @@
               android:orientation="vertical"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-              android:paddingRight="5dp" android:paddingTop="10dp" android:paddingBottom="5dp">
-
-    <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="fill_parent"
-            android:layout_height="150dp"
-            android:background="@color/mini_back"
-            android:layout_marginLeft="10dp"
-            android:paddingBottom="2dp" android:layout_marginRight="10dp" android:paddingLeft="5dp">
-        <RelativeLayout
+              android:padding="10dp"
+        >
+    <LinearLayout android:layout_width="fill_parent"
+                  android:layout_height="fill_parent"
+                  android:orientation="vertical"
+                  android:background="@drawable/card_background"
+            >
+        <LinearLayout
+                android:orientation="horizontal"
                 android:layout_width="fill_parent"
-                android:layout_height="fill_parent" android:layout_weight=".7"
-                android:layout_marginBottom="5dp" android:layout_marginTop="5dp">
-            <ImageView
+                android:layout_height="130dp"
+                >
+
+            <RelativeLayout
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent"
-                    android:id="@+id/img_depa"
-                    android:layout_gravity="left"
-                    android:scaleType="centerCrop"
-                    android:adjustViewBounds="true"/>
-            <ImageView
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
-                    android:id="@+id/ribbon_roomme"
-                    android:src="@drawable/r_room"/>
-        </RelativeLayout>
+                    >
+                <ImageView
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:id="@+id/img_depa"
+                        android:layout_gravity="left"
+                        android:scaleType="centerCrop"
+                        android:adjustViewBounds="true"
+                        android:layout_marginRight="5dp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginTop="5dp"
+                        />
+                <ImageView
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:id="@+id/ribbon_roomme"
+                        android:src="@drawable/r_room"
+                        android:scaleType="fitXY"
+                        android:gravity="top"
+                        android:layout_gravity="top"
+                        />
+            </RelativeLayout>
+
+        </LinearLayout>
         <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="fill_parent"
-                android:layout_height="fill_parent" android:layout_gravity="right"
-                android:paddingLeft="5dp" android:layout_weight=".4">
+                android:layout_height="fill_parent"
+                android:layout_gravity="right"
+                android:paddingLeft="15dp"
+                android:paddingRight="5dp"
+                android:paddingBottom="15dp"
+                android:layout_weight=".4">
             <LinearLayout
                     android:orientation="horizontal"
                     android:layout_width="fill_parent"
@@ -45,82 +63,136 @@
                         android:layout_width="fill_parent"
                         android:layout_height="fill_parent"
                         android:layout_weight=".15"
-                        android:layout_marginTop="10dp">
+                        >
                     <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="New Text"
                             android:id="@+id/txt_title"
                             android:textStyle="bold"
                             android:layout_weight=".5"
-                            android:textSize="16sp" android:singleLine="false" android:gravity="center_vertical"/>
+                            android:textSize="18dp"
+                            android:singleLine="false"
+                            android:gravity="center_vertical"
+                            android:layout_marginTop="5dp"
+                            />
                     <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="New Text"
-                            android:id="@+id/txt_direccion"
-                            android:gravity="center_vertical" android:layout_weight=".5" android:textSize="16sp"/>
+                            android:id="@+id/txt_direccion_lista"
+                            android:gravity="center_vertical"
+                            android:layout_weight=".5"
+                            android:layout_marginTop="10dp"
+                            android:textSize="18dp"/>
                 </LinearLayout>
                 <RelativeLayout
                         android:layout_width="wrap_content"
                         android:layout_height="fill_parent">
                     <ImageView
-                            android:layout_width="35dp"
+                            android:layout_width="30dp"
                             android:layout_height="65dp"
                             android:id="@+id/ribbon_destacado"
-                            android:layout_weight=".68"
-                            android:background="@drawable/ribbon_d"/>
+                            android:background="@drawable/ribbon_d"
+                            android:gravity="top"
+                            android:layout_gravity="top"
+                            />
                     <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:id="@+id/txt_count" android:gravity="center_vertical|center_horizontal"
+                            android:id="@+id/txt_count"
+                            android:gravity="center_vertical|center_horizontal"
                             android:layout_centerHorizontal="true"
-                            android:layout_marginTop="20dp" android:textStyle="bold" android:textColor="@color/White"/>
+                            android:layout_marginTop="20dp"
+                            android:textStyle="bold"
+                            android:textColor="@color/White"/>
                 </RelativeLayout>
             </LinearLayout>
+            <LinearLayout android:layout_width="fill_parent"
+                          android:layout_height="fill_parent"
+                          android:orientation="vertical"
+                          android:layout_marginTop="10dp"
+                    >
+                <LinearLayout android:layout_width="fill_parent"
+                              android:layout_height="wrap_content"
+                              android:orientation="horizontal"
+                              android:visibility="gone"
+                        >
+                    <TextView android:layout_width="fill_parent"
+                              android:layout_height="fill_parent"
+                              android:text="Buscando:"
+                              android:layout_weight=".7"
+                              android:layout_gravity="center_vertical"
+                              android:gravity="center_vertical"
+                            />
+                    <LinearLayout android:layout_width="fill_parent"
+                                  android:layout_height="wrap_content"
+                                  android:layout_weight=".3"
+                            >
+                        <ImageView
+                                android:layout_width="45dp"
+                                android:layout_height="45dp"
+                                android:id="@+id/img_sex"
+                                android:adjustViewBounds="true"
+                                android:scaleType="fitXY"
+
+                                />
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <TextView
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:id="@+id/txt_price"
+                        android:layout_marginTop="10dp"
+                        android:textSize="18dp"
+                        android:layout_gravity="right"
+                        android:gravity="right"
+                        android:textStyle="bold|italic"
+                        />
+
+            </LinearLayout>
+
+            <!--NO USADO-->
             <LinearLayout
                     android:orientation="horizontal"
                     android:layout_width="fill_parent"
-                    android:layout_height="fill_parent" android:layout_weight=".55">
-                <ImageView
-                        android:layout_width="fill_parent"
-                        android:layout_height="fill_parent"
-                        android:id="@+id/img_sex"
-                        android:layout_weight=".55"
-                        android:adjustViewBounds="true"
-                        android:padding="8dp"/>
+                    android:layout_height="fill_parent"
+                    android:visibility="gone"
+                    >
+
+
                 <View android:layout_width="1dp"
                       android:layout_height="fill_parent"
                       android:background="@color/dark_indigo"
                       android:layout_gravity="center"
                       android:id="@+id/divider"
                       android:layout_marginTop="5dp"/>
-                <Button
-                        android:layout_width="fill_parent"
-                        android:layout_height="fill_parent"
-                        android:id="@+id/btn_fav"
-                        android:layout_weight=".5"
-                        android:background="@drawable/home_fav"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginRight="10dp"
-                        android:paddingTop="5dp"
-                        android:focusable="false"
-                        />
+                <LinearLayout android:layout_width="fill_parent"
+                              android:layout_height="wrap_content"
+                              android:layout_weight=".5"
+                        >
+                    <Button
+                            android:layout_width="35dp"
+                            android:layout_height="35dp"
+                            android:id="@+id/btn_fav"
+                            android:background="@drawable/home_fav"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginRight="10dp"
+                            android:paddingTop="5dp"
+                            android:focusable="false"
+                            />
+                </LinearLayout>
+
                 <View android:layout_width="1dp"
                       android:layout_height="fill_parent"
                       android:background="@color/dark_indigo"
                       android:layout_gravity="center"
                       android:id="@+id/divider2"
                       android:layout_marginTop="5dp"/>
-                <TextView
-                        android:layout_width="fill_parent"
-                        android:layout_height="fill_parent"
-                        android:text="New Text"
-                        android:id="@+id/txt_price"
-                        android:layout_weight=".4"
-                        android:gravity="center_vertical|center_horizontal"
-                        />
+
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>
+
+
 </LinearLayout>

@@ -1,35 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:orientation="vertical"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               android:background="@color/back_purple">
-    <LinearLayout android:layout_width="fill_parent"
-                  android:layout_height="wrap_content"
-                  android:orientation="horizontal"
-                  android:paddingLeft="20dp"
-                  android:paddingRight="20dp"
-                  android:paddingTop="5dp"
-                  android:paddingBottom="5dp"
-                  >
-        <ImageView
-                android:layout_width="85dp"
-                android:layout_height="85dp"
-                android:id="@+id/img_user"
-                android:padding="10dp"
-                />
-        <TextView
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:text="New Text"
-                android:id="@+id/txt_user_name"
-                android:gravity="center_vertical|center_horizontal"
-                android:textStyle="bold"
-                android:textSize="17sp"
-                android:textColor="@color/Black"
-                />
-    </LinearLayout>
     <LinearLayout android:layout_width="fill_parent"
                   android:layout_height="fill_parent"
                   android:id="@+id/no_connection"
@@ -53,130 +28,187 @@
                 android:textColor="#FE804D"
                 />
     </LinearLayout>
+    <ScrollView android:layout_width="fill_parent" android:layout_height="fill_parent">
+        <LinearLayout android:layout_width="fill_parent"
+                      android:layout_height="fill_parent"
+                      android:orientation="vertical"
+                >
+            <LinearLayout android:layout_width="fill_parent"
+                          android:layout_height="wrap_content"
+                          android:orientation="horizontal"
+                          android:paddingLeft="20dp"
+                          android:paddingRight="20dp"
+                          android:paddingTop="5dp"
+                          android:paddingBottom="5dp"
+                    >
+                <ImageView
+                        android:layout_width="85dp"
+                        android:layout_height="85dp"
+                        android:id="@+id/img_user"
+                        android:padding="10dp"
+                        />
+                <TextView
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:text="New Text"
+                        android:id="@+id/txt_user_name"
+                        android:gravity="center_vertical|center_horizontal"
+                        android:textStyle="bold"
+                        android:textSize="17sp"
+                        android:textColor="@color/Black"
+                        />
+            </LinearLayout>
+
+            <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:paddingTop="2dp"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp"
+                    android:paddingBottom="15dp"
+                    >
+                <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content">
+                    <TextView
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Correo Electrónico (*)"
+                            android:id="@+id/lbl_email" android:visibility="visible"
+                            android:textSize="18dp"
+                            />
+                    <EditText
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="textEmailAddress"
+                            android:ems="10"
+                            android:id="@+id/txt_email"/>
+                </LinearLayout>
+                <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content" android:layout_marginTop="15dp">
+                    <LinearLayout
+                            android:orientation="horizontal"
+                            android:layout_width="fill_parent"
+                            android:layout_height="fill_parent">
+                        <TextView
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Teléfono"
+                                android:id="@+id/lbl_tel"
+                                android:layout_weight=".5"
+                                android:visibility="visible"
+                                android:textSize="18dp"
+                                />
+                        <CheckBox
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="WhatsApp?"
+                                android:id="@+id/ch_whats"
+                                android:textSize="18dp"
+                                />
+                    </LinearLayout>
+                    <EditText
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="phone"
+                            android:ems="10"
+                            android:id="@+id/txt_tel"/>
+                </LinearLayout>
+                <TextView android:layout_width="fill_parent"
+                          android:layout_height="wrap_content"
+                          android:layout_marginTop="10dp"
+                          android:textColor="@color/Blue"
+                          android:text="@string/tel_alterno"
+                          android:id="@+id/text_alterno"
+                          android:textSize="18dp"
+                        />
+                <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/linear_tel2"
+                        android:visibility="gone">
+                    <LinearLayout
+                            android:orientation="horizontal"
+                            android:layout_width="fill_parent"
+                            android:layout_height="fill_parent">
+                        <TextView
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Teléfono 2"
+                                android:id="@+id/lbl_tel2"
+                                android:layout_weight=".5"
+                                android:textSize="18dp"
+                                />
+                        <CheckBox
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="WhatsApp?"
+                                android:id="@+id/ch_whats2"
+                                android:textSize="18dp"
+                                />
+                    </LinearLayout>
+                    <EditText
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="phone"
+                            android:ems="10"
+                            android:id="@+id/txt_tel2"/>
+
+                </LinearLayout>
+                <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15dp"
+                        android:layout_weight=".1">
+                    <TextView
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Mensaje"
+                            android:id="@+id/lbl_msnj"
+                            android:textSize="18dp"
+                            />
+                    <EditText
+                            android:layout_width="fill_parent"
+                            android:layout_height="fill_parent"
+                            android:id="@+id/txt_comment"
+                            android:layout_marginBottom="50dp"
+                            />
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+
     <LinearLayout
             android:orientation="vertical"
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:paddingTop="2dp"
-            android:paddingLeft="20dp"
-            android:paddingRight="20dp"
-            android:paddingBottom="15dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
             >
-        <LinearLayout
-                android:orientation="vertical"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content">
-            <TextView
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Correo Electrónico (*)"
-                    android:id="@+id/lbl_email" android:visibility="visible"/>
-            <EditText
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="textEmailAddress"
-                    android:ems="10"
-                    android:id="@+id/txt_email"/>
-        </LinearLayout>
-        <LinearLayout
-                android:orientation="vertical"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content" android:layout_marginTop="15dp">
-            <LinearLayout
-                    android:orientation="horizontal"
-                    android:layout_width="fill_parent"
-                    android:layout_height="fill_parent">
-                <TextView
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Teléfono"
-                        android:id="@+id/lbl_tel" android:layout_weight=".5" android:visibility="visible"/>
-                <CheckBox
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="WhatsApp?"
-                        android:id="@+id/ch_whats"/>
-            </LinearLayout>
-            <EditText
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="phone"
-                    android:ems="10"
-                    android:id="@+id/txt_tel"/>
-        </LinearLayout>
-        <TextView android:layout_width="fill_parent"
-                  android:layout_height="wrap_content"
-                  android:layout_marginTop="10dp"
-                  android:textColor="@color/Blue"
-                  android:text="@string/tel_alterno"
-                  android:id="@+id/text_alterno"
-                  />
-        <LinearLayout
-                android:orientation="vertical"
+        <Button
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/linear_tel2"
-                android:visibility="gone">
-            <LinearLayout
-                    android:orientation="horizontal"
-                    android:layout_width="fill_parent"
-                    android:layout_height="fill_parent">
-                <TextView
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Teléfono 2"
-                        android:id="@+id/lbl_tel2" android:layout_weight=".5"/>
-                <CheckBox
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="WhatsApp?"
-                        android:id="@+id/ch_whats2"/>
-            </LinearLayout>
-            <EditText
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="phone"
-                    android:ems="10"
-                    android:id="@+id/txt_tel2"/>
-
-        </LinearLayout>
-        <LinearLayout
-                android:orientation="vertical"
+                android:background="@drawable/btn_oferta_background"
+                android:text="Enviar Oferta"
+                android:id="@+id/btn_enviar"
+                android:textColor="@color/White"
+                android:textStyle="bold"
+                />
+        <Button
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:layout_weight=".1">
-            <TextView
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Mensaje"
-                    android:id="@+id/lbl_msnj"/>
-            <EditText
-                    android:layout_width="fill_parent"
-                    android:layout_height="fill_parent"
-                    android:id="@+id/txt_comment"/>
-        </LinearLayout>
-        <LinearLayout
-                android:orientation="vertical"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content">
-            <Button
-                    android:layout_width="fill_parent"
-                    android:layout_height="40dp"
-                    android:background="@color/SeaGreen"
-                    android:text="Enviar Oferta"
-                    android:id="@+id/btn_enviar"
-                    android:textColor="@color/White"
-                    android:textStyle="bold"
-                    android:layout_marginTop="10dp"/>
-            <Button
-                    android:layout_width="fill_parent"
-                    android:background="@color/Red"
-                    android:textColor="@color/White"
-                    android:layout_height="40dp"
-                    android:text="Reportar Usuario"
-                    android:id="@+id/btn_reporte"
-                    android:layout_marginTop="10dp"/>
-        </LinearLayout>
+                android:background="@color/Red"
+                android:textColor="@color/White"
+                android:layout_height="40dp"
+                android:text="Reportar Usuario"
+                android:id="@+id/btn_reporte"
+                android:layout_marginTop="10dp"
+                android:visibility="gone"
+                />
     </LinearLayout>
-</LinearLayout>
+
+</RelativeLayout>

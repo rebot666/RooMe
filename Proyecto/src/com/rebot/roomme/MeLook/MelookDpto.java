@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.View;
 import android.widget.*;
@@ -61,8 +62,11 @@ public class MelookDpto extends FragmentActivity implements
     private LinearLayout no_info;
     private ProgressWheel loader;
 
-    private PullToRefreshListView people;
+    //private PullToRefreshListView people;
+    private ListView people;
     private LinearLayout no_connection;
+
+    private SwipeRefreshLayout swipeLayout;
 
     @Override
     public void onCreate(Bundle savedInstance){
@@ -79,9 +83,15 @@ public class MelookDpto extends FragmentActivity implements
         linear_options = (LinearLayout) findViewById(R.id.tab_options);
         loading_info = (RelativeLayout) findViewById(R.id.loading_info);
         loader = (ProgressWheel) findViewById(R.id.pw_spinner);
-        people = (PullToRefreshListView) findViewById(R.id.listView);
+        people = (ListView) findViewById(R.id.listView);
         no_info = (LinearLayout) findViewById(R.id.layout_no_info);
         no_connection = (LinearLayout) findViewById(R.id.layout_no_connection);
+
+        swipeLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_container);
+        swipeLayout.setColorScheme(R.color.rojo,
+                R.color.azul,
+                R.color.amarillo,
+                R.color.verde);
 
         dptos = new ArrayList<ParseObject>();
 
@@ -117,7 +127,17 @@ public class MelookDpto extends FragmentActivity implements
             no_connection.setVisibility(View.VISIBLE);
         }
 
+        /*
         people.setOnRefreshListener(new PullToRefreshListView.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                dptos.clear();
+                queryLoadData_dptos();
+            }
+        });
+        */
+
+        swipeLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 dptos.clear();
@@ -211,12 +231,13 @@ public class MelookDpto extends FragmentActivity implements
                             people.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                                 @Override
                                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                                    app.dptoSeleccionado = dptos.get(position - 1);
+                                    app.dptoSeleccionado = dptos.get(position);
                                     Intent intent = new Intent(MelookDpto.this, SingleDepartment.class);
                                     MelookDpto.this.startActivity(intent);
                                 }
                             });
-                            people.onRefreshComplete();
+                            //people.onRefreshComplete();
+                            swipeLayout.setRefreshing(false);
                             setUpMap();
                         }
                     } else {
@@ -224,7 +245,8 @@ public class MelookDpto extends FragmentActivity implements
                         loading_info.setVisibility(View.GONE);
                         no_info.setVisibility(View.VISIBLE);
                         loader.stopSpinning();
-                        people.onRefreshComplete();
+                        //people.onRefreshComplete();
+                        swipeLayout.setRefreshing(false);
                     }
                 }
             });
@@ -233,7 +255,8 @@ public class MelookDpto extends FragmentActivity implements
             loading_info.setVisibility(View.GONE);
             no_info.setVisibility(View.VISIBLE);
             loader.stopSpinning();
-            people.onRefreshComplete();
+            //people.onRefreshComplete();
+            swipeLayout.setRefreshing(false);
         }
     }
 

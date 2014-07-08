@@ -48,7 +48,7 @@ public class DepartmentAdapter extends ArrayAdapter<ParseObject> {
             holder.department = (ImageView) row.findViewById(R.id.img_depa);
             holder.title_dpto = (TextView) row.findViewById(R.id.txt_title);
             holder.price_dpto = (TextView) row.findViewById(R.id.txt_price);
-            holder.address_dpto = (TextView) row.findViewById(R.id.txt_direccion);
+            holder.address_dpto = (TextView) row.findViewById(R.id.txt_direccion_lista);
             holder.txt_count = (TextView) row.findViewById(R.id.txt_count);
             holder.img_sex = (ImageView) row.findViewById(R.id.img_sex);
             holder.ribbon_destacado = (ImageView) row.findViewById(R.id.ribbon_destacado);
@@ -73,9 +73,9 @@ public class DepartmentAdapter extends ArrayAdapter<ParseObject> {
         if(sex.equalsIgnoreCase("B")){
             holder.img_sex.setImageResource(R.drawable.both);
         } else if(sex.equalsIgnoreCase("F")){
-            holder.img_sex.setImageResource(R.drawable.female);
+            holder.img_sex.setImageResource(R.drawable.female_icon);
         } else if(sex.equalsIgnoreCase("M")){
-            holder.img_sex.setImageResource(R.drawable.male);
+            holder.img_sex.setImageResource(R.drawable.male_icon);
         }
 
         if(!count){
