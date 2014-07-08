@@ -1,7 +1,9 @@
 package com.rebot.roomme;
 
 import android.annotation.SuppressLint;
+import android.app.ProgressDialog;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
@@ -16,11 +18,17 @@ import com.facebook.Session;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.parse.ParseFacebookUtils;
 import com.parse.ParseUser;
+import com.rebot.roomme.MeLook.MelookActivity;
 import com.rebot.roomme.Models.Users;
 import com.todddavies.components.progressbar.ProgressWheel;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.URL;
+import java.net.URLConnection;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.text.SimpleDateFormat;
@@ -42,7 +50,6 @@ public class MeLookRoomie extends SherlockActivity{
     private TextView percentageText, txt_name, txt_edad, txt_localidad, txt_genero;
     private ImageView gender_icon;
     private String idUser;
-    private JSONParser jsonParser;
 
     public void onCreate(Bundle savedInstance){
         super.onCreate(savedInstance);
@@ -60,7 +67,6 @@ public class MeLookRoomie extends SherlockActivity{
         txt_localidad = (TextView) findViewById(R.id.localidad);
         txt_genero = (TextView) findViewById(R.id.gender);
         gender_icon = (ImageView) findViewById(R.id.gender_icon);
-        jsonParser = new JSONParser();
 
         app = (Roome) getApplication();
         user = app.roomieSeleccionado;
@@ -75,21 +81,6 @@ public class MeLookRoomie extends SherlockActivity{
         }
         ImageLoader.getInstance().displayImage("http://graph.facebook.com/"+idUser+"/picture?type=large", image,
                 app.options, app.animateFirstListener);
-
-        String urlCover = "http://graph.facebook.com/"+idUser+"?fields=cover";
-        JSONObject json = jsonParser.makeHttpRequest(urlCover, "GET");
-        System.out.println("Salida->" + json.toString());
-
-        String cover = json.optString("source");
-        ImageLoader.getInstance().displayImage(cover, wall_image,
-                app.options2, app.animateFirstListener2);
-
-        /*if(userParseInfo.getString("urlFacebookCover") != null){
-            ImageLoader.getInstance().displayImage(userParseInfo.getString("urlFacebookCover"), wall_image,
-                    app.options2, app.animateFirstListener2);
-        }else{
-            wall_image.setImageDrawable(getBaseContext().getResources().getDrawable(R.drawable.background_rounded));
-        }*/
 
         porcentaje = (int)user.getPercentage();
 
@@ -136,6 +127,8 @@ public class MeLookRoomie extends SherlockActivity{
             txt_edad.setVisibility(View.GONE);
         }
 
+        InternetConnection connection = new InternetConnection();
+        connection.execute();
     }
 
     public static int cumpleanos(String current){
@@ -220,5 +213,55 @@ public class MeLookRoomie extends SherlockActivity{
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private class InternetConnection extends AsyncTask<String,Void,String> {
+        private ProgressDialog pd;
+        private JSONObject images;
+
+        @Override
+        protected void onPreExecute(){
+            //pd = ProgressDialog.show(Melo.this, getString(R.string.lblAuth) ,getString(R.string.lblSigning),true,false,null);
+        }
+
+        @Override
+        protected String doInBackground(String... urls) {
+            String response = "";
+
+            String urlCover = "http://graph.facebook.com/"+idUser+"?fields=cover";
+
+            URL url = null;
+            try {
+                url = new URL(urlCover);
+                URLConnection urlConnection = url.openConnection();
+                InputStream in = urlConnection.getInputStream();
+                InputStreamReader readerin = new InputStreamReader(in);
+                BufferedReader reader = new BufferedReader(readerin);
+
+                String res = "";
+                for (String line = null; (line = reader.readLine()) != null;) {
+                    res +=line;
+                }
+
+                images = new JSONObject(res);
+                //System.out.println("Salida->" + contactos.toString());
+            } catch (Exception e){
+
+            }
+
+            return response;  //To change body of implemented methods use File | Settings | File Templates.
+        }
+
+        @Override
+        protected void onPostExecute(String result){
+            try {
+                String cover = images.optJSONObject("cover").optString("source");
+                ImageLoader.getInstance().displayImage(cover, wall_image,
+                        app.options2, app.animateFirstListener2);
+            } catch (Exception e){
+                wall_image.setImageDrawable(getBaseContext().getResources().getDrawable(R.drawable.background_rounded));
+            }
+
+        }
     }
 }
