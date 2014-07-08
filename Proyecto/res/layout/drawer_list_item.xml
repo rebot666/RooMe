@@ -3,17 +3,20 @@
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
               android:orientation="horizontal"
-              android:padding="15dp"
+              android:padding="10dp"
         >
 
     <ImageView
             android:id="@+id/icon"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:adjustViewBounds="true" />
+            android:adjustViewBounds="true"
+            android:layout_gravity="center_vertical"
+            android:gravity="center_vertical"
+            />
 
     <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:gravity="center_vertical|left"
             android:orientation="vertical"
@@ -22,12 +25,12 @@
 
         <TextView
                 android:id="@+id/title"
-                android:layout_width="wrap_content"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:textColor="@color/White"
                 android:ellipsize="end"
-                android:singleLine="true"
-                android:textSize="20dp"
+                android:singleLine="false"
+                android:textSize="16dp"
                 android:gravity="center_vertical"
                 android:layout_marginLeft="5dp"
                 />

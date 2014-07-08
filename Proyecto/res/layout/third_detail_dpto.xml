@@ -76,7 +76,8 @@
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
                             android:text="Correo Electrónico (*)"
-                            android:id="@+id/lbl_email" android:visibility="visible"
+                            android:id="@+id/lbl_email"
+                            android:visibility="gone"
                             android:textSize="18dp"
                             />
                     <EditText
@@ -84,7 +85,9 @@
                             android:layout_height="wrap_content"
                             android:inputType="textEmailAddress"
                             android:ems="10"
-                            android:id="@+id/txt_email"/>
+                            android:id="@+id/txt_email"
+                            android:hint="Correo Electrónico (*)"
+                            />
                 </LinearLayout>
                 <LinearLayout
                         android:orientation="vertical"
@@ -100,9 +103,17 @@
                                 android:text="Teléfono"
                                 android:id="@+id/lbl_tel"
                                 android:layout_weight=".5"
-                                android:visibility="visible"
+                                android:visibility="gone"
                                 android:textSize="18dp"
                                 />
+                        <EditText
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight=".5"
+                                android:hint="Teléfono"
+                                android:inputType="phone"
+                                android:ems="10"
+                                android:id="@+id/txt_tel"/>
                         <CheckBox
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -111,12 +122,7 @@
                                 android:textSize="18dp"
                                 />
                     </LinearLayout>
-                    <EditText
-                            android:layout_width="fill_parent"
-                            android:layout_height="wrap_content"
-                            android:inputType="phone"
-                            android:ems="10"
-                            android:id="@+id/txt_tel"/>
+
                 </LinearLayout>
                 <TextView android:layout_width="fill_parent"
                           android:layout_height="wrap_content"
@@ -143,6 +149,16 @@
                                 android:id="@+id/lbl_tel2"
                                 android:layout_weight=".5"
                                 android:textSize="18dp"
+                                android:visibility="gone"
+                                />
+                        <EditText
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"
+                                android:inputType="phone"
+                                android:ems="10"
+                                android:id="@+id/txt_tel2"
+                                android:layout_weight=".5"
+                                android:hint="Teléfono 2"
                                 />
                         <CheckBox
                                 android:layout_width="wrap_content"
@@ -152,12 +168,7 @@
                                 android:textSize="18dp"
                                 />
                     </LinearLayout>
-                    <EditText
-                            android:layout_width="fill_parent"
-                            android:layout_height="wrap_content"
-                            android:inputType="phone"
-                            android:ems="10"
-                            android:id="@+id/txt_tel2"/>
+
 
                 </LinearLayout>
                 <LinearLayout
@@ -172,12 +183,16 @@
                             android:text="Mensaje"
                             android:id="@+id/lbl_msnj"
                             android:textSize="18dp"
+                            android:visibility="gone"
                             />
                     <EditText
                             android:layout_width="fill_parent"
                             android:layout_height="fill_parent"
                             android:id="@+id/txt_comment"
                             android:layout_marginBottom="50dp"
+                            android:hint="Mensaje"
+                            android:maxLines="5"
+                            android:lines="5"
                             />
                 </LinearLayout>
             </LinearLayout>

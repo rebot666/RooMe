@@ -148,6 +148,7 @@
                         android:layout_gravity="right"
                         android:gravity="right"
                         android:textStyle="bold|italic"
+                        android:paddingRight="5dp"
                         />
 
             </LinearLayout>

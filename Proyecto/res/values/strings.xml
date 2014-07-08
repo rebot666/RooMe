@@ -8,10 +8,10 @@
         DEPARTAMENTOS QUE TU NECESITAS
     </string>
     <string-array name="drawer_options">
-        <item>LookMe</item>
-        <item>MeFavs</item>
-        <item>Me</item>
-        <item>MeGo</item>
+        <item>Roommies/Departamentos</item>
+        <item>Favoritos</item>
+        <item>Perfil</item>
+        <item>Nueva Publicación</item>
     </string-array>
 
     <string-array name="title_options">

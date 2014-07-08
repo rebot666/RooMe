@@ -208,8 +208,10 @@
                     android:layout_height="wrap_content"
                     android:text="Última Modificación"
                     android:id="@+id/lbl_modif"
-                    android:textStyle="bold" android:layout_weight=".5"
+                    android:textStyle="bold"
+                    android:layout_weight=".5"
                     android:textSize="18dp"
+                    android:visibility="gone"
                     />
             <TextView
                     android:layout_width="fill_parent"
@@ -218,6 +220,7 @@
                     android:id="@+id/txt_modif"
                     android:paddingTop="5dp"
                     android:textSize="16dp"
+                    android:visibility="gone"
                     />
         </LinearLayout>
     </LinearLayout>
