@@ -69,43 +69,61 @@ public class ContactoActivity extends FragmentActivity {
 
         final ParseUser currentUser = ParseUser.getCurrentUser();
 
-        btn_enviar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(currentUser != null){
-                    String comment = txt_comments.getText().toString();
-                    String phone = txt_phone.getText().toString();
-                    String email = txt_email.getText().toString();
-                    Boolean whats = checkBox.isChecked();
+        if(app.user){
+            btn_enviar.setVisibility(View.GONE);
+        }else{
+            btn_enviar.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(currentUser != null){
+                        String comment = txt_comments.getText().toString();
+                        String phone = txt_phone.getText().toString();
+                        String email = txt_email.getText().toString();
+                        Boolean whats = checkBox.isChecked();
 
-                    if(email != null || email.equalsIgnoreCase("")){
-                        ParseObject offer = new ParseObject("Ofertas");
-                        offer.put("dpto", dpto.getObjectId());
-                        offer.put("owner", dpto.get("owner"));
-                        offer.put("who", currentUser.getObjectId());
+                        if(email != null || email.equalsIgnoreCase("")){
+                            ParseObject offer = new ParseObject("Ofertas");
+                            offer.put("dpto", dpto.getObjectId());
+                            offer.put("owner", dpto.get("owner"));
+                            offer.put("who", currentUser.getObjectId());
 
-                        if(comment == null){
-                            comment = "";
+                            if(comment == null){
+                                comment = "";
+                            }
+                            offer.put("comments", comment);
+
+                            if(phone == null){
+                                phone = "";
+                            }
+                            offer.put("phone", phone);
+                            offer.put("whatsap", whats);
+
+                            if(linear_alterno.getVisibility() == View.VISIBLE){
+                                offer.put("phone2", txt_phone_2.getText());
+                                offer.put("whats2", checkBox_2.isChecked());
+                            }
+
+                            offer.saveInBackground();
+                        } else {
+                            View view = getLayoutInflater().inflate(R.layout.crouton_custom_view, null);
+                            TextView title = (TextView) view.findViewById(R.id.title);
+                            TextView subtitle = (TextView) view.findViewById(R.id.subtitle);
+                            title.setText("Favor de llenar los campos requeridos");
+                            subtitle.setVisibility(View.GONE);
+                            crouton = Crouton.make(ContactoActivity.this, view);
+                            crouton.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    crouton.cancel();
+                                }
+                            });
+                            crouton.show();
                         }
-                        offer.put("comments", comment);
-
-                        if(phone == null){
-                            phone = "";
-                        }
-                        offer.put("phone", phone);
-                        offer.put("whatsap", whats);
-
-                        if(linear_alterno.getVisibility() == View.VISIBLE){
-                            offer.put("phone2", txt_phone_2.getText());
-                            offer.put("whats2", checkBox_2.isChecked());
-                        }
-
-                        offer.saveInBackground();
                     } else {
                         View view = getLayoutInflater().inflate(R.layout.crouton_custom_view, null);
                         TextView title = (TextView) view.findViewById(R.id.title);
                         TextView subtitle = (TextView) view.findViewById(R.id.subtitle);
-                        title.setText("Favor de llenar los campos requeridos");
+                        title.setText(getResources().getString(R.string.user_enrolled));
                         subtitle.setVisibility(View.GONE);
                         crouton = Crouton.make(ContactoActivity.this, view);
                         crouton.setOnClickListener(new View.OnClickListener() {
@@ -116,23 +134,10 @@ public class ContactoActivity extends FragmentActivity {
                         });
                         crouton.show();
                     }
-                } else {
-                    View view = getLayoutInflater().inflate(R.layout.crouton_custom_view, null);
-                    TextView title = (TextView) view.findViewById(R.id.title);
-                    TextView subtitle = (TextView) view.findViewById(R.id.subtitle);
-                    title.setText(getResources().getString(R.string.user_enrolled));
-                    subtitle.setVisibility(View.GONE);
-                    crouton = Crouton.make(ContactoActivity.this, view);
-                    crouton.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            crouton.cancel();
-                        }
-                    });
-                    crouton.show();
                 }
-            }
-        });
+            });
+        }
+
 
         txt_alterno.setOnClickListener(new View.OnClickListener() {
             @Override

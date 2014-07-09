@@ -3,10 +3,7 @@ package com.rebot.roomme.Adapters;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import com.rebot.roomme.DptoSingle.ContactHostFragment;
-import com.rebot.roomme.DptoSingle.FirstDetailHostFragment;
-import com.rebot.roomme.DptoSingle.SecondHostFragment;
-import com.rebot.roomme.DptoSingle.ServicesHostFragment;
+import com.rebot.roomme.DptoSingle.*;
 
 /**
  * Created by Strike on 6/5/14.
@@ -17,7 +14,7 @@ public class FragmentAdapter extends FragmentPagerAdapter {
 
     public FragmentAdapter(FragmentManager fm) {
         super(fm);
-        titles = new String[] {"Departamento","Detalles","Servicios","Contacto"};
+        titles = new String[] {"Departamento","Detalles","Servicios","Contacto", "Comentarios"};
         mCount = titles.length;
     }
 
@@ -36,6 +33,9 @@ public class FragmentAdapter extends FragmentPagerAdapter {
                 break;
             case 3:
                 myFragment = new ContactHostFragment();
+                break;
+            case 4:
+                myFragment = new ComentariosHostFragment();
                 break;
         }
         return  myFragment;

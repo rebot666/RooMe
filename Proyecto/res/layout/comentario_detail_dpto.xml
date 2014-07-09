@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:ProgressWheel="http://schemas.android.com/apk/res-auto"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/back_purple"
+        >
+    <LinearLayout android:layout_width="fill_parent"
+                  android:layout_height="fill_parent"
+                  android:id="@+id/no_connection"
+                  android:visibility="gone">
+        <ImageView
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:id="@+id/imageView"
+                android:src="@drawable/wifi_indigo"
+                android:layout_gravity="center"/>
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/no_functionality"
+                android:id="@+id/textView"
+                android:gravity="center_vertical|center_horizontal"
+                android:textStyle="bold"
+                android:textSize="18dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="16dp"
+                android:textColor="#FE804D"
+                />
+    </LinearLayout>
+
+    <LinearLayout
+            android:id="@+id/cargando_layout"
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:gravity="center_horizontal"
+            >
+        <ProgressBar
+                android:indeterminate="true"
+                android:indeterminateOnly="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@android:style/Widget.ProgressBar.Small"
+                android:layout_marginTop="60dp"
+                />
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="60dp"
+                android:layout_marginLeft="5dp"
+                android:text="Cargando..."
+                android:textStyle="bold"
+                android:textSize="22dp"
+                />
+    </LinearLayout>
+
+    <LinearLayout android:layout_width="fill_parent"
+                  android:layout_height="fill_parent"
+                  android:orientation="vertical"
+            >
+        <LinearLayout android:layout_width="fill_parent"
+                      android:layout_height="fill_parent"
+                      android:orientation="vertical"
+                      android:layout_weight=".18"
+                >
+            <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:id="@+id/layout_no_info"
+                    android:visibility="gone"
+                    >
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="No hay Información Disponible"
+                        android:textStyle="bold"
+                        android:textSize="22dp"
+                        android:textColor="@color/Black"
+                        />
+            </LinearLayout>
+
+            <LinearLayout android:layout_width="fill_parent"
+                          android:layout_height="fill_parent"
+                          android:orientation="vertical"
+                          android:layout_marginTop="10dp"
+                          android:id="@+id/linear_comentarios">
+                <ListView android:layout_width="fill_parent"
+                          android:layout_height="fill_parent"
+                          android:id="@+id/list_comments"
+                          android:fastScrollEnabled="true"
+                        />
+
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout android:layout_width="fill_parent"
+                      android:layout_height="fill_parent"
+                      android:orientation="horizontal"
+                      android:layout_weight=".82"
+                      android:padding="5dp"
+                      android:layout_gravity="bottom"
+                      android:gravity="bottom"
+                      android:id="@+id/layout_comment"
+                >
+            <EditText android:layout_width="fill_parent"
+                      android:layout_height="wrap_content"
+                      android:hint="Comentario"
+                      android:layout_weight=".3"
+                      android:id="@+id/edit_comentario"
+                      android:lines="2"
+                      android:maxLines="2"
+                    />
+            <Button
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/btn_comment"
+                    android:background="@drawable/btn_favorite_background"
+                    android:text="Enviar"
+                    android:textColor="@color/White"
+                    android:textStyle="bold"
+                    android:layout_weight=".7"
+
+                    />
+
+        </LinearLayout>
+    </LinearLayout>
+
+
+</LinearLayout>

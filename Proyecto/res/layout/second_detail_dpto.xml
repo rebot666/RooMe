@@ -224,21 +224,24 @@
                     />
         </LinearLayout>
     </LinearLayout>
+
     <LinearLayout android:layout_width="fill_parent"
                   android:layout_height="fill_parent"
                   android:orientation="vertical"
                   android:layout_marginTop="10dp"
-                  android:id="@+id/linear_comentarios">
-            <TextView android:layout_width="fill_parent"
-                      android:layout_height="wrap_content"
-                      android:text="Comentarios"
-                      android:textStyle="bold"
-                      android:textSize="18dp"
-                      />
-            <ListView android:layout_width="fill_parent"
-                      android:layout_height="fill_parent"
-                      android:id="@+id/list_comments"
-                      >
-            </ListView>
+                  android:id="@+id/linear_comentarios"
+                  android:visibility="gone"
+            >
+        <TextView android:layout_width="fill_parent"
+                  android:layout_height="wrap_content"
+                  android:text="Comentarios"
+                  android:textStyle="bold"
+                  android:textSize="18dp"
+                />
+        <ListView android:layout_width="fill_parent"
+                  android:layout_height="fill_parent"
+                  android:id="@+id/list_comments"
+                >
+        </ListView>
     </LinearLayout>
 </LinearLayout>

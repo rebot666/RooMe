@@ -14,6 +14,7 @@ import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.rebot.roomme.R;
 import com.rebot.roomme.Roome;
+import org.json.JSONException;
 
 import java.util.ArrayList;
 
@@ -25,17 +26,14 @@ public class CommentAdapter  extends ArrayAdapter<ParseObject> {
     Context context;
     int layoutResourceId;
     ParseObject data[];
-    Boolean count;
 
-    public CommentAdapter(Context context, int layoutResourceId,
-                             ArrayList<ParseObject> data, Roome app, Boolean count) {
+    public CommentAdapter(Context context, int layoutResourceId, ArrayList<ParseObject> data, Roome app) {
 
         super(context, layoutResourceId, data.toArray(new ParseObject[data.size()]));
         this.layoutResourceId = layoutResourceId;
         this.context = context;
         this.data = data.toArray(new ParseObject[data.size()]);
         this.app = app;
-        this.count = count;
     }
 
     @Override
@@ -48,23 +46,24 @@ public class CommentAdapter  extends ArrayAdapter<ParseObject> {
             row = inflater.inflate(layoutResourceId, parent, false);
 
             holder = new GenericListHolder();
-            holder.user = (ImageView) row.findViewById(R.id.img_depa);
-            holder.comment = (TextView) row.findViewById(R.id.txt_price);
-            holder.rating = (TextView) row.findViewById(R.id.txt_direccion);
+            //holder.user = (ImageView) row.findViewById(R.id.img_depa);
+            holder.comment = (TextView) row.findViewById(R.id.comment_comment);
+            //holder.rating = (TextView) row.findViewById(R.id.txt_direccion);
+            holder.nombre = (TextView) row.findViewById(R.id.comment_nombre);
 
             row.setTag(holder);
         } else {
             holder = (GenericListHolder) row.getTag();
         }
 
-        ParseObject comment = data[position];
+        ParseObject objeto = data[position];
 
-        holder.rating.setText("" + comment.getNumber("rating"));
-        holder.comment.setText(comment.getString("comentario"));
+        //holder.rating.setText(comment.getNumber("rating").toString());
+        holder.comment.setText(objeto.getString("comentario").toString());
+        holder.nombre.setText(objeto.getString("nombre"));
 
-        ParseFile img_portada = comment.getParseFile("img_portada");
-        ImageLoader.getInstance().displayImage(img_portada.getUrl(),
-                holder.user, app.options3, app.animateFirstListener);
+        /*ParseFile img_portada = comment.getParseFile("img_portada");
+        ImageLoader.getInstance().displayImage(img_portada.getUrl(),holder.user, app.options3, app.animateFirstListener);*/
 
         return row;
     }
@@ -72,6 +71,6 @@ public class CommentAdapter  extends ArrayAdapter<ParseObject> {
     static class GenericListHolder
     {
         ImageView user;
-        TextView comment, rating;
+        TextView comment, rating, nombre;
     }
 }

@@ -49,7 +49,7 @@
                         <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="¿Buscas Roome?"
+                                android:text="¿Buscas Roomie?"
                                 android:id="@+id/txt_fecha"
                                 android:padding="10dp"
                                 android:gravity="center"/>
@@ -91,7 +91,9 @@
                               android:hint="Tipo de Inmueble"
                               android:padding="10dp"
                               android:textSize="16sp"
-                              android:gravity="center"/>
+                              android:gravity="center"
+                              android:visibility="gone"
+                            />
                     <EditText android:layout_width="fill_parent"
                               android:layout_height="wrap_content"
                               android:hint="$ Precio (*)"
@@ -102,7 +104,7 @@
                               android:gravity="center"/>
                     <TextView android:layout_width="fill_parent"
                               android:layout_height="wrap_content"
-                              android:text="Género: "
+                              android:text="Se Busca Género: "
                               android:textStyle="bold"
                               android:textSize="16sp"
                               android:layout_weight=".4"

@@ -44,11 +44,14 @@ public class SingleDepartment extends SherlockFragmentActivity {
         if(currentUser != null){
             if(app.dptoSeleccionado.getParseUser("owner").getObjectId().equalsIgnoreCase(currentUser.getObjectId())){
                 user = true;
+                app.user = true;
             } else {
                 user = false;
+                app.user = false;
             }
         } else {
             user = false;
+            app.user = false;
         }
         invalidateOptionsMenu();
     }

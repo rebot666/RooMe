@@ -75,6 +75,10 @@ public class FirstDetailActivity extends FragmentActivity {
         loading_info.setVisibility(View.GONE);
         //pw_loading.spin();
 
+        if(app.user){
+            btn_one.setVisibility(View.GONE);
+        }
+
         //Carga de datos
         final ParseObject dpto = app.dptoSeleccionado;
 

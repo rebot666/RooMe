@@ -37,6 +37,7 @@ public class Roome extends Application {
     public ImageLoadingListener animateFirstListener2 = new AnimateFirstDisplayListener2();
     public Users roomieSeleccionado;
     public ParseObject dptoSeleccionado, ofertaSeleccionada;
+    public boolean user;
 
     @Override
     public void onCreate() {
