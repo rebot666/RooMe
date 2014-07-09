@@ -31,7 +31,7 @@ public class MeFavsActivity extends FragmentActivity {
     private ListView list_favs;
     private ArrayList my_favs;
     private ArrayList<ParseObject> show_dptos;
-    private LinearLayout no_connection;
+    private LinearLayout no_connection, no_info;
     private LinearLayout favorites;
     private RelativeLayout loading_info;
     private ProgressWheel loader;
@@ -51,6 +51,7 @@ public class MeFavsActivity extends FragmentActivity {
         my_favs = new ArrayList();
         show_dptos = new ArrayList<ParseObject>();
         loading_info = (RelativeLayout) findViewById(R.id.loading_info);
+        no_info = (LinearLayout) findViewById(R.id.layout_no_info);
 
         if(!isOnline()){
             no_connection.setVisibility(View.VISIBLE);
@@ -61,7 +62,8 @@ public class MeFavsActivity extends FragmentActivity {
             ParseUser currentUser = ParseUser.getCurrentUser();
             if(currentUser != null){
                 loader.spin();
-                getQuery(currentUser);
+                //getQuery(currentUser);
+                loadFavorites(currentUser);
             } else {
                 View view = getLayoutInflater().inflate(R.layout.crouton_custom_view, null);
                 TextView title = (TextView) view.findViewById(R.id.title);
@@ -132,6 +134,51 @@ public class MeFavsActivity extends FragmentActivity {
                 }
             }
         });
+    }
+
+    public void loadFavorites(ParseUser currenUser){
+        List<String> listObjectId = currenUser.getList("favorites");
+        if(listObjectId != null){
+            ParseQuery query = new ParseQuery("Departamento");
+            query.include("owner");
+            query.whereContainedIn("objectId", listObjectId);
+            query.findInBackground(new FindCallback<ParseObject>() {
+                @Override
+                public void done(List<ParseObject> list, ParseException e) {
+                    if(e == null){
+                        show_dptos = (ArrayList<ParseObject>) list;
+                        if(list.size() > 0){
+                            list_favs.setAdapter(new DepartmentAdapter(context,R.layout.lookme_list_department_item, show_dptos, app, false));
+                            list_favs.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                                @Override
+                                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                    app.dptoSeleccionado = show_dptos.get(position);
+                                    Intent intent = new Intent(MeFavsActivity.this, SingleDepartment.class);
+                                    MeFavsActivity.this.startActivity(intent);
+                                }
+                            });
+
+                            loading_info.setVisibility(View.GONE);
+                            no_info.setVisibility(View.GONE);
+                            loader.stopSpinning();
+                        }else{
+                            loading_info.setVisibility(View.GONE);
+                            loader.stopSpinning();
+                            no_info.setVisibility(View.VISIBLE);
+                        }
+
+                    }else{
+                        loading_info.setVisibility(View.GONE);
+                        loader.stopSpinning();
+                        no_info.setVisibility(View.VISIBLE);
+                    }
+                }
+            });
+        }else{
+            loading_info.setVisibility(View.GONE);
+            loader.stopSpinning();
+            no_info.setVisibility(View.VISIBLE);
+        }
     }
 
     public boolean isOnline() {

@@ -286,7 +286,7 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/btn_one"
                     android:background="@drawable/btn_favorite_background"
-                    android:text="Favorito"
+                    android:text="Agregar a Favoritos"
                     android:textColor="@color/White"
                     android:textStyle="bold"
                     />

@@ -22,8 +22,10 @@ import org.json.JSONObject;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by Strike on 6/6/14.
@@ -41,6 +43,7 @@ public class FirstDetailActivity extends FragmentActivity {
     private LinearLayout linear_photos;
     private LinearLayout no_connection;
     private RelativeLayout loading_info;
+    private ParseUser currentUser;
 
     @Override
     public void onCreate(Bundle savedInstance){
@@ -77,6 +80,15 @@ public class FirstDetailActivity extends FragmentActivity {
 
         if(app.user){
             btn_one.setVisibility(View.GONE);
+        }else{
+            validaFavorito();
+            currentUser = ParseUser.getCurrentUser();
+            btn_one.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    favorito();
+                }
+            });
         }
 
         //Carga de datos
@@ -246,5 +258,80 @@ public class FirstDetailActivity extends FragmentActivity {
                 startActivity(intent);
             }
         });
+    }
+
+    public void validaFavorito(){
+        if(ParseUser.getCurrentUser() != null){
+            List<String> listObjectId = ParseUser.getCurrentUser().getList("favorites");
+            boolean enFavoritos = false;
+            for (String temp : listObjectId) {
+                if(app.dptoSeleccionado.getObjectId().equals(temp)){
+                    enFavoritos = true;
+                    break;
+                }
+            }
+            if(enFavoritos){
+                btn_one.setText("Remover de Favoritos");
+            }else{
+                btn_one.setText("Agregar a Favoritos");
+            }
+        }
+    }
+
+    public void favorito(){
+        if(currentUser.getList("favorites") != null){
+            List<String> favorites = currentUser.getList("favorites");
+            if(favorites.size() <= 0){
+                favorites.add(app.dptoSeleccionado.getObjectId());
+                btn_one.setText("Remover de Favoritos");
+            }else{
+                boolean encontrado = false;
+                int indx = -1;
+                for (int i = 0; i <favorites.size() ; i++) {
+                    if(app.dptoSeleccionado.getObjectId().equals(favorites.get(i))){
+                        encontrado = true;
+                        indx = i;
+                        break;
+                    }
+                }
+                if(encontrado){
+                    favorites.remove(indx);
+                    //likeIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.like_icon));
+                    btn_one.setText("Agregar a Favoritos");
+
+                }else{
+                    favorites.add(app.dptoSeleccionado.getObjectId());
+                    //likeIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.like_icon_fill));
+                    btn_one.setText("Remover de Favoritos");
+                }
+
+            }
+
+            currentUser.put("favorites", favorites);
+            currentUser.saveInBackground(new SaveCallback() {
+                @Override
+                public void done(ParseException e) {
+                    if(e == null){
+
+                    }
+                }
+            });
+
+        }else{
+            ArrayList<String> favorites = new ArrayList<String>();
+            favorites.add(app.dptoSeleccionado.getObjectId());
+            //likeIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.like_icon_fill));
+            btn_one.setText("Agregar a Favoritos");
+
+            currentUser.put("favorites", favorites);
+            currentUser.saveInBackground(new SaveCallback() {
+                @Override
+                public void done(ParseException e) {
+                    if(e == null){
+
+                    }
+                }
+            });
+        }
     }
 }
