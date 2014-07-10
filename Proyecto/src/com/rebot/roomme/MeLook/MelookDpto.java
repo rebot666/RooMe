@@ -67,6 +67,8 @@ public class MelookDpto extends FragmentActivity implements
     private LinearLayout no_connection;
 
     private SwipeRefreshLayout swipeLayout;
+    private double latitud = 23.081897;
+    private double longitud =  -102.427222;
 
     @Override
     public void onCreate(Bundle savedInstance){
@@ -287,17 +289,33 @@ public class MelookDpto extends FragmentActivity implements
     @Override
     public void onConnected(Bundle bundle) {
         Location mCurrentLocation;
+        //TODO: Implementar validacion cuando no hay chip
+
         mCurrentLocation = mLocationClient.getLastLocation();
 
-        CameraPosition cameraPosition = new CameraPosition.Builder().target(
-                new LatLng(mCurrentLocation.getLatitude(),
-                        mCurrentLocation.getLongitude()))
-                .zoom(15.5f)
-                .bearing(330)
-                .tilt(50)
-                .build();
+        if(mCurrentLocation != null){
+            CameraPosition cameraPosition = new CameraPosition.Builder().target(
+                    new LatLng(mCurrentLocation.getLatitude(),
+                            mCurrentLocation.getLongitude()))
+                    .zoom(15.5f)
+                    .bearing(330)
+                    .tilt(50)
+                    .build();
+            googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+        }else{
+            CameraPosition cameraPosition = new CameraPosition.Builder().target(
+                    new LatLng(latitud,
+                            longitud))
+                    .zoom(12.5f)
+                    .bearing(330)
+                    .tilt(50)
+                    .build();
+            googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+        }
 
-        googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+
+
+
     }
 
     @Override

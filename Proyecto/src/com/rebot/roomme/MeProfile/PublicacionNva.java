@@ -35,7 +35,7 @@ public class PublicacionNva extends SherlockActivity {
     private Roome app;
     private Context ctx = this;
     private Crouton crouton;
-    private Button next;
+    private Button next, back;
     private ParseObject object;
 
     private ScrollView one;
@@ -62,6 +62,8 @@ public class PublicacionNva extends SherlockActivity {
     private static final int PHOTO_3 = 4;
     private static final int PHOTO_4 = 5;
 
+    private RelativeLayout thirdLayout;
+
     @Override
     public void onCreate(Bundle savedInsatance){
         super.onCreate(savedInsatance);
@@ -70,6 +72,7 @@ public class PublicacionNva extends SherlockActivity {
 
         app = (Roome) getApplication();
         next = (Button) findViewById(R.id.btn_siguiente);
+        back = (Button) findViewById(R.id.btn_regresar);
 
         //First Layout
         one = (ScrollView) findViewById(R.id.scrollView);
@@ -106,6 +109,7 @@ public class PublicacionNva extends SherlockActivity {
         amueblado = (CheckBox) findViewById(R.id.amueblado);
 
         //Third Layout
+        thirdLayout = (RelativeLayout) findViewById(R.id.layout_three);
         grid_services = (GridView) findViewById(R.id.services_grid);
         services = new ArrayList<ParseObject>();
         plus_service = (Button) findViewById(R.id.btn_plus);
@@ -119,6 +123,7 @@ public class PublicacionNva extends SherlockActivity {
             @Override
             public void onClick(View v) {
                 if(linear_one.getVisibility() == View.VISIBLE){
+                    back.setVisibility(View.GONE);
                     if(validaDatos()){
                         guardaDatos();
                         one.setVisibility(View.GONE);
@@ -147,14 +152,16 @@ public class PublicacionNva extends SherlockActivity {
                     if(validaDatos()){
                         two.setVisibility(View.GONE);
                         linear_two.setVisibility(View.GONE);
-                        grid_services.setVisibility(View.VISIBLE);
-                        plus_service.setVisibility(View.VISIBLE);
                         next.setVisibility(View.GONE);
-                        if(app.dptoSeleccionado != null){
+                        back.setVisibility(View.VISIBLE);
+                        if(app.dptoSeleccionado == null){
                             getQueryServicios();
                         } else {
 
                         }
+                        thirdLayout.setVisibility(View.VISIBLE);
+                        grid_services.setVisibility(View.VISIBLE);
+                        plus_service.setVisibility(View.VISIBLE);
                     } else {
                         View view = getLayoutInflater().inflate(R.layout.crouton_custom_view, null);
                         TextView title = (TextView) view.findViewById(R.id.title);
@@ -170,6 +177,21 @@ public class PublicacionNva extends SherlockActivity {
                         });
                         crouton.show();
                     }
+                }else{
+                }
+            }
+        });
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(linear_one.getVisibility() == View.VISIBLE){
+                    back.setVisibility(View.GONE);
+
+
+                } else if(linear_two.getVisibility() == View.VISIBLE){
+                    back.setVisibility(View.VISIBLE);
+                }else{
+                    back.setVisibility(View.VISIBLE);
                 }
             }
         });

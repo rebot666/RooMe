@@ -8,7 +8,7 @@
             xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:layout_weight=".4"
+            android:layout_weight=".1"
             android:id="@+id/scrollView"
             android:visibility="visible">
         <LinearLayout
@@ -184,13 +184,16 @@
                   android:layout_height="2dp"
                   android:background="@color/LightGrey"
                   android:layout_marginLeft="10dp"
-                  android:layout_marginRight="10dp"/>
+                  android:layout_marginRight="10dp"
+
+                    />
             <EditText
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent"
                     android:id="@+id/txt_direccion"
                     android:layout_gravity="center_horizontal"
                     android:hint="Dirección (*)"
+                    android:layout_marginTop="15dp"
                     />
         </LinearLayout>
     </ScrollView>
@@ -435,37 +438,66 @@
             </LinearLayout>
         </LinearLayout>
     </ScrollView>
-    <GridView android:id="@+id/services_grid"
-              android:layout_width="fill_parent"
-              android:layout_height="wrap_content"
-              android:numColumns="auto_fit"
-              android:verticalSpacing="10dp"
-              android:horizontalSpacing="10dp"
-              android:columnWidth="105dp"
-              android:stretchMode="columnWidth"
-              android:gravity="center"
-              android:paddingTop="15dp"
-              android:paddingLeft="15dp"
-              android:paddingRight="15dp"
-              android:paddingBottom="10dp"
-              android:visibility="gone"
-              android:layout_weight=".1"
-              />
-    <Button android:layout_width="80dp"
-            android:layout_height="100dp"
-            android:background="@drawable/plus_service"
-            android:id="@+id/btn_plus"
-            android:visibility="gone"
-            android:layout_marginLeft="15dp"
-            android:layout_marginBottom="5dp"/>
-    <Button
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="Continuar"
-            android:id="@+id/btn_siguiente"
-            android:layout_weight=".0000001"
-            android:background="@drawable/ab_solid_roomme"
-            android:textColor="@color/MidnightBlue"
-            android:visibility="visible"
-            android:textStyle="bold"/>
+    <RelativeLayout android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:layout_weight=".4"
+                    android:id="@+id/layout_three"
+                    android:visibility="gone"
+            >
+        <GridView android:id="@+id/services_grid"
+                  android:layout_width="fill_parent"
+                  android:layout_height="wrap_content"
+                  android:numColumns="auto_fit"
+                  android:verticalSpacing="10dp"
+                  android:horizontalSpacing="10dp"
+                  android:columnWidth="105dp"
+                  android:stretchMode="columnWidth"
+                  android:gravity="center"
+                  android:paddingTop="15dp"
+                  android:paddingLeft="15dp"
+                  android:paddingRight="15dp"
+                  android:paddingBottom="10dp"
+                  android:visibility="gone"
+                />
+        <Button android:layout_width="80dp"
+                android:layout_height="100dp"
+                android:background="@drawable/plus_service"
+                android:id="@+id/btn_plus"
+                android:visibility="gone"
+                android:layout_marginLeft="15dp"
+                android:layout_marginBottom="5dp"
+                android:layout_alignParentBottom="true"
+                />
+    </RelativeLayout>
+
+    <LinearLayout android:layout_width="fill_parent"
+                  android:layout_height="fill_parent"
+                  android:orientation="horizontal"
+                  android:layout_weight=".9"
+            >
+        <Button
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:text="Regresar"
+                android:id="@+id/btn_regresar"
+                android:background="@drawable/btn_favorite_background"
+                android:textColor="@color/White"
+                android:visibility="visible"
+                android:textStyle="bold"
+                android:layout_weight="0.5"
+                />
+        <Button
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:text="Continuar"
+                android:id="@+id/btn_siguiente"
+                android:background="@drawable/ab_solid_roomme"
+                android:textColor="@color/MidnightBlue"
+                android:visibility="visible"
+                android:textStyle="bold"
+                android:layout_weight="0.5"
+                />
+    </LinearLayout>
+
+
 </LinearLayout>

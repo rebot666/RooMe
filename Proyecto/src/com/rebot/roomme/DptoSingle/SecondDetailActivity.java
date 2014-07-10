@@ -62,7 +62,7 @@ public class SecondDetailActivity extends FragmentActivity {
         double tam = dpto.getDouble("tamano");
         if(tam >= 0){
             tamano.setVisibility(View.VISIBLE);
-            tamano.setText("Tamaño:               " + tam);
+            tamano.setText("Tamaño:\t" + tam);
         } else {
             tamano.setVisibility(View.GONE);
         }
@@ -70,7 +70,7 @@ public class SecondDetailActivity extends FragmentActivity {
         double plant = dpto.getDouble("no_plantas");
         if(plant >= 0){
             plantas.setVisibility(View.VISIBLE);
-            plantas.setText("Plantas:                " + plant);
+            plantas.setText("Plantas:\t" + plant);
         } else {
             plantas.setVisibility(View.GONE);
         }
@@ -78,7 +78,7 @@ public class SecondDetailActivity extends FragmentActivity {
         double room = dpto.getDouble("no_rooms");
         if(room >= 0){
             cuartos.setVisibility(View.VISIBLE);
-            cuartos.setText("Cuartos:                " + room);
+            cuartos.setText("Cuartos:\t" + room);
         } else {
             cuartos.setVisibility(View.GONE);
         }
@@ -86,7 +86,7 @@ public class SecondDetailActivity extends FragmentActivity {
         double bath = dpto.getDouble("no_banos");
         if(bath >= 0){
             banos.setVisibility(View.VISIBLE);
-            banos.setText("Baños:                   " + bath);
+            banos.setText("Baños:\t" + bath);
         } else {
             banos.setVisibility(View.GONE);
         }
@@ -94,7 +94,7 @@ public class SecondDetailActivity extends FragmentActivity {
         double cook = dpto.getDouble("no_cocina");
         if(cook >= 0){
             cocina.setVisibility(View.VISIBLE);
-            cocina.setText("Cocina:                  " + cook);
+            cocina.setText("Cocina:\t" + cook);
         } else {
             cocina.setVisibility(View.GONE);
         }
@@ -102,22 +102,22 @@ public class SecondDetailActivity extends FragmentActivity {
         double coom = dpto.getDouble("comedor");
         if(coom >= 0){
             comedor.setVisibility(View.VISIBLE);
-            comedor.setText("Comedor:               " + coom);
+            comedor.setText("Comedor:\t" + coom);
         } else {
             comedor.setVisibility(View.GONE);
         }
 
         if(dpto.getBoolean("muebles")){
             amueblado.setVisibility(View.VISIBLE);
-            amueblado.setText("Amueblado:          SI");
+            amueblado.setText("Amueblado:\tSI");
         } else {
-            amueblado.setText("Amueblado:          NO");
+            amueblado.setText("Amueblado:\tNO");
         }
 
         double park = dpto.getDouble("parking");
         if(park >= 0){
             estacionamiento.setVisibility(View.VISIBLE);
-            estacionamiento.setText("Estacionamiento:  " + park);
+            estacionamiento.setText("Estacionamiento:" + park);
         } else {
             estacionamiento.setVisibility(View.GONE);
         }

@@ -12,6 +12,8 @@ import com.parse.ParseObject;
 import com.rebot.roomme.R;
 import com.rebot.roomme.Roome;
 
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.util.ArrayList;
 
 /**
@@ -61,7 +63,14 @@ public class DepartmentAdapter extends ArrayAdapter<ParseObject> {
 
         ParseObject dpto = data[position];
 
-        holder.price_dpto.setText("$" + dpto.getNumber("price"));
+        double precio = dpto.getNumber("price").floatValue();
+        DecimalFormatSymbols otherSymbols = new DecimalFormatSymbols();
+        otherSymbols.setDecimalSeparator('.');
+        otherSymbols.setGroupingSeparator(',');
+        DecimalFormat df = new DecimalFormat("###,###.00");
+        df.setDecimalFormatSymbols(otherSymbols);
+
+        holder.price_dpto.setText("$" + df.format(precio));
         holder.address_dpto.setText(dpto.getString("address"));
         holder.title_dpto.setText(dpto.getString("title"));
 

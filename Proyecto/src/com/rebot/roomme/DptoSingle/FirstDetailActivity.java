@@ -147,6 +147,7 @@ public class FirstDetailActivity extends FragmentActivity {
             ImageLoader.getInstance().displayImage(file3.getUrl(),
                     photo3, app.options3, app.animateFirstListener);
         } else {
+            ribbon_roomee.setVisibility(View.GONE);
             photo3.setVisibility(View.GONE);
             count++;
         }
@@ -263,18 +264,23 @@ public class FirstDetailActivity extends FragmentActivity {
     public void validaFavorito(){
         if(ParseUser.getCurrentUser() != null){
             List<String> listObjectId = ParseUser.getCurrentUser().getList("favorites");
-            boolean enFavoritos = false;
-            for (String temp : listObjectId) {
-                if(app.dptoSeleccionado.getObjectId().equals(temp)){
-                    enFavoritos = true;
-                    break;
+            if(listObjectId != null && listObjectId.size() > 0){
+                boolean enFavoritos = false;
+                for (String temp : listObjectId) {
+                    if(app.dptoSeleccionado.getObjectId().equals(temp)){
+                        enFavoritos = true;
+                        break;
+                    }
                 }
-            }
-            if(enFavoritos){
-                btn_one.setText("Remover de Favoritos");
+                if(enFavoritos){
+                    btn_one.setText("Remover de Favoritos");
+                }else{
+                    btn_one.setText("Agregar a Favoritos");
+                }
             }else{
                 btn_one.setText("Agregar a Favoritos");
             }
+
         }
     }
 

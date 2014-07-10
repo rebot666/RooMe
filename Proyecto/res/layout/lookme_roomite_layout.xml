@@ -64,55 +64,62 @@
             android:background="@drawable/background_rounded"
 
             >
-        <TextView android:layout_width="fill_parent" android:layout_height="wrap_content"
-                  android:gravity="center"
-                  android:padding="15dp"
-                  android:textSize="22dp"
-                  android:textStyle="bold"
-                  android:id="@+id/name"
-                  android:visibility="visible"
-                  android:layout_gravity="center_horizontal"
-                />
-        <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
-                >
-            <TextView android:layout_width="wrap_content"
-                      android:layout_height="fill_parent"
-                      android:gravity="center"
-                      android:padding="15dp"
-                      android:textSize="22dp"
-                      android:textStyle="bold"
-                      android:id="@+id/gender"
-                      android:visibility="visible"
-                      android:layout_weight=".6"
-                    />
-            <ImageView
-                    android:layout_width="75dp"
-                    android:layout_height="75dp"
-                    android:id="@+id/gender_icon"
-                    android:layout_weight=".3"
-                    android:layout_marginRight="40dp"/>
-        </LinearLayout>
-        <TextView android:layout_width="fill_parent"
-                  android:layout_height="wrap_content"
-                  android:gravity="center_horizontal"
-                  android:padding="15dp"
-                  android:textSize="22dp"
-                  android:textStyle="bold"
-                  android:id="@+id/edad"
+        <ScrollView android:layout_width="fill_parent" android:layout_height="fill_parent">
+            <LinearLayout android:layout_width="fill_parent" android:layout_height="fill_parent"
+                          android:orientation="vertical"
+                    >
+                <TextView android:layout_width="fill_parent" android:layout_height="wrap_content"
+                          android:gravity="center"
+                          android:padding="15dp"
+                          android:textSize="22dp"
+                          android:textStyle="bold"
+                          android:id="@+id/name"
+                          android:visibility="visible"
+                          android:layout_gravity="center_horizontal"
+                        />
+                <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_horizontal"
+                        >
+                    <TextView android:layout_width="wrap_content"
+                              android:layout_height="fill_parent"
+                              android:gravity="center"
+                              android:padding="15dp"
+                              android:textSize="22dp"
+                              android:textStyle="bold"
+                              android:id="@+id/gender"
+                              android:visibility="visible"
+                              android:layout_weight=".6"
+                            />
+                    <ImageView
+                            android:layout_width="75dp"
+                            android:layout_height="75dp"
+                            android:id="@+id/gender_icon"
+                            android:layout_weight=".3"
+                            android:layout_marginRight="40dp"/>
+                </LinearLayout>
+                <TextView android:layout_width="fill_parent"
+                          android:layout_height="wrap_content"
+                          android:gravity="center_horizontal"
+                          android:padding="15dp"
+                          android:textSize="22dp"
+                          android:textStyle="bold"
+                          android:id="@+id/edad"
 
-                />
-        <TextView android:layout_width="fill_parent"
-                  android:layout_height="wrap_content"
-                  android:gravity="center"
-                  android:padding="15dp"
-                  android:textSize="22dp"
-                  android:textStyle="bold"
-                  android:id="@+id/localidad"
-                  android:visibility="visible"
-                />
+                        />
+                <TextView android:layout_width="fill_parent"
+                          android:layout_height="wrap_content"
+                          android:gravity="center"
+                          android:padding="15dp"
+                          android:textSize="22dp"
+                          android:textStyle="bold"
+                          android:id="@+id/localidad"
+                          android:visibility="visible"
+                        />
+            </LinearLayout>
+        </ScrollView>
+
     </LinearLayout>
 </LinearLayout>

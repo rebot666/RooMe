@@ -31,6 +31,8 @@ public class ServicesActivity extends FragmentActivity {
     private RelativeLayout loading;
     private ProgressWheel pw_loader;
 
+    private LinearLayout noInfo;
+
     @Override
     public void onCreate(Bundle savedInstance){
         super.onCreate(savedInstance);
@@ -41,6 +43,7 @@ public class ServicesActivity extends FragmentActivity {
         pw_loader = (ProgressWheel) findViewById(R.id.pw_spinner);
         services_grid = (GridView) findViewById(R.id.services_grid);
         no_connection = (LinearLayout) findViewById(R.id.no_connection);
+        noInfo = (LinearLayout) findViewById(R.id.layout_no_info);
 
         services = new ArrayList<ParseObject>();
 
@@ -75,10 +78,14 @@ public class ServicesActivity extends FragmentActivity {
                         services_grid.setAdapter(new ServicesAdapter(ctx,
                                 R.layout.service_adapter, services, app));
                     } else {
-                        //Este departamento no cuenta con servicios extra
+                        loading.setVisibility(View.GONE);
+                        pw_loader.stopSpinning();
+                        noInfo.setVisibility(View.VISIBLE);
                     }
                 } else {
-                    //No se pudieron cargar los datos
+                    loading.setVisibility(View.GONE);
+                    pw_loader.stopSpinning();
+                    noInfo.setVisibility(View.VISIBLE);
                 }
             }
         });
