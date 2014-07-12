@@ -17,18 +17,33 @@ import java.util.ArrayList;
 /**
  * Created by Strike on 6/24/14.
  */
-public class ServiceCheckAdapter extends ArrayAdapter<ParseObject> {
+public class ServiceCheckAdapter extends BaseAdapter {
     Roome app;
     Context context;
     int layoutResourceId;
-    ParseObject data[];
+    ArrayList<ParseObject> data;
 
     public ServiceCheckAdapter(Context context, int layoutResourceId, ArrayList<ParseObject> data, Roome app) {
-        super(context, layoutResourceId, data.toArray(new ParseObject[data.size()]));
+        //super(context, layoutResourceId, data.toArray(new ParseObject[data.size()]));
         this.layoutResourceId = layoutResourceId;
         this.context = context;
-        this.data = data.toArray(new ParseObject[data.size()]);
+        this.data = data;
         this.app = app;
+    }
+
+    @Override
+    public int getCount() {
+        return data.size();
+    }
+
+    @Override
+    public Object getItem(int position) {
+        return data.get(position);
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return 0;
     }
 
     @Override
@@ -58,7 +73,7 @@ public class ServiceCheckAdapter extends ArrayAdapter<ParseObject> {
             holder = (GenericListHolder) row.getTag();
         }
 
-        ParseObject service = (ParseObject) data[position];
+        ParseObject service = (ParseObject) data.get(position);
 
         holder.txt_name.setText(service.getString("name"));
 

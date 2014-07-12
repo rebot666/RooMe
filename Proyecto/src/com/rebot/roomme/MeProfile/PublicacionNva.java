@@ -1,29 +1,48 @@
 package com.rebot.roomme.MeProfile;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.location.Location;
+import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.view.View;
 import android.widget.*;
 import com.actionbarsherlock.app.SherlockActivity;
+import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.CameraPosition;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.parse.*;
 import com.rebot.roomme.Adapters.ServiceCheckAdapter;
 import com.rebot.roomme.R;
 import com.rebot.roomme.Roome;
+import com.rebot.roomme.WorkaroundMapFragment;
+import com.todddavies.components.progressbar.ProgressWheel;
 import de.keyboardsurfer.android.widget.crouton.Crouton;
+import org.json.JSONException;
+import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,7 +50,7 @@ import java.util.List;
 /**
  * Created by Strike on 5/28/14.
  */
-public class PublicacionNva extends SherlockActivity {
+public class PublicacionNva extends SherlockFragmentActivity {
     private Roome app;
     private Context ctx = this;
     private Crouton crouton;
@@ -63,6 +82,20 @@ public class PublicacionNva extends SherlockActivity {
     private static final int PHOTO_4 = 5;
 
     private RelativeLayout thirdLayout;
+
+    private RelativeLayout cargandoLayout;
+    private LinearLayout noInfoLayout, mapLayout;
+    private ProgressWheel loader;
+
+    private GoogleMap googleMap;
+    double latitude = 20.613785;
+    double longitude = -100.388371;
+    private LatLng locationDepartmentPoint;
+
+    private ServiceCheckAdapter adapterGrid;
+
+    private String textoNuevo;
+    private ArrayList<JSONObject> nuevosServicios;
 
     @Override
     public void onCreate(Bundle savedInsatance){
@@ -113,23 +146,64 @@ public class PublicacionNva extends SherlockActivity {
         grid_services = (GridView) findViewById(R.id.services_grid);
         services = new ArrayList<ParseObject>();
         plus_service = (Button) findViewById(R.id.btn_plus);
+        cargandoLayout = (RelativeLayout) findViewById(R.id.loading_info);
+        noInfoLayout = (LinearLayout) findViewById(R.id.layout_no_info);
+        loader = (ProgressWheel) findViewById(R.id.pw_spinner);
+
+        mapLayout = (LinearLayout) findViewById(R.id.layoutMap);
+
+        nuevosServicios = new ArrayList<JSONObject>();
+
+        try {
+            // Loading map
+            initilizeMap();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        Location location = getGPS();
+        if(location != null){
+            googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+            CameraPosition cameraPosition = new CameraPosition.Builder().target(
+                    new LatLng(location.getLatitude(), location.getLongitude()))
+                    .zoom(15.5f)
+                    //.bearing(330)
+                    //.tilt(50)
+                    .build();
+
+            googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+        }else {
+            googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+            CameraPosition cameraPosition = new CameraPosition.Builder().target(
+                    new LatLng(latitude, longitude))
+                    //.zoom(10.0f)
+                    //.bearing(330)
+                    //.tilt(50)
+                    .build();
+
+            googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+        }
 
         if(app.dptoSeleccionado != null){
             getQuery();
         }
 
+        back.setVisibility(View.GONE);
         next.setVisibility(View.VISIBLE);
         next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(linear_one.getVisibility() == View.VISIBLE){
-                    back.setVisibility(View.GONE);
+
                     if(validaDatos()){
                         guardaDatos();
                         one.setVisibility(View.GONE);
                         linear_one.setVisibility(View.GONE);
+                        mapLayout.setVisibility(View.VISIBLE);
                         two.setVisibility(View.VISIBLE);
                         linear_two.setVisibility(View.VISIBLE);
+                        back.setVisibility(View.VISIBLE);
                         if(app.dptoSeleccionado != null){
                             cargaDatos();
                         }
@@ -152,9 +226,10 @@ public class PublicacionNva extends SherlockActivity {
                     if(validaDatos()){
                         two.setVisibility(View.GONE);
                         linear_two.setVisibility(View.GONE);
+                        mapLayout.setVisibility(View.GONE);
                         next.setVisibility(View.GONE);
-                        back.setVisibility(View.VISIBLE);
                         if(app.dptoSeleccionado == null){
+                            loader.spin();
                             getQueryServicios();
                         } else {
 
@@ -186,12 +261,29 @@ public class PublicacionNva extends SherlockActivity {
             public void onClick(View v) {
                 if(linear_one.getVisibility() == View.VISIBLE){
                     back.setVisibility(View.GONE);
-
-
+                    one.setVisibility(View.VISIBLE);
+                    linear_one.setVisibility(View.VISIBLE);
                 } else if(linear_two.getVisibility() == View.VISIBLE){
+                    back.setVisibility(View.GONE);
+                    one.setVisibility(View.VISIBLE);
+                    linear_one.setVisibility(View.VISIBLE);
+                    mapLayout.setVisibility(View.GONE);
+                    two.setVisibility(View.GONE);
+                    linear_two.setVisibility(View.GONE);
                     back.setVisibility(View.VISIBLE);
                 }else{
+                    one.setVisibility(View.GONE);
+                    linear_one.setVisibility(View.GONE);
+                    two.setVisibility(View.VISIBLE);
+                    linear_two.setVisibility(View.VISIBLE);
+                    mapLayout.setVisibility(View.VISIBLE);
                     back.setVisibility(View.VISIBLE);
+                    linear_two.setVisibility(View.VISIBLE);
+                    thirdLayout.setVisibility(View.GONE);
+                    grid_services.setVisibility(View.GONE);
+                    plus_service.setVisibility(View.GONE);
+                    next.setVisibility(View.VISIBLE);
+
                 }
             }
         });
@@ -300,6 +392,80 @@ public class PublicacionNva extends SherlockActivity {
                 startActivityForResult(chooserIntent, PHOTO_4);
             }
         });
+
+        ((WorkaroundMapFragment) getSupportFragmentManager().findFragmentById(R.id.map)).setListener(new WorkaroundMapFragment.OnTouchListener() {
+            @Override
+            public void onTouch() {
+                two.requestDisallowInterceptTouchEvent(true);
+            }
+
+        });
+
+        googleMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+
+            @Override
+            public void onMapClick(LatLng point) {
+                locationDepartmentPoint = point;
+                googleMap.clear();
+                googleMap.addMarker(
+                        new MarkerOptions()
+                                .position(point)
+                                .icon(BitmapDescriptorFactory.fromResource(R.drawable.pin_house))
+                )
+                ;
+
+            }
+        });
+
+        plus_service.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                // custom dialog
+                final Dialog dialog = new Dialog(ctx);
+
+                dialog.setContentView(R.layout.service_dialog_item);
+                dialog.setTitle(getString(R.string.app_name));
+
+                // set the custom dialog components - text, image and button
+                final EditText text = (EditText) dialog.findViewById(R.id.nombre_servicio);
+
+                Button dialogButton = (Button) dialog.findViewById(R.id.btn_aceptar);
+                // if button is clicked, close the custom dialog
+                dialogButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if(!text.getText().equals("")){
+                            textoNuevo = text.getText().toString();
+                            ParseObject parseServicio = new ParseObject("Servicios");
+                            parseServicio.put("name", textoNuevo);
+
+                            JSONObject nuevoServ = new JSONObject();
+                            try {
+                                nuevoServ.put("nombre", textoNuevo);
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                            nuevosServicios.add(nuevoServ);
+                            //parseServicio.saveInBackground();
+                            services.add(parseServicio);
+                            adapterGrid.notifyDataSetChanged();
+
+                            dialog.dismiss();
+                        }else{
+                            dialog.dismiss();
+                        }
+                                            }
+                });
+
+                dialog.show();
+
+
+
+
+            }
+        });
+
     }
 
     public void cargaDatos(){
@@ -516,9 +682,17 @@ public class PublicacionNva extends SherlockActivity {
                                 services.add(service);
                             }
 
-                            grid_services.setAdapter(new ServiceCheckAdapter(ctx,
-                                    R.layout.ser_che_layout, services, app));
+                             adapterGrid = new ServiceCheckAdapter(ctx,R.layout.ser_che_layout, services, app);
+                            grid_services.setAdapter(adapterGrid);
 
+                            cargandoLayout.setVisibility(View.GONE);
+                            noInfoLayout.setVisibility(View.GONE);
+                            loader.stopSpinning();
+                        }else{
+
+                            cargandoLayout.setVisibility(View.GONE);
+                            noInfoLayout.setVisibility(View.GONE);
+                            loader.stopSpinning();
                         }
                     } else {
                         View view = getLayoutInflater().inflate(R.layout.crouton_custom_view, null);
@@ -534,9 +708,16 @@ public class PublicacionNva extends SherlockActivity {
                             }
                         });
                         crouton.show();
+                        cargandoLayout.setVisibility(View.GONE);
+                        noInfoLayout.setVisibility(View.GONE);
+                        loader.stopSpinning();
                     }
                 }
             });
+        }else{
+            cargandoLayout.setVisibility(View.GONE);
+            noInfoLayout.setVisibility(View.GONE);
+            loader.stopSpinning();
         }
     }
 
@@ -563,9 +744,25 @@ public class PublicacionNva extends SherlockActivity {
             final String imageFilePath = cursor.getString(0);
             Drawable d = Drawable.createFromPath(imageFilePath);
 
+            Bitmap bitmap = ((BitmapDrawable)d).getBitmap();
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            int quality                = 80;
+
+            /*
+            do {
+                bitmap.compress(Bitmap.CompressFormat.PNG, quality, baos);
+                if (baos.size() > 800)
+                    quality = quality * 800 / baos.size();
+            } while (baos.size() > 800);
+            */
+
+            //Bitmap bMap = BitmapFactory.decodeByteArray(baos.toByteArray(), 0, baos.toByteArray().length);
+
             if(requestCode == SELECT_PICTURE){
                 img_dpto.setImageDrawable(d);
                 img_dpto.setScaleType(ImageView.ScaleType.CENTER_CROP);
+
+
             } else if(requestCode == PHOTO_1){
                 photo1.setImageDrawable(d);
                 photo1.setScaleType(ImageView.ScaleType.CENTER_CROP);
@@ -611,4 +808,48 @@ public class PublicacionNva extends SherlockActivity {
         inflater.inflate(R.menu.menu_save, menu);
         return super.onCreateOptionsMenu(menu);
     }
+
+    private void initilizeMap() {
+        if (googleMap == null) {
+            FragmentManager fmanager = getSupportFragmentManager();
+            Fragment fragment = fmanager.findFragmentById(R.id.map);
+            SupportMapFragment supportmapfragment = (SupportMapFragment)fragment;
+            googleMap = supportmapfragment.getMap();
+            //googleMap = ((MapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
+
+            // check if map is created successfully or not
+            if (googleMap == null) {
+                Toast.makeText(getApplicationContext(),
+                        "Sorry! unable to create maps", Toast.LENGTH_SHORT)
+                        .show();
+            }
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        initilizeMap();
+    }
+
+    private Location getGPS() {
+        LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        List<String> providers = lm.getProviders(true);
+
+        /* Loop over the array backwards, and if you get an accurate location, then break out the loop*/
+        Location l = null;
+
+        for (int i=providers.size()-1; i>=0; i--) {
+            l = lm.getLastKnownLocation(providers.get(i));
+            if (l != null) break;
+        }
+
+        double[] gps = new double[2];
+        if (l != null) {
+            gps[0] = l.getLatitude();
+            gps[1] = l.getLongitude();
+        }
+        return l;
+    }
+
 }

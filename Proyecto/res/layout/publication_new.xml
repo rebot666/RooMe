@@ -201,7 +201,7 @@
             xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:layout_weight=".4"
+            android:layout_weight=".1"
             android:id="@+id/scrollView2"
             android:visibility="gone">
     <LinearLayout
@@ -436,37 +436,116 @@
                         android:id="@+id/txt_adicional"
                         android:layout_marginTop="5dp"/>
             </LinearLayout>
+
+            <LinearLayout android:layout_width="fill_parent"
+                          android:layout_height="wrap_content"
+                          android:orientation="vertical"
+                          android:layout_marginTop="15dp"
+                          android:id="@+id/layoutMap"
+                    >
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Ubicación"
+                        android:textStyle="bold"
+                        android:layout_marginBottom="15dp"
+                        />
+
+                <fragment android:id="@+id/map"
+                          android:name="com.rebot.roomme.WorkaroundMapFragment"
+                          android:layout_width="match_parent"
+                          android:layout_height="250dp"
+                          android:layout_gravity="center_horizontal|bottom"
+
+                        />
+
+            </LinearLayout>
         </LinearLayout>
     </ScrollView>
     <RelativeLayout android:layout_width="fill_parent"
                     android:layout_height="fill_parent"
-                    android:layout_weight=".4"
+                    android:layout_weight=".1"
                     android:id="@+id/layout_three"
                     android:visibility="gone"
             >
-        <GridView android:id="@+id/services_grid"
-                  android:layout_width="fill_parent"
-                  android:layout_height="wrap_content"
-                  android:numColumns="auto_fit"
-                  android:verticalSpacing="10dp"
-                  android:horizontalSpacing="10dp"
-                  android:columnWidth="105dp"
-                  android:stretchMode="columnWidth"
-                  android:gravity="center"
-                  android:paddingTop="15dp"
-                  android:paddingLeft="15dp"
-                  android:paddingRight="15dp"
-                  android:paddingBottom="10dp"
-                  android:visibility="gone"
-                />
-        <Button android:layout_width="80dp"
-                android:layout_height="100dp"
+        <LinearLayout android:layout_width="fill_parent"
+                      android:layout_height="fill_parent"
+                      android:orientation="vertical"
+                >
+            <RelativeLayout xmlns:ProgressWheel="http://schemas.android.com/apk/res-auto"
+                            android:orientation="vertical"
+                            android:layout_width="fill_parent"
+                            android:layout_height="fill_parent"
+                            android:gravity="center"
+                            android:id="@+id/loading_info"
+                            android:background="@android:color/transparent"
+                            android:visibility="visible">
+                <com.todddavies.components.progressbar.ProgressWheel
+                        android:id="@+id/pw_spinner"
+                        android:layout_width="150dp"
+                        android:layout_height="150dp"
+                        android:layout_gravity="center"
+                        ProgressWheel:textColor="#222"
+                        ProgressWheel:textSize="14sp"
+                        ProgressWheel:rimColor="#330097D6"
+                        ProgressWheel:barLength="60dp"
+                        ProgressWheel:barColor="@color/dark_indigo"
+                        ProgressWheel:barWidth="5dp"
+                        ProgressWheel:rimWidth="2dp"
+                        />
+                <ImageView android:layout_width="150dp"
+                           android:layout_height="150dp"
+                           android:layout_gravity="center"
+                           android:src="@drawable/roomme_title"
+                           android:padding="15dp"
+                        />
+            </RelativeLayout>
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                          android:orientation="vertical"
+                          android:layout_width="match_parent"
+                          android:id="@+id/layout_no_info"
+                          android:layout_height="match_parent"
+                          android:gravity="center"
+                          android:visibility="gone">
+                <ImageView
+                        android:layout_width="150dp"
+                        android:layout_height="150dp"
+                        android:id="@+id/imageView" android:src="@drawable/no_info_naranja"
+                        android:layout_gravity="center"/>
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/no_info"
+                        android:id="@+id/textView"
+                        android:gravity="center_vertical|center_horizontal"
+                        android:textStyle="bold"
+                        android:textSize="22dp" android:layout_gravity="center" android:layout_marginTop="20dp"/>
+            </LinearLayout>
+            <GridView android:id="@+id/services_grid"
+                      android:layout_width="fill_parent"
+                      android:layout_height="fill_parent"
+                      android:numColumns="auto_fit"
+                      android:verticalSpacing="10dp"
+                      android:horizontalSpacing="10dp"
+                      android:columnWidth="105dp"
+                      android:stretchMode="columnWidth"
+                      android:gravity="center"
+                      android:paddingTop="15dp"
+                      android:paddingLeft="15dp"
+                      android:paddingRight="15dp"
+                      android:paddingBottom="10dp"
+                      android:visibility="gone"
+                    />
+        </LinearLayout>
+        <Button android:layout_width="50dp"
+                android:layout_height="60dp"
                 android:background="@drawable/plus_service"
                 android:id="@+id/btn_plus"
                 android:visibility="gone"
-                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
                 android:layout_marginBottom="5dp"
                 android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
                 />
     </RelativeLayout>
 

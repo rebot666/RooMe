@@ -298,7 +298,7 @@ public class MelookDpto extends FragmentActivity implements
                     new LatLng(mCurrentLocation.getLatitude(),
                             mCurrentLocation.getLongitude()))
                     .zoom(15.5f)
-                    .bearing(330)
+                    //.bearing(330)
                     .tilt(50)
                     .build();
             googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
