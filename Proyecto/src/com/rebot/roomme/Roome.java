@@ -39,6 +39,17 @@ public class Roome extends Application {
     public ParseObject dptoSeleccionado, ofertaSeleccionada;
     public boolean user;
 
+    //Búsqueda Variables
+    //Departamento
+    public int rooms, maxprice, minprice;
+    public boolean photos;
+    public String trans;
+
+    //Roomies
+    public int maxcomp, mincomp;
+    public String genre;
+    public int age;
+
     @Override
     public void onCreate() {
         super.onCreate();

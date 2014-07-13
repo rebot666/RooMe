@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
@@ -23,6 +24,8 @@ import com.rebot.roomme.MeGo.MeGoActivityHostFragment;
 import com.rebot.roomme.MeLook.MelookActivityHostFragment;
 import com.rebot.roomme.MeLook.MelookDptoHostFrament;
 import com.rebot.roomme.MeProfile.MeProfileActivityHostFragment;
+import com.rebot.roomme.SearchFragment.SearchDpto;
+import com.rebot.roomme.SearchFragment.SearchRoomme;
 
 public class MainDrawer extends SherlockFragmentActivity {
     private Context context = this;
@@ -131,8 +134,17 @@ public class MainDrawer extends SherlockFragmentActivity {
         }
 
         if (item.getItemId() == R.id.search){
-            Intent intent = new Intent(MainDrawer.this, SearchActivity.class);
-            MainDrawer.this.startActivity(intent);
+            FragmentManager fm = this.getSupportFragmentManager();
+            DialogFragment dialog;
+
+            if(mDrawerList.getCheckedItemPosition() == 4){
+                dialog = new SearchDpto(MainDrawer.this, this.app); // creating new object
+            } else {
+                dialog = new SearchRoomme(MainDrawer.this, this.app); // creating new object
+            }
+
+            dialog.show(fm, "dialog");
+            mDrawerLayout.closeDrawer(mDrawerList);
         }
 
         return super.onOptionsItemSelected(item);
