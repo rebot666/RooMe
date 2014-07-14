@@ -1,5 +1,6 @@
 package com.rebot.roomme.SearchFragment;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
@@ -20,6 +21,8 @@ import com.rebot.roomme.MeLook.MelookDpto;
 import com.rebot.roomme.R;
 import com.rebot.roomme.Roome;
 import com.rebot.roomme.SingleDepartment;
+import de.keyboardsurfer.android.widget.crouton.Crouton;
+import de.keyboardsurfer.android.widget.crouton.Style;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -229,8 +232,11 @@ public class SearchDpto extends DialogFragment {
                                 context.startActivity(intent);
                             }
                         });
+
+                        Crouton.makeText((Activity) context, "Resultados de búsqueda", Style.INFO).show();
                     } else {
                         app.noInfo.setVisibility(View.VISIBLE);
+                        Crouton.makeText((Activity) context, "Resultados de búsqueda", Style.INFO).show();
                     }
                 } else {
                     Log.e("", e.toString());

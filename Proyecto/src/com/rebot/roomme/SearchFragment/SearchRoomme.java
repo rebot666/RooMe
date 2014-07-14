@@ -1,5 +1,6 @@
 package com.rebot.roomme.SearchFragment;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
@@ -18,6 +19,8 @@ import com.rebot.roomme.MeLookRoomie;
 import com.rebot.roomme.Models.Users;
 import com.rebot.roomme.R;
 import com.rebot.roomme.Roome;
+import de.keyboardsurfer.android.widget.crouton.Crouton;
+import de.keyboardsurfer.android.widget.crouton.Style;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -165,7 +168,6 @@ public class SearchRoomme extends DialogFragment {
             roomie.whereEqualTo("", app.genre);
         }
 
-        //Filtro de compatibilidad
         roomie.findInBackground(new FindCallback<ParseUser>() {
             @Override
             public void done(List<ParseUser> parseUsers, ParseException e) {
@@ -210,9 +212,11 @@ public class SearchRoomme extends DialogFragment {
                                 context.startActivity(intent);
                             }
                         });
+                        Crouton.makeText((Activity) context, "Resultados de búsqueda", Style.INFO).show();
                     }
                 } else {
                     app.noInfo.setVisibility(View.VISIBLE);
+                    Crouton.makeText((Activity) context, "Resultados de búsqueda", Style.INFO).show();
                 }
             }
         });

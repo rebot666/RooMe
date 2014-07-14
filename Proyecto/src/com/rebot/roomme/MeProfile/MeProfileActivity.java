@@ -143,7 +143,6 @@ public class MeProfileActivity extends FragmentActivity {
         this.btn_sign_facebook.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 Intent signIn = new Intent(MeProfileActivity.this, MeProfileLogin.class);
                 startActivity(signIn);
             }
@@ -215,6 +214,24 @@ public class MeProfileActivity extends FragmentActivity {
             //Actualizar la UI con la información del usuario
             updateUI();
         } else {
+            this.whole_wrap.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    View view = getLayoutInflater().inflate(R.layout.crouton_custom_view, null);
+                    TextView title = (TextView) view.findViewById(R.id.title);
+                    TextView subtitle = (TextView) view.findViewById(R.id.subtitle);
+                    title.setText("Este usuario estará bloqueado");
+                    subtitle.setVisibility(View.GONE);
+                    crouton = Crouton.make(MeProfileActivity.this, view);
+                    crouton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            crouton.cancel();
+                        }
+                    });
+                }
+            });
+
             //Esconder los campos necesarios
             this.linear_profile.setVisibility(View.GONE);
 
