@@ -21,7 +21,7 @@
     </string-array>
 
     <string name="no_connection">No hay Conexión Disponible</string>
-    <string name="no_info">No hay Información Disponible</string>
+    <string name="no_info">No hay Información Disponible. \nClic para recargar</string>
     <string name="no_functionality">Próximamente más Funcionalidad</string>
     <string name="si_roomie">Tu estado actual es de roomie</string>
     <string name="no_roomie">Tu estado actual es de no ser roomie</string>

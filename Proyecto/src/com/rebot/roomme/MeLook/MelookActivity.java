@@ -56,9 +56,9 @@ public class MelookActivity extends FragmentActivity {
         loader = (ProgressWheel) findViewById(R.id.pw_spinner);
 
         //people = (PullToRefreshListView) findViewById(R.id.listView);
-        people = (ListView) findViewById(R.id.listView);
+        app.list_roomie = (ListView) findViewById(R.id.listView);
 
-        no_info = (LinearLayout) findViewById(R.id.layout_no_info);
+        app.noInfo = (LinearLayout) findViewById(R.id.layout_no_info);
         no_connection = (LinearLayout) findViewById(R.id.layout_no_connection);
 
         swipeLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_container);
@@ -74,8 +74,6 @@ public class MelookActivity extends FragmentActivity {
             }
         });
 
-
-
         profiles = new ArrayList<Users>();
 
         if(isOnline()){
@@ -85,18 +83,6 @@ public class MelookActivity extends FragmentActivity {
             loading_info.setVisibility(View.GONE);
             no_connection.setVisibility(View.VISIBLE);
         }
-
-
-        /*
-        people.setOnRefreshListener(new PullToRefreshListView.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                profiles.clear();
-                queryLoadData_roomies();
-
-            }
-        });
-        */
 
         if (ParseUser.getCurrentUser() == null){
             //crouton = Crouton.makeText(MelookActivity.this, "Inicia sesión para ver compatibilidad", Style.ALERT);
@@ -115,6 +101,15 @@ public class MelookActivity extends FragmentActivity {
             });
             crouton.show();
         }
+
+        app.noInfo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dptos.clear();
+                app.noInfo.setVisibility(View.GONE);
+                queryLoadData_roomies();
+            }
+        });
     }
 
     public void queryLoadData_roomies(){
@@ -151,11 +146,11 @@ public class MelookActivity extends FragmentActivity {
                         }
 
 
-                        people.setAdapter(new LookMeAdpater(context,
+                        app.list_roomie.setAdapter(new LookMeAdpater(context,
                                 R.layout.lookme_list_item, profiles, app));
                         loading_info.setVisibility(View.GONE);
                         loader.stopSpinning();
-                        people.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        app.list_roomie.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                             @Override
                             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                                 app.roomieSeleccionado = profiles.get(position);

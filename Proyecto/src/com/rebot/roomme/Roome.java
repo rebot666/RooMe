@@ -4,9 +4,7 @@ import android.app.Application;
 import android.content.Context;
 import android.graphics.*;
 import android.view.View;
-import android.widget.FrameLayout;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
+import android.widget.*;
 import com.nostra13.universalimageloader.cache.memory.impl.LruMemoryCache;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -38,6 +36,8 @@ public class Roome extends Application {
     public Users roomieSeleccionado;
     public ParseObject dptoSeleccionado, ofertaSeleccionada;
     public boolean user;
+    public ListView dpto, list_roomie;
+    public LinearLayout noInfo;
 
     //Búsqueda Variables
     //Departamento

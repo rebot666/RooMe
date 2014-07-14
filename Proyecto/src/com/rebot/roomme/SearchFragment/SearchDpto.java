@@ -2,6 +2,7 @@ package com.rebot.roomme.SearchFragment;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
@@ -14,8 +15,11 @@ import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
+import com.rebot.roomme.Adapters.DepartmentAdapter;
+import com.rebot.roomme.MeLook.MelookDpto;
 import com.rebot.roomme.R;
 import com.rebot.roomme.Roome;
+import com.rebot.roomme.SingleDepartment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -68,6 +72,7 @@ public class SearchDpto extends DialogFragment {
         this.min = (TextView) dialog.findViewById(R.id.min);
         this.transaction = (RadioGroup) dialog.findViewById(R.id.trans);
 
+        dptos = new ArrayList<ParseObject>();
         minp = MIN_PRICE;
         maxp = MAX_PRICE;
 
@@ -181,31 +186,51 @@ public class SearchDpto extends DialogFragment {
     }
 
     public void querySearchDpto(){
-        ParseQuery<ParseObject> dpto = ParseQuery.getQuery("Departamentos");
+        ParseQuery<ParseObject> dpto = ParseQuery.getQuery("Departamento");
 
         if(app.rooms != 0){
-            dpto.whereGreaterThanOrEqualTo("", app.rooms);
+            dpto.whereGreaterThanOrEqualTo("no_rooms", app.rooms);
         }
 
         if(!app.trans.equalsIgnoreCase("B")){
-            dpto.whereEqualTo("", app.trans);
+            dpto.whereEqualTo("transaccion", app.trans);
         }
 
-        dpto.whereGreaterThanOrEqualTo("", app.minprice);
-        dpto.whereLessThanOrEqualTo("", app.maxprice);
+        if(app.photos){
+            dpto.whereGreaterThan("no_photos", 0);
+        }
 
+        dpto.whereGreaterThanOrEqualTo("price", app.minprice);
+        dpto.whereLessThanOrEqualTo("price", app.maxprice);
+
+        dpto.include("owner");
         dpto.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> parseObjects, ParseException e) {
                 if(e == null){
+                    dialog.dismiss();
                     if(parseObjects.size() != 0){
                         dptos.clear();
 
                         for(ParseObject obj : parseObjects){
-                            dptos.add(obj);
+                            if(!obj.getBoolean("isSell") && !obj.getBoolean("isDraft")){
+                                dptos.add(obj);
+                            }
                         }
 
+                        app.dpto.setAdapter(new DepartmentAdapter(context,
+                                R.layout.lookme_list_department_item, dptos, app, false));
 
+                        app.dpto.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                app.dptoSeleccionado = dptos.get(position);
+                                Intent intent = new Intent(context, SingleDepartment.class);
+                                context.startActivity(intent);
+                            }
+                        });
+                    } else {
+                        app.noInfo.setVisibility(View.VISIBLE);
                     }
                 } else {
                     Log.e("", e.toString());

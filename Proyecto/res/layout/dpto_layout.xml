@@ -67,11 +67,12 @@
                           android:layout_height="match_parent"
                           android:gravity="center"
                           android:visibility="gone">
-                <ImageView
+                <!--<ImageView
                         android:layout_width="150dp"
                         android:layout_height="150dp"
-                        android:id="@+id/imageView" android:src="@drawable/no_info_naranja"
-                        android:layout_gravity="center"/>
+                        android:id="@+id/imageView"
+                        android:src="@drawable/no_info_naranja"
+                        android:layout_gravity="center"/>-->
                 <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -79,7 +80,8 @@
                         android:id="@+id/textView"
                         android:gravity="center_vertical|center_horizontal"
                         android:textStyle="bold"
-                        android:textSize="22dp" android:layout_gravity="center" android:layout_marginTop="20dp"/>
+                        android:textSize="22dp"
+                        android:layout_gravity="center" android:layout_marginTop="20dp"/>
             </LinearLayout>
 
             <android.support.v4.widget.SwipeRefreshLayout
@@ -96,13 +98,6 @@
                         android:layout_marginBottom="50dp"
                         />
             </android.support.v4.widget.SwipeRefreshLayout>
-            <!--<com.markupartist.android.widget.PullToRefreshListView
-                    android:layout_width="fill_parent"
-                    android:layout_height="fill_parent"
-                    android:id="@+id/listView"
-                    android:divider="@android:color/transparent"
-                    android:fastScrollEnabled="true"
-                    />-->
         </LinearLayout>
 
         <LinearLayout
@@ -125,5 +120,4 @@
                     />
         </LinearLayout>
     </LinearLayout>
-
 </LinearLayout>

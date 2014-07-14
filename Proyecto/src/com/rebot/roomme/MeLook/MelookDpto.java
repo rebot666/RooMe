@@ -85,8 +85,8 @@ public class MelookDpto extends FragmentActivity implements
         linear_options = (LinearLayout) findViewById(R.id.tab_options);
         loading_info = (RelativeLayout) findViewById(R.id.loading_info);
         loader = (ProgressWheel) findViewById(R.id.pw_spinner);
-        people = (ListView) findViewById(R.id.listView);
-        no_info = (LinearLayout) findViewById(R.id.layout_no_info);
+        app.dpto = (ListView) findViewById(R.id.listView);
+        app.noInfo = (LinearLayout) findViewById(R.id.layout_no_info);
         no_connection = (LinearLayout) findViewById(R.id.layout_no_connection);
 
         swipeLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_container);
@@ -129,28 +129,23 @@ public class MelookDpto extends FragmentActivity implements
             no_connection.setVisibility(View.VISIBLE);
         }
 
-        /*
-        people.setOnRefreshListener(new PullToRefreshListView.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                dptos.clear();
-                queryLoadData_dptos();
-            }
-        });
-        */
-
         swipeLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 dptos.clear();
+                app.noInfo.setVisibility(View.GONE);
                 queryLoadData_dptos();
             }
         });
 
-        /*ParseUser current = ParseUser.getCurrentUser();
-        if(current != null){
-
-        }*/
+        app.noInfo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dptos.clear();
+                app.noInfo.setVisibility(View.GONE);
+                queryLoadData_dptos();
+            }
+        });
     }
 
     @Override
@@ -225,12 +220,12 @@ public class MelookDpto extends FragmentActivity implements
                                 }
                             }
 
-                            people.setAdapter(new DepartmentAdapter(context,
+                            app.dpto.setAdapter(new DepartmentAdapter(context,
                                     R.layout.lookme_list_department_item, dptos, app, false));
                             loading_info.setVisibility(View.GONE);
                             loader.stopSpinning();
 
-                            people.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                            app.dpto.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                                 @Override
                                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                                     app.dptoSeleccionado = dptos.get(position);
@@ -255,7 +250,7 @@ public class MelookDpto extends FragmentActivity implements
         } else {
             Log.d("", "");
             loading_info.setVisibility(View.GONE);
-            no_info.setVisibility(View.VISIBLE);
+            app.noInfo.setVisibility(View.VISIBLE);
             loader.stopSpinning();
             //people.onRefreshComplete();
             swipeLayout.setRefreshing(false);

@@ -2,6 +2,7 @@ package com.rebot.roomme.SearchFragment;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
@@ -11,10 +12,15 @@ import android.view.ViewGroup;
 import android.widget.*;
 import com.actionbarsherlock.view.Window;
 import com.parse.*;
+import com.rebot.roomme.Adapters.LookMeAdpater;
+import com.rebot.roomme.CBR;
+import com.rebot.roomme.MeLookRoomie;
+import com.rebot.roomme.Models.Users;
 import com.rebot.roomme.R;
 import com.rebot.roomme.Roome;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -24,7 +30,7 @@ public class SearchRoomme extends DialogFragment {
     public static final int MIN_COMP = 0;
     public static final int MAX_COMP = 100;
 
-    private ArrayList<ParseUser> roomies;
+    private ArrayList<Users> roomies;
     private Context context;
     private Dialog dialog;
     private Roome app;
@@ -164,16 +170,49 @@ public class SearchRoomme extends DialogFragment {
             @Override
             public void done(List<ParseUser> parseUsers, ParseException e) {
                 if(e == null){
-                    if(parseUsers.size() != 0){
+                    if(parseUsers.size() > 0){
                         roomies.clear();
-                    }
+                        ParseUser me = ParseUser.getCurrentUser();
+                        if(me != null){
+                            for(ParseUser temp : parseUsers){
+                                if(temp.getBoolean("esRoomie")){
+                                    if(!me.getObjectId().equals(temp.getObjectId())){
+                                        double porcentaje = CBR.calculaCBR(me, temp);
 
-                    for(ParseUser user : parseUsers){
-                        roomies.add(user);
-                    }
+                                        if(porcentaje >= app.mincomp && porcentaje <= app.maxcomp){
+                                            Users tempUser = new Users(temp, porcentaje);
+                                            roomies.add(tempUser);
+                                        }
+                                    }
+                                }
+                            }
 
+                            Collections.sort(roomies);
+                        }else{
+                            for(ParseUser temp : parseUsers){
+                                if(temp.getBoolean("esRoomie")){
+                                    double porcentaje = -1.0;
+                                    Users tempUser = new Users(temp, porcentaje);
+                                    roomies.add(tempUser);
+                                }
+
+                            }
+                        }
+
+
+                        app.list_roomie.setAdapter(new LookMeAdpater(context,
+                                R.layout.lookme_list_item, roomies, app));
+                        app.list_roomie.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                app.roomieSeleccionado = roomies.get(position);
+                                Intent intent = new Intent(context, MeLookRoomie.class);
+                                context.startActivity(intent);
+                            }
+                        });
+                    }
                 } else {
-                    Log.e("", e.toString());
+                    app.noInfo.setVisibility(View.VISIBLE);
                 }
             }
         });
