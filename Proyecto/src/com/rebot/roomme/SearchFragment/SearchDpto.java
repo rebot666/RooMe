@@ -16,6 +16,7 @@ import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
+import com.rebot.roomme.Adapters.CountryAdapter;
 import com.rebot.roomme.Adapters.DepartmentAdapter;
 import com.rebot.roomme.MeLook.MelookDpto;
 import com.rebot.roomme.R;
@@ -23,6 +24,7 @@ import com.rebot.roomme.Roome;
 import com.rebot.roomme.SingleDepartment;
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
+import kankan.wheel.widget.WheelView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,7 +36,9 @@ public class SearchDpto extends DialogFragment {
     public static final int MIN_PRICE = 1000;
     public static final int MAX_PRICE = 1000000;
 
+    private ArrayList<String> countries, cities;
     private ArrayList<ParseObject> dptos;
+    private WheelView country, state;
     private Context context;
     private Dialog dialog;
     private Roome app;
@@ -76,8 +80,17 @@ public class SearchDpto extends DialogFragment {
         this.transaction = (RadioGroup) dialog.findViewById(R.id.trans);
 
         dptos = new ArrayList<ParseObject>();
+        countries = new ArrayList<String>();
+        cities = new ArrayList<String>();
+
         minp = MIN_PRICE;
         maxp = MAX_PRICE;
+
+        country = (WheelView) dialog.findViewById(R.id.country);
+        state = (WheelView) dialog.findViewById(R.id.state);
+
+        country.setVisibleItems(3);
+        country.setViewAdapter(new CountryAdapter(context, cities));
 
         this.close.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -243,5 +256,21 @@ public class SearchDpto extends DialogFragment {
                 }
             }
         });
+    }
+
+    public void getCountries(){
+        ParseQuery<ParseObject> get_countries = ParseQuery.getQuery("Countries");
+        get_countries.findInBackground(new FindCallback<ParseObject>() {
+            @Override
+            public void done(List<ParseObject> parseObjects, ParseException e) {
+                     
+                country.setVisibleItems(3);
+                country.setViewAdapter(new CountryAdapter(context, countries));
+            }
+        });
+    }
+
+    public void updateCities(){
+
     }
 }
