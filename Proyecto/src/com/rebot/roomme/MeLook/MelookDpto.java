@@ -175,7 +175,7 @@ public class MelookDpto extends FragmentActivity implements
     }
 
     public void setUpMap(){
-        /*googleMap.setMyLocationEnabled(true);
+        googleMap.setMyLocationEnabled(true);
 
         mUiSettings = googleMap.getUiSettings();
         mUiSettings.setZoomControlsEnabled(true);
@@ -196,7 +196,7 @@ public class MelookDpto extends FragmentActivity implements
                                 .icon(BitmapDescriptorFactory.fromResource(R.drawable.pin_house))
                                 .title(title));
             }
-        }*/
+        }
     }
 
     public void queryLoadData_dptos(){

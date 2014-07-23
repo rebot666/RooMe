@@ -212,7 +212,10 @@ public class MainDrawer extends SherlockFragmentActivity {
         }
 
         supportInvalidateOptionsMenu();
-        fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).commit();
+        fragmentManager.beginTransaction()
+                .setCustomAnimations(R.anim.animation1,R.anim.animation2)
+                .replace(R.id.content_frame, fragment)
+                .commit();
         // update selected item and title, then close the drawer
         mDrawerList.setItemChecked(position, true);
 

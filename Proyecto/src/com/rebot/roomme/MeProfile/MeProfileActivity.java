@@ -25,6 +25,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.w3c.dom.Text;
+import com.daimajia.androidanimations.library.YoYo;
+import com.daimajia.androidanimations.library.Techniques;
 
 import java.util.ArrayList;
 
@@ -190,6 +192,19 @@ public class MeProfileActivity extends FragmentActivity {
                 MeProfileActivity.this.startActivity(intent);
             }
         });
+
+        YoYo.with(Techniques.SlideInLeft)
+                .duration(2000)
+                .playOn(this.btn_publish);
+        YoYo.with(Techniques.SlideInLeft)
+                .duration(2000)
+                .playOn(this.btn_nuevo);
+        YoYo.with(Techniques.SlideInRight)
+                .duration(2000)
+                .playOn(this.btn_borradores);
+        YoYo.with(Techniques.SlideInRight)
+                .duration(2000)
+                .playOn(this.btn_oferta);
     }
 
     @Override

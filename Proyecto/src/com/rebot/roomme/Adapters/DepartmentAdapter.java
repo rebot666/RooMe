@@ -6,6 +6,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
+import com.daimajia.androidanimations.library.Techniques;
+import com.daimajia.androidanimations.library.YoYo;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
@@ -55,11 +57,16 @@ public class DepartmentAdapter extends ArrayAdapter<ParseObject> {
             holder.img_sex = (ImageView) row.findViewById(R.id.img_sex);
             holder.ribbon_destacado = (ImageView) row.findViewById(R.id.ribbon_destacado);
             holder.ribbon_roomme = (ImageView) row.findViewById(R.id.ribbon_roomme);
+            holder.cardBakground = (LinearLayout) row.findViewById(R.id.card_background_layout);
 
             row.setTag(holder);
         } else {
             holder = (GenericListHolder) row.getTag();
         }
+
+        YoYo.with(Techniques.ZoomIn)
+                .duration(2000)
+                .playOn(holder.cardBakground);
 
         ParseObject dpto = data[position];
 
@@ -122,5 +129,6 @@ public class DepartmentAdapter extends ArrayAdapter<ParseObject> {
         ImageView department, ribbon_roomme, img_sex, ribbon_destacado;
         TextView price_dpto, address_dpto, title_dpto, txt_count;
         Button favorite;
+        LinearLayout cardBakground;
     }
 }

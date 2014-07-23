@@ -6,6 +6,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
+import com.daimajia.androidanimations.library.Techniques;
+import com.daimajia.androidanimations.library.YoYo;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.ImageSize;
 import com.parse.ParseObject;
@@ -58,10 +60,12 @@ public class LookMeAdpater extends ArrayAdapter<Users> {
             holder.layoutImageFemale = (RelativeLayout) row.findViewById(R.id.layout_image_female);
             holder.layoutImageMale = (RelativeLayout) row.findViewById(R.id.layout_image_male);
 
+
             row.setTag(holder);
         } else {
             holder = (GenericListHolder) row.getTag();
         }
+
 
         ParseUser me = ParseUser.getCurrentUser();
         final Users objectoUsersActual = data[position];
@@ -149,5 +153,6 @@ public class LookMeAdpater extends ArrayAdapter<Users> {
         ProgressWheel percentage_female;
         ProgressWheel percentage_male;
         RelativeLayout layoutImageFemale, layoutImageMale;
+
     }
 }
