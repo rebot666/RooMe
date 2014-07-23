@@ -18,9 +18,11 @@ import com.nostra13.universalimageloader.utils.StorageUtils;
 import com.parse.Parse;
 import com.parse.ParseFacebookUtils;
 import com.parse.ParseObject;
+import com.rebot.roomme.Models.Services;
 import com.rebot.roomme.Models.Users;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
@@ -49,6 +51,9 @@ public class Roome extends Application {
     public int maxcomp, mincomp;
     public String genre;
     public int age;
+
+    public ArrayList<Services> services;
+    public ParseObject publicacionNueva;
 
     @Override
     public void onCreate() {

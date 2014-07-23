@@ -53,17 +53,15 @@ public class MisPublicaciones extends SherlockFragmentActivity {
         listView = (ListView) findViewById(R.id.publicaciones);
         loading_info = (RelativeLayout) findViewById(R.id.loading_info);
 
-        if(isOnline()){
-            loader.spin();
-            ParseUser user = ParseUser.getCurrentUser();
-            getQuery(user);
-        }
+
     }
 
     public void getQuery(ParseUser user){
         ParseQuery <ParseObject> own = ParseQuery.getQuery("Departamento");
+
         own.whereEqualTo("owner", user);
         own.include("owner");
+        own.orderByDescending("createdAt");
         own.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> parseObjects, ParseException e) {
@@ -116,5 +114,15 @@ public class MisPublicaciones extends SherlockFragmentActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        if(isOnline()){
+            loader.spin();
+            ParseUser user = ParseUser.getCurrentUser();
+            getQuery(user);
+        }
     }
 }

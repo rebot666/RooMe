@@ -8,6 +8,7 @@ import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
@@ -147,6 +148,23 @@ public class MainDrawer extends SherlockFragmentActivity {
             mDrawerLayout.closeDrawer(mDrawerList);
         }
 
+        if(item.getItemId() == R.id.save){
+            //Guardar
+            Intent intent = new Intent("my-event");
+            // add data
+            intent.putExtra("publish", false);
+            LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
+
+        }
+
+        if(item.getItemId() == R.id.publish){
+            //Publicar
+            Intent intent = new Intent("my-event");
+            // add data
+            intent.putExtra("publish", true);
+            LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
+        }
+
         return super.onOptionsItemSelected(item);
     }
 
@@ -228,6 +246,7 @@ public class MainDrawer extends SherlockFragmentActivity {
             } else {
                 item.setIcon(R.drawable.icon_color);
             }
+
         }
         return super.onPrepareOptionsMenu(menu);
     }

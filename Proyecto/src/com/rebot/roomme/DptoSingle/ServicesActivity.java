@@ -14,8 +14,11 @@ import com.rebot.roomme.Adapters.ServicesAdapter;
 import com.rebot.roomme.R;
 import com.rebot.roomme.Roome;
 import com.todddavies.components.progressbar.ProgressWheel;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -57,6 +60,60 @@ public class ServicesActivity extends FragmentActivity {
     }
 
     public void getQuery(){
+        services.clear();
+        List<HashMap> serviciosList = app.dptoSeleccionado.getList("servicios");
+
+        if(serviciosList != null){
+            ArrayList<String> arrayIds = new ArrayList<String>();
+
+            for(HashMap temp : serviciosList){
+                String id = (String) temp.get("id");
+                if(id != null){
+                    arrayIds.add(id);
+                }else{
+                    ParseObject tempService = new ParseObject("Servicios");
+
+                    tempService.put("name", (String) temp.get("name"));
+                    services.add(tempService);
+
+                }
+            }
+            ParseQuery<ParseObject> query = new ParseQuery<ParseObject>("Servicios");
+            query.whereContainedIn("objectId",arrayIds);
+
+            query.findInBackground(new FindCallback<ParseObject>() {
+                @Override
+                public void done(List<ParseObject> parseObjects, ParseException e) {
+                    if(e == null){
+                        for(ParseObject serviceParse : parseObjects){
+                            services.add(serviceParse);
+                        }
+                        if(services.size() > 0){
+                            loading.setVisibility(View.GONE);
+                            pw_loader.stopSpinning();
+
+                            services_grid.setAdapter(new ServicesAdapter(ctx,
+                                    R.layout.service_adapter, services, app));
+                        }else{
+                            loading.setVisibility(View.GONE);
+                            pw_loader.stopSpinning();
+                            noInfo.setVisibility(View.VISIBLE);
+                        }
+                    }else{
+                        loading.setVisibility(View.GONE);
+                        pw_loader.stopSpinning();
+                        noInfo.setVisibility(View.VISIBLE);
+                    }
+                }
+            });
+        }else{
+            loading.setVisibility(View.GONE);
+            pw_loader.stopSpinning();
+            noInfo.setVisibility(View.VISIBLE);
+        }
+
+
+        /*
         ParseQuery<ParseObject> services_query = ParseQuery.getQuery("Servicios_Dpto");
         services_query.whereEqualTo("dpto", app.dptoSeleccionado);
         services_query.include("service");
@@ -89,6 +146,7 @@ public class ServicesActivity extends FragmentActivity {
                 }
             }
         });
+        */
     }
 
     public boolean isOnline() {

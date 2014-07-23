@@ -34,6 +34,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.parse.*;
 import com.rebot.roomme.Adapters.ServiceCheckAdapter;
+import com.rebot.roomme.Models.Services;
 import com.rebot.roomme.R;
 import com.rebot.roomme.Roome;
 import com.rebot.roomme.WorkaroundMapFragment;
@@ -72,7 +73,7 @@ public class PublicacionNva extends SherlockFragmentActivity {
     private CheckBox amueblado;
 
     private GridView grid_services;
-    private ArrayList<ParseObject> services;
+    //private ArrayList<ParseObject> services;
     private Button plus_service;
 
     private static final int SELECT_PICTURE = 1;
@@ -95,7 +96,7 @@ public class PublicacionNva extends SherlockFragmentActivity {
     private ServiceCheckAdapter adapterGrid;
 
     private String textoNuevo;
-    private ArrayList<JSONObject> nuevosServicios;
+    private ArrayList<Services> nuevosServicios;
 
     @Override
     public void onCreate(Bundle savedInsatance){
@@ -126,6 +127,7 @@ public class PublicacionNva extends SherlockFragmentActivity {
         radio_trans = (RadioGroup) findViewById(R.id.rdgGrupo2);
         radio_gender = (RadioGroup) findViewById(R.id.rdgGrupo);
 
+
         //Second Layout
         two = (ScrollView) findViewById(R.id.scrollView2);
         linear_two = (LinearLayout) findViewById(R.id.second_detail);
@@ -144,7 +146,7 @@ public class PublicacionNva extends SherlockFragmentActivity {
         //Third Layout
         thirdLayout = (RelativeLayout) findViewById(R.id.layout_three);
         grid_services = (GridView) findViewById(R.id.services_grid);
-        services = new ArrayList<ParseObject>();
+        app.services = new ArrayList<Services>();
         plus_service = (Button) findViewById(R.id.btn_plus);
         cargandoLayout = (RelativeLayout) findViewById(R.id.loading_info);
         noInfoLayout = (LinearLayout) findViewById(R.id.layout_no_info);
@@ -152,7 +154,7 @@ public class PublicacionNva extends SherlockFragmentActivity {
 
         mapLayout = (LinearLayout) findViewById(R.id.layoutMap);
 
-        nuevosServicios = new ArrayList<JSONObject>();
+        nuevosServicios = new ArrayList<Services>();
 
         try {
             // Loading map
@@ -174,6 +176,8 @@ public class PublicacionNva extends SherlockFragmentActivity {
 
             googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
         }else {
+            location.setLatitude(latitude);
+            location.setLongitude(longitude);
             googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
             CameraPosition cameraPosition = new CameraPosition.Builder().target(
                     new LatLng(latitude, longitude))
@@ -446,9 +450,9 @@ public class PublicacionNva extends SherlockFragmentActivity {
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
-                            nuevosServicios.add(nuevoServ);
+                            //nuevosServicios.add(nuevoServ);
                             //parseServicio.saveInBackground();
-                            services.add(parseServicio);
+                            app.services.add(new Services(parseServicio));
                             adapterGrid.notifyDataSetChanged();
 
                             dialog.dismiss();
@@ -476,8 +480,14 @@ public class PublicacionNva extends SherlockFragmentActivity {
             }
 
             ParseFile file = object.getParseFile("img_portada");
-            ImageLoader.getInstance().displayImage(file.getUrl(),
-                    img_dpto, app.options3, app.animateFirstListener);
+            if(file != null){
+                ImageLoader.getInstance().displayImage(file.getUrl(),
+                        img_dpto, app.options3, app.animateFirstListener);
+            }else{
+                ImageLoader.getInstance().displayImage("",
+                        img_dpto, app.options3, app.animateFirstListener);
+            }
+
 
             if(object.getBoolean("roommee")){
                 ch_roomme.setChecked(true);
@@ -501,7 +511,7 @@ public class PublicacionNva extends SherlockFragmentActivity {
 
             String price = object.getNumber("price") + "";
             if(!price.equalsIgnoreCase("")){
-                precio.setText("Precio: $" + price);
+                precio.setText(price);
             }
 
             String sex = object.getString("sex");
@@ -544,6 +554,17 @@ public class PublicacionNva extends SherlockFragmentActivity {
             String dir = object.getString("address");
             if(dir != null){
                 direccion.setText(dir);
+            }
+            if(object.getParseGeoPoint("location") != null){
+                locationDepartmentPoint = new LatLng(object.getParseGeoPoint("location").getLatitude(),
+                        object.getParseGeoPoint("location").getLongitude());
+                googleMap.clear();
+                googleMap.addMarker(
+                        new MarkerOptions()
+                                .position(locationDepartmentPoint)
+                                .icon(BitmapDescriptorFactory.fromResource(R.drawable.pin_house))
+                )
+                ;
             }
         }
 
@@ -676,13 +697,13 @@ public class PublicacionNva extends SherlockFragmentActivity {
                 public void done(List<ParseObject> parseObjects, ParseException e) {
                     if(e == null){
                         if(parseObjects.size() > 0){
-                            services.clear();
+                            app.services.clear();
 
                             for(ParseObject service : parseObjects){
-                                services.add(service);
+                                app.services.add(new Services(service));
                             }
 
-                             adapterGrid = new ServiceCheckAdapter(ctx,R.layout.ser_che_layout, services, app);
+                            adapterGrid = new ServiceCheckAdapter(ctx,R.layout.ser_che_layout, app.services, app);
                             grid_services.setAdapter(adapterGrid);
 
                             cargandoLayout.setVisibility(View.GONE);
@@ -793,10 +814,17 @@ public class PublicacionNva extends SherlockFragmentActivity {
 
         if(item.getItemId() == R.id.save){
             //Guardar
+            if(validaDatos()){
+                prepararPublicacion(true);
+            }
+
         }
 
         if(item.getItemId() == R.id.publish){
             //Publicar
+            if(validaDatos()) {
+                prepararPublicacion(false);
+            }
         }
 
         return super.onOptionsItemSelected(item);
@@ -851,5 +879,175 @@ public class PublicacionNva extends SherlockFragmentActivity {
         }
         return l;
     }
+
+    public void prepararPublicacion(boolean isDraftLocal){
+        ParseUser owner = ParseUser.getCurrentUser();
+        if(owner != null){
+            String title = "";
+            String description = "";
+            int price = 0;
+            Bitmap img_portada = null;
+            String address = "";
+            ParseGeoPoint location = null;
+            String country = "";
+            String estado = "";
+            String ciudad = "";
+            double tamanoParse = 0;
+            double no_rooms = 0;
+            double no_plantas = 0;
+            double no_banos = 0;
+            double parking = 0;
+            String sex = "B";                                 //M F B
+            boolean destacado = false;
+            String transaccion = "";                         //venta renta
+            int offers = 0;
+            boolean roommee = false;
+            int no_photos = 1;                              //1
+            String adicionales = "";
+            boolean isSell = false;
+            boolean isDraft = true;
+            double comedorParse  = 0;
+            boolean muebles = false;
+            double no_cocina = 0;
+
+            title = titulo.getText().toString();
+            if(ch_roomme.isChecked()){ roommee = true;} else{roommee = false;}
+            int index = radio_trans.indexOfChild(findViewById(radio_trans.getCheckedRadioButtonId()));
+            if(index == 0){transaccion = "renta";}else{transaccion = "venta";}
+            index = radio_gender.indexOfChild(findViewById(radio_gender.getCheckedRadioButtonId()));
+            if(index == 0){sex = "F";}else if(index == 1){sex = "M";}else{sex = "B";}
+            price = Integer.parseInt(precio.getText().toString());
+            address =  direccion.getText().toString();
+
+            description = descripcion.getText().toString();
+            if(!tamano.getText().toString().equals("")){
+                tamanoParse = Double.parseDouble(tamano.getText().toString());}
+            else{
+                tamanoParse = 0.0;
+            }
+            if(!plantas.getText().toString().equals("")) {
+                no_plantas = Double.parseDouble(plantas.getText().toString());
+            }else{
+                no_plantas = 0.0;
+            }
+            if(!cuartos.getText().toString().equals("")){
+                no_rooms = Double.parseDouble(cuartos.getText().toString());
+            }else {
+                no_rooms = 0.0;
+            }
+            if(!banos.getText().toString().equals("")) {
+                no_banos = Double.parseDouble(banos.getText().toString());
+            }else{
+                no_banos = 0.0;
+            }
+            if(!cocina.getText().toString().equals("")) {
+                no_cocina = Double.parseDouble(cocina.getText().toString());
+            }else{
+                no_cocina = 0.0;
+            }
+            if(!comedor.getText().toString().equals("")){
+                comedorParse = Double.parseDouble(comedor.getText().toString());
+            }else{
+                comedorParse = 0.0;
+            }
+            if(amueblado.isChecked()){muebles = true;}else{muebles = false;}
+            if(!estacionamiento.getText().toString().equals("")) {
+                parking = Double.parseDouble(estacionamiento.getText().toString());
+            }else{
+                parking = 0.0;
+            }
+            adicionales = adicional.getText().toString();
+            if(locationDepartmentPoint == null){
+                location = new ParseGeoPoint(latitude,longitude);
+            }else{
+                location = new ParseGeoPoint(locationDepartmentPoint.latitude, locationDepartmentPoint.longitude);
+            }
+
+            ArrayList<JSONObject> servicesParse = new ArrayList<JSONObject>();
+            for(Services tempService : app.services){
+                if(tempService.isChecked()){
+                    nuevosServicios.add(tempService);
+                    JSONObject jsonServiceParse = new JSONObject();
+
+                    try {
+                        jsonServiceParse.put("id", tempService.getServiceParse().getObjectId());
+                        jsonServiceParse.put("name", tempService.getServiceParse().getString("name"));
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    servicesParse.add(jsonServiceParse);
+
+                }
+            }
+
+
+
+
+            if(object != null){
+                object.put("owner", owner);
+                object.put("title", title);
+                object.put("roommee",roommee);
+                object.put("transaccion", transaccion);
+                object.put("sex",sex);
+                object.put("price",price);
+                object.put("address", address);
+                object.put("description", description);
+                object.put("tamano", tamanoParse);
+                object.put("no_plantas", no_plantas);
+                object.put("no_rooms", no_rooms);
+                object.put("no_banos", no_banos);
+                object.put("no_cocina", no_cocina);
+                object.put("comedor", comedorParse);
+                object.put("muebles", muebles);
+                object.put("parking", parking);
+                object.put("adicionales", adicionales);
+                object.put("location", location);
+                object.put("offers", 0);
+                object.put("servicios", servicesParse);
+                if(isDraftLocal){object.put("isDraft", true);}else{object.put("isDraft", false);}
+                object.saveInBackground(new SaveCallback() {
+                    @Override
+                    public void done(ParseException e) {
+                        if(e == null){
+                            finish();
+                        }
+                    }
+                });
+            }else{
+                ParseObject publicacion = new ParseObject("Departamento");
+                publicacion.put("owner", owner);
+                publicacion.put("title", title);
+                publicacion.put("roommee",roommee);
+                publicacion.put("transaccion", transaccion);
+                publicacion.put("sex",sex);
+                publicacion.put("price",price);
+                publicacion.put("address", address);
+                publicacion.put("description", description);
+                publicacion.put("tamano", tamanoParse);
+                publicacion.put("no_plantas", no_plantas);
+                publicacion.put("no_rooms", no_rooms);
+                publicacion.put("no_banos", no_banos);
+                publicacion.put("no_cocina", no_cocina);
+                publicacion.put("comedor", comedorParse);
+                publicacion.put("muebles", muebles);
+                publicacion.put("parking", parking);
+                publicacion.put("adicionales", adicionales);
+                publicacion.put("location", location);
+                publicacion.put("offers", 0);
+                publicacion.put("servicios", servicesParse);
+                if(isDraftLocal){publicacion.put("isDraft", true);}else{publicacion.put("isDraft", false);}
+                publicacion.saveInBackground(new SaveCallback() {
+                    @Override
+                    public void done(ParseException e) {
+                        if(e == null){
+                            finish();
+                        }
+                    }
+                });
+            }
+
+        }
+    }
+
 
 }

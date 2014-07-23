@@ -1,27 +1,49 @@
 package com.rebot.roomme.MeGo;
 
+import android.app.Dialog;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.location.Location;
+import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.content.LocalBroadcastManager;
 import android.view.View;
 import android.widget.*;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.MenuItem;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.CameraPosition;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.parse.*;
 import com.rebot.roomme.Adapters.ServiceCheckAdapter;
+import com.rebot.roomme.Models.Services;
 import com.rebot.roomme.R;
 import com.rebot.roomme.Roome;
+import com.rebot.roomme.WorkaroundMapFragment;
 import com.todddavies.components.progressbar.ProgressWheel;
 import de.keyboardsurfer.android.widget.crouton.Crouton;
+import org.json.JSONException;
+import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,15 +54,17 @@ public class MeGoActivity extends FragmentActivity {
     private Roome app;
     private Context ctx = this;
     private Crouton crouton;
-    private Button next;
+    private Button next, back;
     private ParseObject object;
 
+    private ScrollView one;
     private LinearLayout linear_one;
     private EditText titulo, inmueble, precio, direccion;
     private ImageView img_dpto, photo1, photo2, photo3, photo4;
     private CheckBox ch_roomme;
     private RadioGroup radio_trans, radio_gender;
 
+    private ScrollView two;
     private LinearLayout linear_two;
     private EditText descripcion, tamano, plantas;
     private EditText cuartos, banos, cocina;
@@ -48,13 +72,31 @@ public class MeGoActivity extends FragmentActivity {
     private CheckBox amueblado;
 
     private GridView grid_services;
-    private ArrayList<ParseObject> services;
+    //private ArrayList<ParseObject> services;
+    private Button plus_service;
 
     private static final int SELECT_PICTURE = 1;
     private static final int PHOTO_1 = 2;
     private static final int PHOTO_2 = 3;
     private static final int PHOTO_3 = 4;
     private static final int PHOTO_4 = 5;
+
+    private RelativeLayout thirdLayout;
+
+    private RelativeLayout cargandoLayout;
+    private LinearLayout noInfoLayout, mapLayout;
+    private ProgressWheel loader;
+
+    private GoogleMap googleMap;
+    double latitude = 20.613785;
+    double longitude = -100.388371;
+    private LatLng locationDepartmentPoint;
+
+    private ServiceCheckAdapter adapterGrid;
+
+    private String textoNuevo;
+    private ArrayList<Services> nuevosServicios;
+
 
     @Override
     public void onCreate(Bundle savedInsatance){
@@ -63,8 +105,10 @@ public class MeGoActivity extends FragmentActivity {
 
         app = (Roome) getApplication();
         next = (Button) findViewById(R.id.btn_siguiente);
+        back = (Button) findViewById(R.id.btn_regresar);
 
         //First Layout
+        one = (ScrollView) findViewById(R.id.scrollView);
         linear_one = (LinearLayout) findViewById(R.id.first_detail);
         titulo = (EditText) findViewById(R.id.title_publicacion);
         inmueble = (EditText) findViewById(R.id.txt_inmueble);
@@ -82,7 +126,9 @@ public class MeGoActivity extends FragmentActivity {
         radio_trans = (RadioGroup) findViewById(R.id.rdgGrupo2);
         radio_gender = (RadioGroup) findViewById(R.id.rdgGrupo);
 
+
         //Second Layout
+        two = (ScrollView) findViewById(R.id.scrollView2);
         linear_two = (LinearLayout) findViewById(R.id.second_detail);
         descripcion = (EditText) findViewById(R.id.txt_descripcion);
         tamano = (EditText) findViewById(R.id.txt_tamano);
@@ -94,24 +140,73 @@ public class MeGoActivity extends FragmentActivity {
         estacionamiento = (EditText) findViewById(R.id.txt_estacionamiento);
         adicional = (EditText) findViewById(R.id.txt_adicional);
 
-        amueblado = (CheckBox) findViewById(R.id.checkBox);
+        amueblado = (CheckBox) findViewById(R.id.amueblado);
 
         //Third Layout
+        thirdLayout = (RelativeLayout) findViewById(R.id.layout_three);
         grid_services = (GridView) findViewById(R.id.services_grid);
-        services = new ArrayList<ParseObject>();
+        app.services = new ArrayList<Services>();
+        plus_service = (Button) findViewById(R.id.btn_plus);
+        cargandoLayout = (RelativeLayout) findViewById(R.id.loading_info);
+        noInfoLayout = (LinearLayout) findViewById(R.id.layout_no_info);
+        loader = (ProgressWheel) findViewById(R.id.pw_spinner);
+
+        mapLayout = (LinearLayout) findViewById(R.id.layoutMap);
+
+        nuevosServicios = new ArrayList<Services>();
+
+        try {
+            // Loading map
+            initilizeMap();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        Location location = getGPS();
+        if(location != null){
+            googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+            CameraPosition cameraPosition = new CameraPosition.Builder().target(
+                    new LatLng(location.getLatitude(), location.getLongitude()))
+                    .zoom(15.5f)
+                            //.bearing(330)
+                            //.tilt(50)
+                    .build();
+
+            googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+        }else {
+            location.setLatitude(latitude);
+            location.setLongitude(longitude);
+            googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+            CameraPosition cameraPosition = new CameraPosition.Builder().target(
+                    new LatLng(latitude, longitude))
+                    //.zoom(10.0f)
+                    //.bearing(330)
+                    //.tilt(50)
+                    .build();
+
+            googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+        }
 
         if(app.dptoSeleccionado != null){
             getQuery();
         }
 
+        back.setVisibility(View.GONE);
         next.setVisibility(View.VISIBLE);
         next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(linear_one.getVisibility() == View.VISIBLE){
+
                     if(validaDatos()){
+                        guardaDatos();
+                        one.setVisibility(View.GONE);
                         linear_one.setVisibility(View.GONE);
+                        mapLayout.setVisibility(View.VISIBLE);
+                        two.setVisibility(View.VISIBLE);
                         linear_two.setVisibility(View.VISIBLE);
+                        back.setVisibility(View.VISIBLE);
                         if(app.dptoSeleccionado != null){
                             cargaDatos();
                         }
@@ -132,10 +227,19 @@ public class MeGoActivity extends FragmentActivity {
                     }
                 } else if(linear_two.getVisibility() == View.VISIBLE){
                     if(validaDatos()){
+                        two.setVisibility(View.GONE);
                         linear_two.setVisibility(View.GONE);
-                        grid_services.setVisibility(View.VISIBLE);
+                        mapLayout.setVisibility(View.GONE);
                         next.setVisibility(View.GONE);
-                        getQueryServicios();
+                        if(app.dptoSeleccionado == null){
+                            loader.spin();
+                            getQueryServicios();
+                        } else {
+
+                        }
+                        thirdLayout.setVisibility(View.VISIBLE);
+                        grid_services.setVisibility(View.VISIBLE);
+                        plus_service.setVisibility(View.VISIBLE);
                     } else {
                         View view = getLayoutInflater().inflate(R.layout.crouton_custom_view, null);
                         TextView title = (TextView) view.findViewById(R.id.title);
@@ -151,6 +255,38 @@ public class MeGoActivity extends FragmentActivity {
                         });
                         crouton.show();
                     }
+                }else{
+                }
+            }
+        });
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(linear_one.getVisibility() == View.VISIBLE){
+                    back.setVisibility(View.GONE);
+                    one.setVisibility(View.VISIBLE);
+                    linear_one.setVisibility(View.VISIBLE);
+                } else if(linear_two.getVisibility() == View.VISIBLE){
+                    back.setVisibility(View.GONE);
+                    one.setVisibility(View.VISIBLE);
+                    linear_one.setVisibility(View.VISIBLE);
+                    mapLayout.setVisibility(View.GONE);
+                    two.setVisibility(View.GONE);
+                    linear_two.setVisibility(View.GONE);
+                    back.setVisibility(View.VISIBLE);
+                }else{
+                    one.setVisibility(View.GONE);
+                    linear_one.setVisibility(View.GONE);
+                    two.setVisibility(View.VISIBLE);
+                    linear_two.setVisibility(View.VISIBLE);
+                    mapLayout.setVisibility(View.VISIBLE);
+                    back.setVisibility(View.VISIBLE);
+                    linear_two.setVisibility(View.VISIBLE);
+                    thirdLayout.setVisibility(View.GONE);
+                    grid_services.setVisibility(View.GONE);
+                    plus_service.setVisibility(View.GONE);
+                    next.setVisibility(View.VISIBLE);
+
                 }
             }
         });
@@ -259,6 +395,80 @@ public class MeGoActivity extends FragmentActivity {
                 startActivityForResult(chooserIntent, PHOTO_4);
             }
         });
+
+        ((WorkaroundMapFragment) getSupportFragmentManager().findFragmentById(R.id.map)).setListener(new WorkaroundMapFragment.OnTouchListener() {
+            @Override
+            public void onTouch() {
+                two.requestDisallowInterceptTouchEvent(true);
+            }
+
+        });
+
+        googleMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+
+            @Override
+            public void onMapClick(LatLng point) {
+                locationDepartmentPoint = point;
+                googleMap.clear();
+                googleMap.addMarker(
+                        new MarkerOptions()
+                                .position(point)
+                                .icon(BitmapDescriptorFactory.fromResource(R.drawable.pin_house))
+                )
+                ;
+
+            }
+        });
+
+        plus_service.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                // custom dialog
+                final Dialog dialog = new Dialog(ctx);
+
+                dialog.setContentView(R.layout.service_dialog_item);
+                dialog.setTitle(getString(R.string.app_name));
+
+                // set the custom dialog components - text, image and button
+                final EditText text = (EditText) dialog.findViewById(R.id.nombre_servicio);
+
+                Button dialogButton = (Button) dialog.findViewById(R.id.btn_aceptar);
+                // if button is clicked, close the custom dialog
+                dialogButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if(!text.getText().equals("")){
+                            textoNuevo = text.getText().toString();
+                            ParseObject parseServicio = new ParseObject("Servicios");
+                            parseServicio.put("name", textoNuevo);
+
+                            JSONObject nuevoServ = new JSONObject();
+                            try {
+                                nuevoServ.put("nombre", textoNuevo);
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                            //nuevosServicios.add(nuevoServ);
+                            //parseServicio.saveInBackground();
+                            app.services.add(new Services(parseServicio));
+                            adapterGrid.notifyDataSetChanged();
+
+                            dialog.dismiss();
+                        }else{
+                            dialog.dismiss();
+                        }
+                    }
+                });
+
+                dialog.show();
+
+
+
+
+            }
+        });
+
     }
 
     public void cargaDatos(){
@@ -269,8 +479,14 @@ public class MeGoActivity extends FragmentActivity {
             }
 
             ParseFile file = object.getParseFile("img_portada");
-            ImageLoader.getInstance().displayImage(file.getUrl(),
-                    img_dpto, app.options3, app.animateFirstListener);
+            if(file != null){
+                ImageLoader.getInstance().displayImage(file.getUrl(),
+                        img_dpto, app.options3, app.animateFirstListener);
+            }else{
+                ImageLoader.getInstance().displayImage("",
+                        img_dpto, app.options3, app.animateFirstListener);
+            }
+
 
             if(object.getBoolean("roommee")){
                 ch_roomme.setChecked(true);
@@ -294,7 +510,7 @@ public class MeGoActivity extends FragmentActivity {
 
             String price = object.getNumber("price") + "";
             if(!price.equalsIgnoreCase("")){
-                precio.setText("Precio: $" + precio);
+                precio.setText("Precio: $" + price);
             }
 
             String sex = object.getString("sex");
@@ -335,7 +551,9 @@ public class MeGoActivity extends FragmentActivity {
             }
 
             String dir = object.getString("address");
-            direccion.setText(object.getString("address"));
+            if(dir != null){
+                direccion.setText(dir);
+            }
         }
 
         if(linear_two.getVisibility() == View.VISIBLE){
@@ -382,7 +600,7 @@ public class MeGoActivity extends FragmentActivity {
 
             double park = object.getDouble("parking");
             if(park >= 0){
-                estacionamiento.setText("Estacionamiento:  " + park);
+                estacionamiento.setText("" + park);
             }
 
             String add = object.getString("adicionales");
@@ -392,9 +610,40 @@ public class MeGoActivity extends FragmentActivity {
         }
     }
 
-
     public boolean validaDatos(){
+        String title = titulo.getText().toString() + "";
+        if(title.equalsIgnoreCase("")){
+            return false;
+        }
+
+        String price = precio.getText().toString() + "";
+        if(price.equalsIgnoreCase("")){
+            return false;
+        }
+
+        String address = direccion.getText().toString() + "";
+        if(address.equalsIgnoreCase("")){
+            return false;
+        }
+
         return true;
+    }
+
+    public void guardaDatos(){
+        String title = titulo.getText().toString() + "";
+        if(title.equalsIgnoreCase("")){
+
+        }
+
+        String price = precio.getText().toString() + "";
+        if(price.equalsIgnoreCase("")){
+            //return false;
+        }
+
+        String address = direccion.getText().toString() + "";
+        if(address.equalsIgnoreCase("")){
+            //return false;
+        }
     }
 
     public void getQuery(){
@@ -403,8 +652,8 @@ public class MeGoActivity extends FragmentActivity {
             dpto.getInBackground(app.dptoSeleccionado.getObjectId(), new GetCallback<ParseObject>() {
                 @Override
                 public void done(ParseObject parseObject, ParseException e) {
-                    if (e == null) {
-                        if (parseObject != null) {
+                    if(e == null){
+                        if(parseObject != null){
                             object = parseObject;
                             cargaDatos();
                         }
@@ -436,14 +685,23 @@ public class MeGoActivity extends FragmentActivity {
                 public void done(List<ParseObject> parseObjects, ParseException e) {
                     if(e == null){
                         if(parseObjects.size() > 0){
-                            services.clear();
+                            app.services.clear();
 
                             for(ParseObject service : parseObjects){
-                                services.add(service);
+                                app.services.add(new Services(service));
                             }
 
-                            grid_services.setAdapter(new ServiceCheckAdapter(ctx,
-                                    R.layout.ser_che_layout, services, app));
+                            adapterGrid = new ServiceCheckAdapter(ctx,R.layout.ser_che_layout, app.services, app);
+                            grid_services.setAdapter(adapterGrid);
+
+                            cargandoLayout.setVisibility(View.GONE);
+                            noInfoLayout.setVisibility(View.GONE);
+                            loader.stopSpinning();
+                        }else{
+
+                            cargandoLayout.setVisibility(View.GONE);
+                            noInfoLayout.setVisibility(View.GONE);
+                            loader.stopSpinning();
                         }
                     } else {
                         View view = getLayoutInflater().inflate(R.layout.crouton_custom_view, null);
@@ -459,9 +717,16 @@ public class MeGoActivity extends FragmentActivity {
                             }
                         });
                         crouton.show();
+                        cargandoLayout.setVisibility(View.GONE);
+                        noInfoLayout.setVisibility(View.GONE);
+                        loader.stopSpinning();
                     }
                 }
             });
+        }else{
+            cargandoLayout.setVisibility(View.GONE);
+            noInfoLayout.setVisibility(View.GONE);
+            loader.stopSpinning();
         }
     }
 
@@ -488,9 +753,25 @@ public class MeGoActivity extends FragmentActivity {
             final String imageFilePath = cursor.getString(0);
             Drawable d = Drawable.createFromPath(imageFilePath);
 
+            Bitmap bitmap = ((BitmapDrawable)d).getBitmap();
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            int quality                = 80;
+
+            /*
+            do {
+                bitmap.compress(Bitmap.CompressFormat.PNG, quality, baos);
+                if (baos.size() > 800)
+                    quality = quality * 800 / baos.size();
+            } while (baos.size() > 800);
+            */
+
+            //Bitmap bMap = BitmapFactory.decodeByteArray(baos.toByteArray(), 0, baos.toByteArray().length);
+
             if(requestCode == SELECT_PICTURE){
                 img_dpto.setImageDrawable(d);
                 img_dpto.setScaleType(ImageView.ScaleType.CENTER_CROP);
+
+
             } else if(requestCode == PHOTO_1){
                 photo1.setImageDrawable(d);
                 photo1.setScaleType(ImageView.ScaleType.CENTER_CROP);
@@ -511,5 +792,247 @@ public class MeGoActivity extends FragmentActivity {
 
         super.onActivityResult(requestCode, resultCode, data);
     }
+
+    private void initilizeMap() {
+        if (googleMap == null) {
+            FragmentManager fmanager = getSupportFragmentManager();
+            Fragment fragment = fmanager.findFragmentById(R.id.map);
+            SupportMapFragment supportmapfragment = (SupportMapFragment)fragment;
+            googleMap = supportmapfragment.getMap();
+            //googleMap = ((MapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
+
+            // check if map is created successfully or not
+            if (googleMap == null) {
+                Toast.makeText(getApplicationContext(),
+                        "Sorry! unable to create maps", Toast.LENGTH_SHORT)
+                        .show();
+            }
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        initilizeMap();
+        LocalBroadcastManager.getInstance(this).registerReceiver(mPublicationReceiver,new IntentFilter("my-event"));
+    }
+
+    @Override
+    protected void onPause() {
+        // Unregister since the activity is not visible
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(mPublicationReceiver);
+        super.onPause();
+    }
+
+    // handler for received Intents for the "my-event" event
+    private BroadcastReceiver mPublicationReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            // Extract data included in the Intent
+            boolean isPublish = intent.getBooleanExtra("publish", false);
+            if(isPublish){
+                if(validaDatos()){
+                    prepararPublicacion(false);
+
+                }
+            }else{
+                if(validaDatos()){
+                    prepararPublicacion(true);
+                }
+            }
+        }
+    };
+
+    private Location getGPS() {
+        LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        List<String> providers = lm.getProviders(true);
+
+        /* Loop over the array backwards, and if you get an accurate location, then break out the loop*/
+        Location l = null;
+
+        for (int i=providers.size()-1; i>=0; i--) {
+            l = lm.getLastKnownLocation(providers.get(i));
+            if (l != null) break;
+        }
+
+        double[] gps = new double[2];
+        if (l != null) {
+            gps[0] = l.getLatitude();
+            gps[1] = l.getLongitude();
+        }
+        return l;
+    }
+
+    public void prepararPublicacion(boolean isDraftLocal){
+        ParseUser owner = ParseUser.getCurrentUser();
+        if(owner != null){
+            String title = "";
+            String description = "";
+            int price = 0;
+            Bitmap img_portada = null;
+            String address = "";
+            ParseGeoPoint location = null;
+            String country = "";
+            String estado = "";
+            String ciudad = "";
+            double tamanoParse = 0;
+            double no_rooms = 0;
+            double no_plantas = 0;
+            double no_banos = 0;
+            double parking = 0;
+            String sex = "B";                                 //M F B
+            boolean destacado = false;
+            String transaccion = "";                         //venta renta
+            int offers = 0;
+            boolean roommee = false;
+            int no_photos = 1;                              //1
+            String adicionales = "";
+            boolean isSell = false;
+            boolean isDraft = true;
+            double comedorParse  = 0;
+            boolean muebles = false;
+            double no_cocina = 0;
+
+            title = titulo.getText().toString();
+            if(ch_roomme.isChecked()){ roommee = true;} else{roommee = false;}
+            int index = radio_trans.indexOfChild(findViewById(radio_trans.getCheckedRadioButtonId()));
+            if(index == 0){transaccion = "renta";}else{transaccion = "venta";}
+            index = radio_gender.indexOfChild(findViewById(radio_gender.getCheckedRadioButtonId()));
+            if(index == 0){sex = "F";}else if(index == 1){sex = "M";}else{sex = "B";}
+            price = Integer.parseInt(precio.getText().toString());
+            address =  direccion.getText().toString();
+
+            description = descripcion.getText().toString();
+            if(!tamano.getText().toString().equals("")){
+                tamanoParse = Double.parseDouble(tamano.getText().toString());}
+            else{
+                tamanoParse = 0.0;
+            }
+            if(!plantas.getText().toString().equals("")) {
+                no_plantas = Double.parseDouble(plantas.getText().toString());
+            }else{
+                no_plantas = 0.0;
+            }
+            if(!cuartos.getText().toString().equals("")){
+                no_rooms = Double.parseDouble(cuartos.getText().toString());
+            }else {
+                no_rooms = 0.0;
+            }
+            if(!banos.getText().toString().equals("")) {
+                no_banos = Double.parseDouble(banos.getText().toString());
+            }else{
+                no_banos = 0.0;
+            }
+            if(!cocina.getText().toString().equals("")) {
+                no_cocina = Double.parseDouble(cocina.getText().toString());
+            }else{
+                no_cocina = 0.0;
+            }
+            if(!comedor.getText().toString().equals("")){
+                comedorParse = Double.parseDouble(comedor.getText().toString());
+            }else{
+                comedorParse = 0.0;
+            }
+            if(amueblado.isChecked()){muebles = true;}else{muebles = false;}
+            if(!estacionamiento.getText().toString().equals("")) {
+                parking = Double.parseDouble(estacionamiento.getText().toString());
+            }else{
+                parking = 0.0;
+            }
+            adicionales = adicional.getText().toString();
+            if(locationDepartmentPoint == null){
+                location = new ParseGeoPoint(latitude,longitude);
+            }else{
+                location = new ParseGeoPoint(locationDepartmentPoint.latitude, locationDepartmentPoint.longitude);
+            }
+
+            ArrayList<JSONObject> servicesParse = new ArrayList<JSONObject>();
+            for(Services tempService : app.services){
+                if(tempService.isChecked()){
+                    nuevosServicios.add(tempService);
+                    JSONObject jsonServiceParse = new JSONObject();
+
+                    try {
+                        jsonServiceParse.put("id", tempService.getServiceParse().getObjectId());
+                        jsonServiceParse.put("name", tempService.getServiceParse().getString("name"));
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    servicesParse.add(jsonServiceParse);
+
+                }
+            }
+
+
+
+
+            if(object != null){
+                object.put("owner", owner);
+                object.put("title", title);
+                object.put("roommee",roommee);
+                object.put("transaccion", transaccion);
+                object.put("sex",sex);
+                object.put("price",price);
+                object.put("address", address);
+                object.put("description", description);
+                object.put("tamano", tamanoParse);
+                object.put("no_plantas", no_plantas);
+                object.put("no_rooms", no_rooms);
+                object.put("no_banos", no_banos);
+                object.put("no_cocina", no_cocina);
+                object.put("comedor", comedorParse);
+                object.put("muebles", muebles);
+                object.put("parking", parking);
+                object.put("adicionales", adicionales);
+                object.put("location", location);
+                object.put("offers", 0);
+                object.put("servicios", servicesParse);
+                if(isDraftLocal){object.put("isDraft", true);}else{object.put("isDraft", false);}
+                object.saveInBackground(new SaveCallback() {
+                    @Override
+                    public void done(ParseException e) {
+                        if(e == null){
+
+                        }
+                    }
+                });
+            }else{
+                ParseObject publicacion = new ParseObject("Departamento");
+                publicacion.put("owner", owner);
+                publicacion.put("title", title);
+                publicacion.put("roommee",roommee);
+                publicacion.put("transaccion", transaccion);
+                publicacion.put("sex",sex);
+                publicacion.put("price",price);
+                publicacion.put("address", address);
+                publicacion.put("description", description);
+                publicacion.put("tamano", tamanoParse);
+                publicacion.put("no_plantas", no_plantas);
+                publicacion.put("no_rooms", no_rooms);
+                publicacion.put("no_banos", no_banos);
+                publicacion.put("no_cocina", no_cocina);
+                publicacion.put("comedor", comedorParse);
+                publicacion.put("muebles", muebles);
+                publicacion.put("parking", parking);
+                publicacion.put("adicionales", adicionales);
+                publicacion.put("location", location);
+                publicacion.put("offers", 0);
+                publicacion.put("servicios", servicesParse);
+                if(isDraftLocal){publicacion.put("isDraft", true);}else{publicacion.put("isDraft", false);}
+                publicacion.saveInBackground(new SaveCallback() {
+                    @Override
+                    public void done(ParseException e) {
+                        if(e == null){
+
+                        }
+                    }
+                });
+            }
+
+
+        }
+    }
+
+
 }
 

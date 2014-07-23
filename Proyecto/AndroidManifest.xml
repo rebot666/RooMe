@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="com.rebot.roomme"
-          android:versionCode="1"
-          android:versionName="1.0">
+          android:versionCode="2"
+          android:versionName="1.1">
     <uses-sdk android:minSdkVersion="7"
-              android:targetSdkVersion="10" />
+               />
     <application android:label="@string/app_name"
                  android:icon="@drawable/icono_roomee"
                  android:name="Roome"
@@ -277,17 +277,17 @@
                 android:name="com.google.android.gms.version"
                 android:value="@integer/google_play_services_version" />
         <!--Alex Debug Map Key-->
-        <!--<meta-data
+        <meta-data
                 android:name="com.google.android.maps.v2.API_KEY"
-                android:value="AIzaSyA5dXK8gr7xQH90V-MZ2hW0WdEJMxVUl0A"/>-->
+                android:value="AIzaSyA5dXK8gr7xQH90V-MZ2hW0WdEJMxVUl0A"/>
         <!--Denisse Debug Map Key-->
         <!--<meta-data
                 android:name="com.google.android.maps.v2.API_KEY"
                 android:value="AIzaSyA_hk2pQanvYzEsjqVAVJKwKjBhicGHSXY"/>-->
         <!--Production Debug Map Key-->
-        <meta-data
+        <!--<meta-data
                 android:name="com.google.android.maps.v2.API_KEY"
-                android:value="AIzaSyAFdCXwO7GCv0g3nsTf9O9IYJ_2Wq_Xt84"/>
+                android:value="AIzaSyAFdCXwO7GCv0g3nsTf9O9IYJ_2Wq_Xt84"/>-->
 
         <meta-data android:name="com.facebook.sdk.ApplicationId"
                    android:value="@string/app_id"/>
@@ -295,7 +295,7 @@
 
     <uses-feature
             android:glEsVersion="0x00020000"
-            android:required="true"/>
+            android:required="false"/>
 
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />

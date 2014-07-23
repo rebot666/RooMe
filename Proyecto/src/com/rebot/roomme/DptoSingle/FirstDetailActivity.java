@@ -96,8 +96,14 @@ public class FirstDetailActivity extends FragmentActivity {
 
         //Imagen de Portada
         ParseFile file = dpto.getParseFile("img_portada");
-        ImageLoader.getInstance().displayImage(file.getUrl(),
-                img_dpto, app.options3, app.animateFirstListener);
+        if(file != null){
+            ImageLoader.getInstance().displayImage(file.getUrl(),
+                    img_dpto, app.options3, app.animateFirstListener);
+        }else{
+            ImageLoader.getInstance().displayImage("",
+                    img_dpto, app.options3, app.animateFirstListener);
+        }
+
 
         if(!dpto.getBoolean("roommee")){
             ribbon_roomee.setVisibility(View.GONE);

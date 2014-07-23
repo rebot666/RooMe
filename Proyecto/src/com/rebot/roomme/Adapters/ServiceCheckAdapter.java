@@ -9,6 +9,7 @@ import android.widget.*;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
+import com.rebot.roomme.Models.Services;
 import com.rebot.roomme.R;
 import com.rebot.roomme.Roome;
 
@@ -21,9 +22,9 @@ public class ServiceCheckAdapter extends BaseAdapter {
     Roome app;
     Context context;
     int layoutResourceId;
-    ArrayList<ParseObject> data;
+    ArrayList<Services> data;
 
-    public ServiceCheckAdapter(Context context, int layoutResourceId, ArrayList<ParseObject> data, Roome app) {
+    public ServiceCheckAdapter(Context context, int layoutResourceId, ArrayList<Services> data, Roome app) {
         //super(context, layoutResourceId, data.toArray(new ParseObject[data.size()]));
         this.layoutResourceId = layoutResourceId;
         this.context = context;
@@ -66,6 +67,7 @@ public class ServiceCheckAdapter extends BaseAdapter {
             holder.img_service = (ImageView) row.findViewById(R.id.img_service);
             holder.txt_name = (TextView) row.findViewById(R.id.txt_name);
             holder.more_info = (EditText) row.findViewById(R.id.txt_desc);
+
             holder.checkBox = (CheckBox) row.findViewById(R.id.checkBox);
 
             row.setTag(holder);
@@ -73,16 +75,31 @@ public class ServiceCheckAdapter extends BaseAdapter {
             holder = (GenericListHolder) row.getTag();
         }
 
-        ParseObject service = (ParseObject) data.get(position);
+        Services service = (Services) data.get(position);
 
-        holder.txt_name.setText(service.getString("name"));
+        holder.txt_name.setText(service.getServiceParse().getString("name"));
 
-        ParseFile imageProduct = service.getParseFile("image");
+        ParseFile imageProduct = service.getServiceParse().getParseFile("image");
 
         if(imageProduct != null){
             ImageLoader.getInstance().displayImage(imageProduct.getUrl(), holder.img_service,
                     this.app.options, this.app.animateFirstListener);
         }
+
+        final int pos = position;
+        holder.checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView,boolean isChecked) {
+                if(isChecked){
+                    app.services.get(pos).setChecked(true);
+                }else{
+                    app.services.get(pos).setChecked(false);
+                }
+            }
+        });
+
+        holder.more_info.setVisibility(View.GONE);
 
         return row;
     }

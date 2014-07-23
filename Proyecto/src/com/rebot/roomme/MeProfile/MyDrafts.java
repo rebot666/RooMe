@@ -50,11 +50,6 @@ public class MyDrafts extends SherlockActivity {
         loading_info = (RelativeLayout) findViewById(R.id.loading_info);
         loader = (ProgressWheel) findViewById(R.id.pw_spinner);
 
-        if(isOnline()){
-            loader.spin();
-            ParseUser user = ParseUser.getCurrentUser();
-            getQuery(user);
-        }
     }
 
     public void getQuery(ParseUser user){
@@ -113,5 +108,15 @@ public class MyDrafts extends SherlockActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        if(isOnline()){
+            loader.spin();
+            ParseUser user = ParseUser.getCurrentUser();
+            getQuery(user);
+        }
     }
 }

@@ -60,7 +60,9 @@ public class ServicesAdapter extends ArrayAdapter<ParseObject> {
 
         ParseObject service_dpto = (ParseObject) data[position];
 
-        String description = service_dpto.getString("description");
+        //String description = service_dpto.getString("description");
+        String description;
+        description = null;
 
         if(description != null){
             holder.more_info.setVisibility(View.VISIBLE);
@@ -69,15 +71,17 @@ public class ServicesAdapter extends ArrayAdapter<ParseObject> {
             holder.more_info.setVisibility(View.GONE);
         }
 
-        ParseObject service = service_dpto.getParseObject("service");
-        ParseFile imageProduct = service.getParseFile("image");
-
-        if(imageProduct != null){
+        //ParseObject service = service_dpto.getParseObject("service");
+        if(service_dpto.getParseFile("image") != null){
+            ParseFile imageProduct = service_dpto.getParseFile("image");
             ImageLoader.getInstance().displayImage(imageProduct.getUrl(), holder.img_service,
                     this.app.options, this.app.animateFirstListener);
+        }else{
+            /*ImageLoader.getInstance().displayImage("", holder.img_service,
+                    this.app.options, this.app.animateFirstListener);*/
         }
 
-        holder.txt_name.setText(service.getString("name"));
+        holder.txt_name.setText(service_dpto.getString("name"));
         return row;
     }
 

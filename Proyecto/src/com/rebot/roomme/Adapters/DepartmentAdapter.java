@@ -75,8 +75,14 @@ public class DepartmentAdapter extends ArrayAdapter<ParseObject> {
         holder.title_dpto.setText(dpto.getString("title"));
 
         ParseFile img_portada = dpto.getParseFile("img_portada");
-        ImageLoader.getInstance().displayImage(img_portada.getUrl(),
-                holder.department, app.options3, app.animateFirstListener);
+        if(img_portada != null){
+            ImageLoader.getInstance().displayImage(img_portada.getUrl(),
+                    holder.department, app.options3, app.animateFirstListener);
+        }else{
+            ImageLoader.getInstance().displayImage("",
+                    holder.department, app.options3, app.animateFirstListener);
+        }
+
 
         String sex = dpto.getString("sex");
         if(sex.equalsIgnoreCase("B")){
