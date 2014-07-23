@@ -24,6 +24,8 @@ import com.rebot.roomme.Roome;
 import com.rebot.roomme.SingleDepartment;
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
+import kankan.wheel.widget.OnWheelChangedListener;
+import kankan.wheel.widget.OnWheelScrollListener;
 import kankan.wheel.widget.WheelView;
 
 import java.util.ArrayList;
@@ -35,6 +37,7 @@ import java.util.List;
 public class SearchDpto extends DialogFragment {
     public static final int MIN_PRICE = 1000;
     public static final int MAX_PRICE = 1000000;
+    private boolean scrolling = false;
 
     private ArrayList<String> countries, cities;
     private ArrayList<ParseObject> dptos;
@@ -89,8 +92,26 @@ public class SearchDpto extends DialogFragment {
         country = (WheelView) dialog.findViewById(R.id.country);
         state = (WheelView) dialog.findViewById(R.id.state);
 
-        country.setVisibleItems(3);
-        country.setViewAdapter(new CountryAdapter(context, cities));
+        getCountries();
+
+        country.addChangingListener(new OnWheelChangedListener() {
+            public void onChanged(WheelView wheel, int oldValue, int newValue) {
+                if (!scrolling) {
+                    updateCities(newValue);
+                }
+            }
+        });
+
+        country.addScrollingListener( new OnWheelScrollListener() {
+            public void onScrollingStarted(WheelView wheel) {
+                scrolling = true;
+            }
+            public void onScrollingFinished(WheelView wheel) {
+                scrolling = false;
+                updateCities(country.getCurrentItem());
+            }
+        });
+
 
         this.close.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -259,18 +280,52 @@ public class SearchDpto extends DialogFragment {
     }
 
     public void getCountries(){
-        ParseQuery<ParseObject> get_countries = ParseQuery.getQuery("Countries");
+        ParseQuery<ParseObject> get_countries = ParseQuery.getQuery("Paises");
         get_countries.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> parseObjects, ParseException e) {
-                     
-                country.setVisibleItems(3);
-                country.setViewAdapter(new CountryAdapter(context, countries));
+                if(e == null){
+                    countries.clear();
+                    if(parseObjects.size() != 0){
+                        for(ParseObject object : parseObjects){
+                            if(!countries.contains(object.getString("pais"))){
+                                countries.add(object.getString("pais"));
+                            }
+                        }
+
+                        country.setVisibleItems(parseObjects.size());
+                        country.setViewAdapter(new CountryAdapter(context, countries));
+
+                        country.setCurrentItem(0);
+
+                        updateCities(0);
+                    }
+                }
             }
         });
     }
 
-    public void updateCities(){
+    public void updateCities(int country){
+        ParseQuery<ParseObject> get_states = ParseQuery.getQuery("Paises");
+        get_states.whereEqualTo("pais", countries.get(country));
+        get_states.orderByAscending("state");
+        get_states.findInBackground(new FindCallback<ParseObject>() {
+            @Override
+            public void done(List<ParseObject> parseObjects, ParseException e) {
+                if(e == null){
+                    cities.clear();
+                    if(parseObjects.size() != 0){
+                        for(ParseObject object : parseObjects){
+                            cities.add(object.getString("state"));
+                        }
 
+                        state.setVisibleItems(parseObjects.size());
+                        state.setViewAdapter(new CountryAdapter(context, cities));
+
+                        state.setCurrentItem(0);
+                    }
+                }
+            }
+        });
     }
 }

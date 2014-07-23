@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.*;
 import com.actionbarsherlock.view.Window;
 import com.parse.*;
+import com.rebot.roomme.Adapters.CountryAdapter;
 import com.rebot.roomme.Adapters.LookMeAdpater;
 import com.rebot.roomme.CBR;
 import com.rebot.roomme.MeLookRoomie;
@@ -21,6 +22,9 @@ import com.rebot.roomme.R;
 import com.rebot.roomme.Roome;
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
+import kankan.wheel.widget.OnWheelChangedListener;
+import kankan.wheel.widget.OnWheelScrollListener;
+import kankan.wheel.widget.WheelView;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -32,8 +36,11 @@ import java.util.List;
 public class SearchRoomme extends DialogFragment {
     public static final int MIN_COMP = 0;
     public static final int MAX_COMP = 100;
+    private boolean scrolling = false;
 
+    private ArrayList<String> countries, cities;
     private ArrayList<Users> roomies;
+    private WheelView country, state;
     private Context context;
     private Dialog dialog;
     private Roome app;
@@ -74,8 +81,35 @@ public class SearchRoomme extends DialogFragment {
         this.min = (TextView) dialog.findViewById(R.id.min);
         this.genero = (RadioGroup) dialog.findViewById(R.id.genero);
 
+        roomies = new ArrayList<Users>();
+        countries = new ArrayList<String>();
+        cities = new ArrayList<String>();
+
         this.minc = 0;
         this.maxc = 100;
+
+        country = (WheelView) dialog.findViewById(R.id.country);
+        state = (WheelView) dialog.findViewById(R.id.state);
+
+        getCountries();
+
+        country.addChangingListener(new OnWheelChangedListener() {
+            public void onChanged(WheelView wheel, int oldValue, int newValue) {
+                if (!scrolling) {
+                    updateCities(newValue);
+                }
+            }
+        });
+
+        country.addScrollingListener( new OnWheelScrollListener() {
+            public void onScrollingStarted(WheelView wheel) {
+                scrolling = true;
+            }
+            public void onScrollingFinished(WheelView wheel) {
+                scrolling = false;
+                updateCities(country.getCurrentItem());
+            }
+        });
 
         this.close.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -217,6 +251,56 @@ public class SearchRoomme extends DialogFragment {
                 } else {
                     app.noInfo.setVisibility(View.VISIBLE);
                     Crouton.makeText((Activity) context, "Resultados de búsqueda", Style.INFO).show();
+                }
+            }
+        });
+    }
+
+    public void getCountries(){
+        ParseQuery<ParseObject> get_countries = ParseQuery.getQuery("Paises");
+        get_countries.findInBackground(new FindCallback<ParseObject>() {
+            @Override
+            public void done(List<ParseObject> parseObjects, ParseException e) {
+                if(e == null){
+                    countries.clear();
+                    if(parseObjects.size() != 0){
+                        for(ParseObject object : parseObjects){
+                            if(!countries.contains(object.getString("pais"))){
+                                countries.add(object.getString("pais"));
+                            }
+                        }
+
+                        country.setVisibleItems(parseObjects.size());
+                        country.setViewAdapter(new CountryAdapter(context, countries));
+
+                        country.setCurrentItem(0);
+
+                        updateCities(0);
+                    }
+                }
+            }
+        });
+    }
+
+    public void updateCities(int country){
+        ParseQuery<ParseObject> get_states = ParseQuery.getQuery("Paises");
+        get_states.whereEqualTo("pais", countries.get(country));
+        get_states.orderByAscending("state");
+        get_states.findInBackground(new FindCallback<ParseObject>() {
+            @Override
+            public void done(List<ParseObject> parseObjects, ParseException e) {
+                if(e == null){
+                    cities.clear();
+                    if(parseObjects.size() != 0){
+                        for(ParseObject object : parseObjects){
+                            cities.add(object.getString("state"));
+                        }
+
+                        state.setVisibleItems(parseObjects.size());
+                        state.setViewAdapter(new CountryAdapter(context, cities));
+
+                        state.setCurrentItem(0);
+                    }
                 }
             }
         });
