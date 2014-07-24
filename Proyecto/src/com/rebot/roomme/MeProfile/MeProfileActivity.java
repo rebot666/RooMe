@@ -12,6 +12,7 @@ import com.facebook.Session;
 import com.facebook.model.GraphUser;
 import com.facebook.widget.ProfilePictureView;
 import com.google.android.gms.games.multiplayer.realtime.Room;
+import com.nostra13.universalimageloader.core.ImageLoader;
 import com.parse.ParseException;
 import com.parse.ParseFacebookUtils;;
 import com.parse.ParseUser;
@@ -53,6 +54,7 @@ public class MeProfileActivity extends FragmentActivity {
     private Button btn_oferta;
     private ToggleButton esRoomie;
     public ArrayList<String> interestList;
+    private ImageView profilePicture;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -78,6 +80,7 @@ public class MeProfileActivity extends FragmentActivity {
         this.btn_oferta = (Button) findViewById(R.id.btn_oferta);
 
         this.esRoomie = (ToggleButton) findViewById(R.id.toggle_roomie);
+        this.profilePicture = (ImageView) findViewById(R.id.profile_picture);
 
         ParseUser user = ParseUser.getCurrentUser();
 
@@ -273,6 +276,17 @@ public class MeProfileActivity extends FragmentActivity {
                 if (userProfile.getString("facebookId") != null) {
                     String facebookId = userProfile.get("facebookId").toString();
                     this.img_profile.setProfileId(facebookId);
+                    String idUser = null;
+                    try {
+                        ParseUser user = ParseUser.getCurrentUser();
+                        idUser = user.getJSONObject("profile").getString("facebookId");
+                        if((!idUser.equalsIgnoreCase("")) || (idUser != null)){
+                            ImageLoader.getInstance().displayImage("http://graph.facebook.com/"+idUser+"/picture?type=large",
+                                    this.profilePicture, app.options, app.animateFirstListener);
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                 } else {
                     // Show the default, blank user profile picture
                     this.img_profile.setProfileId(null);

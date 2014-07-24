@@ -176,8 +176,9 @@ public class PublicacionNva extends SherlockFragmentActivity {
 
             googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
         }else {
-            location.setLatitude(latitude);
-            location.setLongitude(longitude);
+
+            //location.setLatitude(latitude);
+            //location.setLongitude(longitude);
             googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
             CameraPosition cameraPosition = new CameraPosition.Builder().target(
                     new LatLng(latitude, longitude))

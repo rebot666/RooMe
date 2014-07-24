@@ -64,8 +64,8 @@ public class DepartmentAdapter extends ArrayAdapter<ParseObject> {
             holder = (GenericListHolder) row.getTag();
         }
 
-        YoYo.with(Techniques.ZoomIn)
-                .duration(2000)
+        YoYo.with(Techniques.FadeInDown)
+                .duration(1000)
                 .playOn(holder.cardBakground);
 
         ParseObject dpto = data[position];

@@ -5,7 +5,9 @@
               android:orientation="vertical"
               android:layout_width="fill_parent"
               android:layout_height="wrap_content"
-              android:background="@color/back_purple">
+              android:background="@color/back_purple"
+              android:id="@+id/layout_background"
+        >
     <LinearLayout
             android:orientation="horizontal"
             android:layout_width="fill_parent"

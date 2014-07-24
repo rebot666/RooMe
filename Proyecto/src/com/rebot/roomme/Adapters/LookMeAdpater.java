@@ -59,7 +59,7 @@ public class LookMeAdpater extends ArrayAdapter<Users> {
             holder.percentage_male = (ProgressWheel) row.findViewById(R.id.percentage_male);
             holder.layoutImageFemale = (RelativeLayout) row.findViewById(R.id.layout_image_female);
             holder.layoutImageMale = (RelativeLayout) row.findViewById(R.id.layout_image_male);
-
+            holder.backgroundLayout = (LinearLayout) row.findViewById(R.id.layout_background);
 
             row.setTag(holder);
         } else {
@@ -85,6 +85,9 @@ public class LookMeAdpater extends ArrayAdapter<Users> {
         try {
             idUser = profile.getString("facebookId");
             if(profile.getString("gender").equals("male")){
+                YoYo.with(Techniques.SlideInRight)
+                        .duration(500)
+                        .playOn(holder.backgroundLayout);
                 holder.layout_female.setVisibility(View.GONE);
                 holder.female.setVisibility(View.GONE);
                 holder.layout_male.setVisibility(View.VISIBLE);
@@ -111,6 +114,9 @@ public class LookMeAdpater extends ArrayAdapter<Users> {
                         holder.male, app.options, app.animateFirstListener);
 
             } else {
+                YoYo.with(Techniques.SlideInLeft)
+                        .duration(500)
+                        .playOn(holder.backgroundLayout);
                 holder.layout_female.setVisibility(View.VISIBLE);
                 holder.female.setVisibility(View.VISIBLE);
                 holder.layout_male.setVisibility(View.GONE);
@@ -153,6 +159,6 @@ public class LookMeAdpater extends ArrayAdapter<Users> {
         ProgressWheel percentage_female;
         ProgressWheel percentage_male;
         RelativeLayout layoutImageFemale, layoutImageMale;
-
+        LinearLayout backgroundLayout;
     }
 }

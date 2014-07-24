@@ -33,6 +33,7 @@ import com.todddavies.components.progressbar.ProgressWheel;
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -201,21 +202,33 @@ public class MelookDpto extends FragmentActivity implements
 
     public void queryLoadData_dptos(){
         if(isOnline()){
+            Date midnight = new Date();
+            midnight.setHours(0);
+            midnight.setMinutes(0);
+            midnight.setSeconds(0);
+
+            Date elevenfiftynine = new Date();
+            elevenfiftynine.setHours(23);
+            elevenfiftynine.setMinutes(59);
+            elevenfiftynine.setSeconds(59);
+
             ParseUser currentUser = ParseUser.getCurrentUser();
             ParseQuery<ParseObject> query = ParseQuery.getQuery("Departamento");
-
+            query.whereGreaterThan("createdAt", midnight);
+            query.whereLessThan("createdAt", elevenfiftynine);
             if(currentUser != null){
                 query.whereNotEqualTo("owner", currentUser);
             }
             query.include("owner");
+            query.orderByDescending("createdAt");
             query.findInBackground(new FindCallback<ParseObject>() {
                 @Override
                 public void done(List<ParseObject> list, ParseException e) {
-                    if(e == null){
-                        if(list.size() > 0){
+                    if (e == null) {
+                        if (list.size() > 0) {
                             dptos.clear();
-                            for(ParseObject temp : list){
-                                if(!temp.getBoolean("isSell") && !temp.getBoolean("isDraft")){
+                            for (ParseObject temp : list) {
+                                if (!temp.getBoolean("isSell") && !temp.getBoolean("isDraft")) {
                                     dptos.add(temp);
                                 }
                             }
