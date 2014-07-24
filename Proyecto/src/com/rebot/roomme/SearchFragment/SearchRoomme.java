@@ -170,7 +170,7 @@ public class SearchRoomme extends DialogFragment {
             }
         });
 
-        RangeSeekBar<Integer> seekBar = new RangeSeekBar<Integer>(0, 100, context);
+        RangeSeekBar<Integer> seekBar = new RangeSeekBar<Integer>(MIN_COMP, MAX_COMP, context);
         seekBar.setOnRangeSeekBarChangeListener(new RangeSeekBar.OnRangeSeekBarChangeListener<Integer>() {
             @Override
             public void onRangeSeekBarValuesChanged(RangeSeekBar<?> bar, Integer minValue, Integer maxValue) {

@@ -241,6 +241,7 @@ public class SearchDpto extends DialogFragment {
         dpto.whereLessThanOrEqualTo("price", app.maxprice);
 
         dpto.include("owner");
+        dpto.include("lugar_pub");
         dpto.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> parseObjects, ParseException e) {
@@ -251,7 +252,10 @@ public class SearchDpto extends DialogFragment {
 
                         for(ParseObject obj : parseObjects){
                             if(!obj.getBoolean("isSell") && !obj.getBoolean("isDraft")){
-                                dptos.add(obj);
+                                //if((obj.getParseObject("lugar_pub").getString("pais").equalsIgnoreCase("PAISBUSQUEDA"))
+                                  //      && (obj.getParseObject("lugar_pub").getString("state").equalsIgnoreCase("ESTADOBUSQUEDA"))){
+                                    dptos.add(obj);
+                                //}
                             }
                         }
 
