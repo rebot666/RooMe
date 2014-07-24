@@ -36,9 +36,10 @@
                         android:layout_height="fill_parent"
                         android:id="@+id/img_dpto"
                         android:layout_alignParentTop="true"
-                        android:adjustViewBounds="true"
                         android:layout_weight=".5"
                         android:src="@drawable/camera"
+                        android:scaleType="fitXY"
+                        android:adjustViewBounds="true"
                         />
                 <LinearLayout android:layout_width="fill_parent"
                               android:layout_height="wrap_content"
@@ -162,8 +163,10 @@
                                android:layout_height="105dp"
                                android:id="@+id/photo1"
                                android:layout_weight=".5"
+                               android:src="@drawable/camera"
+                               android:scaleType="fitXY"
                                android:adjustViewBounds="true"
-                               android:src="@drawable/camera"/>
+                            />
                     <ImageView android:layout_width="fill_parent"
                                android:layout_height="fill_parent"
                                android:layout_weight=".5"

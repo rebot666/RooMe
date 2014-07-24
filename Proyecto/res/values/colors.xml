@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!--Estandarizacion de colores-->
+    <color name="background_view">#D0E3E8</color>
+
     <!--Colore Roome-->
     <color name="rojo">#ff0033</color>
     <color name="azul">#0066ff</color>

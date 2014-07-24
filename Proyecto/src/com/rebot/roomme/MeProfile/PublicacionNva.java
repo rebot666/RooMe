@@ -1,6 +1,7 @@
 package com.rebot.roomme.MeProfile;
 
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
@@ -97,6 +98,8 @@ public class PublicacionNva extends SherlockFragmentActivity {
 
     private String textoNuevo;
     private ArrayList<Services> nuevosServicios;
+    private Bitmap bitmap1, bitmap2;
+    private ProgressDialog pd;
 
     @Override
     public void onCreate(Bundle savedInsatance){
@@ -155,6 +158,15 @@ public class PublicacionNva extends SherlockFragmentActivity {
         mapLayout = (LinearLayout) findViewById(R.id.layoutMap);
 
         nuevosServicios = new ArrayList<Services>();
+
+        bitmap1 = bitmap2 = null;
+
+        if(app.dptoSeleccionado == null){
+            loader.spin();
+            getQueryServicios();
+        } else {
+
+        }
 
         try {
             // Loading map
@@ -233,12 +245,7 @@ public class PublicacionNva extends SherlockFragmentActivity {
                         linear_two.setVisibility(View.GONE);
                         mapLayout.setVisibility(View.GONE);
                         next.setVisibility(View.GONE);
-                        if(app.dptoSeleccionado == null){
-                            loader.spin();
-                            getQueryServicios();
-                        } else {
 
-                        }
                         thirdLayout.setVisibility(View.VISIBLE);
                         grid_services.setVisibility(View.VISIBLE);
                         plus_service.setVisibility(View.VISIBLE);
@@ -766,9 +773,6 @@ public class PublicacionNva extends SherlockFragmentActivity {
             final String imageFilePath = cursor.getString(0);
             Drawable d = Drawable.createFromPath(imageFilePath);
 
-            Bitmap bitmap = ((BitmapDrawable)d).getBitmap();
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            int quality                = 80;
 
             /*
             do {
@@ -783,14 +787,16 @@ public class PublicacionNva extends SherlockFragmentActivity {
             if(requestCode == SELECT_PICTURE){
                 img_dpto.setImageDrawable(d);
                 img_dpto.setScaleType(ImageView.ScaleType.CENTER_CROP);
-
+                bitmap1 = ((BitmapDrawable)d).getBitmap();
 
             } else if(requestCode == PHOTO_1){
                 photo1.setImageDrawable(d);
                 photo1.setScaleType(ImageView.ScaleType.CENTER_CROP);
+                //bitmap2 = ((BitmapDrawable)d).getBitmap();
             } else if(requestCode == PHOTO_2){
                 photo2.setImageDrawable(d);
                 photo2.setScaleType(ImageView.ScaleType.CENTER_CROP);
+
             } else if(requestCode == PHOTO_3){
                 photo3.setImageDrawable(d);
                 photo3.setScaleType(ImageView.ScaleType.CENTER_CROP);
@@ -882,6 +888,12 @@ public class PublicacionNva extends SherlockFragmentActivity {
     }
 
     public void prepararPublicacion(boolean isDraftLocal){
+        if(isDraftLocal){
+            pd = ProgressDialog.show(PublicacionNva.this, "Roomme" ,"Subiendo publicación...",true,false,null);
+        }else{
+            pd = ProgressDialog.show(PublicacionNva.this, "Roomme" ,"Subiendo publicación...",true,false,null);
+        }
+
         ParseUser owner = ParseUser.getCurrentUser();
         if(owner != null){
             String title = "";
@@ -981,6 +993,20 @@ public class PublicacionNva extends SherlockFragmentActivity {
                 }
             }
 
+            ParseFile photoFile1, photoFile2;
+            photoFile1 = photoFile2 = null;
+            if(bitmap1 != null){
+                ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                bitmap1.compress(Bitmap.CompressFormat.PNG, 100, stream);
+                byte[] byteArray1 = stream.toByteArray();
+                photoFile1 = new ParseFile("image1.png", byteArray1);
+            }
+            if(bitmap2 != null){
+                ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                bitmap2.compress(Bitmap.CompressFormat.PNG, 100, stream);
+                byte[] byteArray2 = stream.toByteArray();
+                photoFile2 = new ParseFile("image1.png", byteArray2);
+            }
 
 
 
@@ -1005,11 +1031,14 @@ public class PublicacionNva extends SherlockFragmentActivity {
                 object.put("location", location);
                 object.put("offers", 0);
                 object.put("servicios", servicesParse);
+                if(bitmap1 != null){object.put("img_portada", photoFile1);}
+                if(bitmap2 != null){object.put("img_uno", photoFile2);}
                 if(isDraftLocal){object.put("isDraft", true);}else{object.put("isDraft", false);}
                 object.saveInBackground(new SaveCallback() {
                     @Override
                     public void done(ParseException e) {
                         if(e == null){
+                            pd.dismiss();
                             finish();
                         }
                     }
@@ -1036,11 +1065,14 @@ public class PublicacionNva extends SherlockFragmentActivity {
                 publicacion.put("location", location);
                 publicacion.put("offers", 0);
                 publicacion.put("servicios", servicesParse);
+                if(bitmap1 != null){publicacion.put("img_portada", photoFile1);}
+                if(bitmap2 != null){publicacion.put("img_uno", photoFile2);}
                 if(isDraftLocal){publicacion.put("isDraft", true);}else{publicacion.put("isDraft", false);}
                 publicacion.saveInBackground(new SaveCallback() {
                     @Override
                     public void done(ParseException e) {
                         if(e == null){
+                            pd.dismiss();
                             finish();
                         }
                     }

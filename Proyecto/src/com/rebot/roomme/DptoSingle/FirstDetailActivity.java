@@ -21,6 +21,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.DateFormat;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -168,11 +170,11 @@ public class FirstDetailActivity extends FragmentActivity {
             count++;
         }
 
-        if(count >= 4){
+        /*if(count >= 4){
             linear_photos.setVisibility(View.GONE);
         } else {
             linear_photos.setVisibility(View.VISIBLE);
-        }
+        }*/
 
         //TextViews
         String transacion = dpto.getString("transaccion");
@@ -191,12 +193,20 @@ public class FirstDetailActivity extends FragmentActivity {
             txt_inmueble.setVisibility(View.GONE);
         }
 
+
         String precio = dpto.getNumber("price") + "";
         if(precio.equalsIgnoreCase("")){
             txt_precio.setVisibility(View.GONE);
         } else {
+            double precio1 = dpto.getNumber("price").floatValue();
+            DecimalFormatSymbols otherSymbols = new DecimalFormatSymbols();
+            otherSymbols.setDecimalSeparator('.');
+            otherSymbols.setGroupingSeparator(',');
+            DecimalFormat df = new DecimalFormat("###,###.00");
+            df.setDecimalFormatSymbols(otherSymbols);
+
             txt_precio.setVisibility(View.VISIBLE);
-            txt_precio.setText("Precio: $" + precio);
+            txt_precio.setText("Precio: $" + df.format(precio1));
         }
 
         title_publicacion.setText(dpto.getString("title"));
