@@ -214,13 +214,13 @@ public class MelookDpto extends FragmentActivity implements
 
             ParseUser currentUser = ParseUser.getCurrentUser();
             ParseQuery<ParseObject> query = ParseQuery.getQuery("Departamento");
-            query.whereGreaterThan("createdAt", midnight);
-            query.whereLessThan("createdAt", elevenfiftynine);
+            query.whereGreaterThan("updatedAt", midnight);
+            query.whereLessThan("updatedAt", elevenfiftynine);
             if(currentUser != null){
                 query.whereNotEqualTo("owner", currentUser);
             }
             query.include("owner");
-            query.orderByDescending("createdAt");
+            query.orderByDescending("updatedAt");
             query.findInBackground(new FindCallback<ParseObject>() {
                 @Override
                 public void done(List<ParseObject> list, ParseException e) {
@@ -242,6 +242,7 @@ public class MelookDpto extends FragmentActivity implements
                                 @Override
                                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                                     app.dptoSeleccionado = dptos.get(position);
+                                    app.selfPublication = false;
                                     Intent intent = new Intent(MelookDpto.this, SingleDepartment.class);
                                     MelookDpto.this.startActivity(intent);
                                 }
@@ -249,11 +250,17 @@ public class MelookDpto extends FragmentActivity implements
                             //people.onRefreshComplete();
                             swipeLayout.setRefreshing(false);
                             setUpMap();
+                        }else{
+                            loading_info.setVisibility(View.GONE);
+                            app.noInfo.setVisibility(View.VISIBLE);
+                            loader.stopSpinning();
+                            //people.onRefreshComplete();
+                            swipeLayout.setRefreshing(false);
                         }
                     } else {
                         Log.d("", "");
                         loading_info.setVisibility(View.GONE);
-                        no_info.setVisibility(View.VISIBLE);
+                        app.noInfo.setVisibility(View.VISIBLE);
                         loader.stopSpinning();
                         //people.onRefreshComplete();
                         swipeLayout.setRefreshing(false);

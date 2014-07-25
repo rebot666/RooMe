@@ -12,9 +12,13 @@ public class FragmentAdapter extends FragmentPagerAdapter {
     private String[] titles;
     private int mCount;
 
-    public FragmentAdapter(FragmentManager fm) {
+    public FragmentAdapter(FragmentManager fm, boolean self) {
         super(fm);
-        titles = new String[] {"Departamento","Detalles","Servicios","Contacto", "Comentarios"};
+        if(!self) {
+            titles = new String[]{"Departamento", "Detalles", "Servicios", "Contacto", "Comentarios"};
+        }else{
+            titles = new String[]{"Departamento", "Detalles", "Servicios"};
+        }
         mCount = titles.length;
     }
 

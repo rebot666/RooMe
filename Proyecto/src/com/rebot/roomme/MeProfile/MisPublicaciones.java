@@ -82,6 +82,7 @@ public class MisPublicaciones extends SherlockFragmentActivity {
                             @Override
                             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                                 app.dptoSeleccionado = my_dptos.get(position);
+                                app.selfPublication = true;
                                 Intent intent = new Intent(MisPublicaciones.this, SingleDepartment.class);
                                 MisPublicaciones.this.startActivity(intent);
                             }

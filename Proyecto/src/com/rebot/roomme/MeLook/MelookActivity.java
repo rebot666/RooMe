@@ -122,7 +122,8 @@ public class MelookActivity extends FragmentActivity {
                     if(list.size() > 0){
                         profiles.clear();
                         ParseUser me = ParseUser.getCurrentUser();
-                        if(me != null){
+
+                        if(me != null && me.getObjectId() != null){
                             for(ParseUser temp : list){
                                 if(temp.getBoolean("esRoomie")){
                                     if(!me.getObjectId().equals(temp.getObjectId())){

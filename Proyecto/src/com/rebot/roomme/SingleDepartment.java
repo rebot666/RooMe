@@ -31,7 +31,7 @@ public class SingleDepartment extends SherlockFragmentActivity {
 
         app = (Roome) getApplication();
 
-        mAdapter = new FragmentAdapter(getSupportFragmentManager());
+        mAdapter = new FragmentAdapter(getSupportFragmentManager(), app.selfPublication);
 
         mPager = (ViewPager)findViewById(R.id.pager);
         mPager.setAdapter(mAdapter);

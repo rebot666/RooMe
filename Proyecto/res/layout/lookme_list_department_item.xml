@@ -15,7 +15,7 @@
         <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="fill_parent"
-                android:layout_height="130dp"
+                android:layout_height="145dp"
                 >
 
             <RelativeLayout
@@ -27,7 +27,7 @@
                         android:layout_height="fill_parent"
                         android:id="@+id/img_depa"
                         android:layout_gravity="left"
-                        android:scaleType="centerCrop"
+                        android:scaleType="fitXY"
                         android:adjustViewBounds="true"
                         android:layout_marginRight="5dp"
                         android:layout_marginLeft="5dp"

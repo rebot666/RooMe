@@ -821,16 +821,22 @@ public class PublicacionNva extends SherlockFragmentActivity {
 
         if(item.getItemId() == R.id.save){
             //Guardar
+            pd = ProgressDialog.show(PublicacionNva.this, "Roomme" ,"Guardando borrador...(Puede tardar unos minutos)",true,false,null);
             if(validaDatos()){
                 prepararPublicacion(true);
+            }else{
+                pd.dismiss();
             }
 
         }
 
         if(item.getItemId() == R.id.publish){
             //Publicar
+            pd = ProgressDialog.show(PublicacionNva.this, "Roomme" ,"Subiendo publicación...(Puede tardar unos minutos)",true,false,null);
             if(validaDatos()) {
                 prepararPublicacion(false);
+            }else{
+                pd.dismiss();
             }
         }
 
@@ -889,7 +895,7 @@ public class PublicacionNva extends SherlockFragmentActivity {
 
     public void prepararPublicacion(boolean isDraftLocal){
         if(isDraftLocal){
-            pd = ProgressDialog.show(PublicacionNva.this, "Roomme" ,"Subiendo publicación...",true,false,null);
+
         }else{
             pd = ProgressDialog.show(PublicacionNva.this, "Roomme" ,"Subiendo publicación...",true,false,null);
         }
@@ -1071,8 +1077,9 @@ public class PublicacionNva extends SherlockFragmentActivity {
                 publicacion.saveInBackground(new SaveCallback() {
                     @Override
                     public void done(ParseException e) {
+                        pd.dismiss();
                         if(e == null){
-                            pd.dismiss();
+
                             finish();
                         }
                     }

@@ -54,6 +54,7 @@ public class Roome extends Application {
 
     public ArrayList<Services> services;
     public ParseObject publicacionNueva;
+    public boolean selfPublication;
 
     @Override
     public void onCreate() {
