@@ -23,10 +23,10 @@
     <string name="no_connection">No hay Conexión Disponible</string>
     <string name="no_info">No hay Información Disponible. \nClic para recargar</string>
     <string name="no_functionality">Próximamente más Funcionalidad</string>
-    <string name="si_roomie">Tu estado actual es de roomie</string>
-    <string name="no_roomie">Tu estado actual es de no ser roomie</string>
-    <string name="comparator">Si quieres compararte con otros roomies cambia tu estado</string>
-    <string name="no_session">Si quieres comparar tu perfil con otros roomies inicia sesión</string>
+    <string name="si_roomie">Actualmente eres roomie</string>
+    <string name="no_roomie">Actualemente no eres roomie</string>
+    <string name="comparator">Si quieres conocer tú compatibilidad con otros Roomies, cambia tu estado</string>
+    <string name="no_session">Si quieres conocer tú compatibilidad con otros Roomies, inicia sesión</string>
 
     <string name="drawer_open">Open navigation drawer</string>
     <string name="drawer_close">Close navigation drawer</string>

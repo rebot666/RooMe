@@ -108,7 +108,7 @@ public class MeProfileActivity extends FragmentActivity {
                             View view = getLayoutInflater().inflate(R.layout.crouton_custom_view, null);
                             TextView title = (TextView) view.findViewById(R.id.title);
                             TextView subtitle = (TextView) view.findViewById(R.id.subtitle);
-                            title.setText(getResources().getString(R.string.whats));
+                            title.setText(getResources().getString(R.string.si_roomie));
                             subtitle.setVisibility(View.GONE);
                             crouton = Crouton.make(MeProfileActivity.this, view);
                             crouton.setOnClickListener(new View.OnClickListener() {

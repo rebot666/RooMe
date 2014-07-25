@@ -1,6 +1,7 @@
 package com.rebot.roomme.MeGo;
 
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -96,6 +97,8 @@ public class MeGoActivity extends FragmentActivity {
 
     private String textoNuevo;
     private ArrayList<Services> nuevosServicios;
+    private Bitmap bitmap1, bitmap2;
+    private ProgressDialog pd;
 
 
     @Override
@@ -152,6 +155,17 @@ public class MeGoActivity extends FragmentActivity {
         loader = (ProgressWheel) findViewById(R.id.pw_spinner);
 
         mapLayout = (LinearLayout) findViewById(R.id.layoutMap);
+
+        nuevosServicios = new ArrayList<Services>();
+
+        bitmap1 = bitmap2 = null;
+
+        if(app.dptoSeleccionado == null){
+            loader.spin();
+            getQueryServicios();
+        } else {
+
+        }
 
         nuevosServicios = new ArrayList<Services>();
 
@@ -231,12 +245,7 @@ public class MeGoActivity extends FragmentActivity {
                         linear_two.setVisibility(View.GONE);
                         mapLayout.setVisibility(View.GONE);
                         next.setVisibility(View.GONE);
-                        if(app.dptoSeleccionado == null){
-                            loader.spin();
-                            getQueryServicios();
-                        } else {
 
-                        }
                         thirdLayout.setVisibility(View.VISIBLE);
                         grid_services.setVisibility(View.VISIBLE);
                         plus_service.setVisibility(View.VISIBLE);
@@ -611,6 +620,7 @@ public class MeGoActivity extends FragmentActivity {
     }
 
     public boolean validaDatos(){
+
         String title = titulo.getText().toString() + "";
         if(title.equalsIgnoreCase("")){
             return false;
@@ -770,7 +780,7 @@ public class MeGoActivity extends FragmentActivity {
             if(requestCode == SELECT_PICTURE){
                 img_dpto.setImageDrawable(d);
                 img_dpto.setScaleType(ImageView.ScaleType.CENTER_CROP);
-
+                bitmap1 = ((BitmapDrawable)d).getBitmap();
 
             } else if(requestCode == PHOTO_1){
                 photo1.setImageDrawable(d);
@@ -831,11 +841,13 @@ public class MeGoActivity extends FragmentActivity {
             // Extract data included in the Intent
             boolean isPublish = intent.getBooleanExtra("publish", false);
             if(isPublish){
+                pd = ProgressDialog.show(MeGoActivity.this, "Roomme" ,"Subiendo publicación...(Puede tardar unos minutos)",true,false,null);
                 if(validaDatos()){
                     prepararPublicacion(false);
 
                 }
             }else{
+                pd = ProgressDialog.show(MeGoActivity.this, "Roomme", "Guardando borrador...(Puede tardar unos minutos)", true, false, null);
                 if(validaDatos()){
                     prepararPublicacion(true);
                 }
@@ -965,6 +977,22 @@ public class MeGoActivity extends FragmentActivity {
 
 
 
+            ParseFile photoFile1, photoFile2;
+            photoFile1 = photoFile2 = null;
+            if(bitmap1 != null){
+                ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                bitmap1.compress(Bitmap.CompressFormat.PNG, 100, stream);
+                byte[] byteArray1 = stream.toByteArray();
+                photoFile1 = new ParseFile("image1.png", byteArray1);
+            }
+            if(bitmap2 != null){
+                ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                bitmap2.compress(Bitmap.CompressFormat.PNG, 100, stream);
+                byte[] byteArray2 = stream.toByteArray();
+                photoFile2 = new ParseFile("image1.png", byteArray2);
+            }
+
+
 
             if(object != null){
                 object.put("owner", owner);
@@ -987,11 +1015,14 @@ public class MeGoActivity extends FragmentActivity {
                 object.put("location", location);
                 object.put("offers", 0);
                 object.put("servicios", servicesParse);
+                if(bitmap1 != null){object.put("img_portada", photoFile1);}
+                if(bitmap2 != null){object.put("img_uno", photoFile2);}
                 if(isDraftLocal){object.put("isDraft", true);}else{object.put("isDraft", false);}
                 object.saveInBackground(new SaveCallback() {
                     @Override
                     public void done(ParseException e) {
                         if(e == null){
+                            pd.dismiss();
 
                         }
                     }
@@ -1018,16 +1049,20 @@ public class MeGoActivity extends FragmentActivity {
                 publicacion.put("location", location);
                 publicacion.put("offers", 0);
                 publicacion.put("servicios", servicesParse);
+                if(bitmap1 != null){publicacion.put("img_portada", photoFile1);}
+                if(bitmap2 != null){publicacion.put("img_uno", photoFile2);}
                 if(isDraftLocal){publicacion.put("isDraft", true);}else{publicacion.put("isDraft", false);}
                 publicacion.saveInBackground(new SaveCallback() {
                     @Override
                     public void done(ParseException e) {
+                        pd.dismiss();
                         if(e == null){
 
                         }
                     }
                 });
             }
+
 
 
         }
