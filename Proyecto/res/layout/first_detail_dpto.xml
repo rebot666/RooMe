@@ -83,7 +83,7 @@
                                 >
                             <ImageView
                                     android:layout_width="fill_parent"
-                                    android:layout_height="145dp"
+                                    android:layout_height="200dp"
                                     android:id="@+id/img_dpto"
                                     android:scaleType="centerCrop"
                                     android:adjustViewBounds="true"

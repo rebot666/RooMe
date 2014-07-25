@@ -206,6 +206,7 @@ public class MelookDpto extends FragmentActivity implements
             midnight.setHours(0);
             midnight.setMinutes(0);
             midnight.setSeconds(0);
+            midnight.setDate(midnight.getDay()-3);
 
             Date elevenfiftynine = new Date();
             elevenfiftynine.setHours(23);

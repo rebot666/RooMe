@@ -15,7 +15,7 @@
         <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="fill_parent"
-                android:layout_height="145dp"
+                android:layout_height="200dp"
                 >
 
             <RelativeLayout
@@ -27,7 +27,7 @@
                         android:layout_height="fill_parent"
                         android:id="@+id/img_depa"
                         android:layout_gravity="left"
-                        android:scaleType="fitXY"
+                        android:scaleType="centerCrop"
                         android:adjustViewBounds="true"
                         android:layout_marginRight="5dp"
                         android:layout_marginLeft="5dp"
@@ -145,7 +145,7 @@
                         android:layout_height="fill_parent"
                         android:id="@+id/txt_price"
                         android:layout_marginTop="10dp"
-                        android:textSize="18dp"
+                        android:textSize="20dp"
                         android:layout_gravity="right"
                         android:gravity="right"
                         android:textStyle="bold|italic"

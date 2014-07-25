@@ -14,7 +14,7 @@
 
         <activity android:name=".Splashscreen"
                   android:label="@string/app_name"
-                  android:screenOrientation="portrait"
+
                 >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -25,7 +25,7 @@
         <activity android:name=".MainDrawer"
                   android:label="@string/app_name"
                   android:theme="@style/Theme.Roomme"
-                  android:screenOrientation="portrait"
+
                 >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -36,7 +36,7 @@
                 android:name=".MeLook.MelookActivity"
                 android:configChanges="keyboard|keyboardHidden|orientation"
                 android:theme="@style/Theme.Roomme"
-                android:screenOrientation="portrait"
+
                 android:windowSoftInputMode="stateHidden|adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -47,7 +47,7 @@
                 android:name=".MeLook.MelookDpto"
                 android:configChanges="keyboard|keyboardHidden|orientation"
                 android:theme="@style/Theme.Roomme"
-                android:screenOrientation="portrait"
+
                 android:windowSoftInputMode="stateHidden|adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -58,7 +58,7 @@
                 android:name=".MeProfile.MeProfileActivity"
                 android:configChanges="keyboard|keyboardHidden|orientation"
                 android:theme="@style/Theme.Sherlock.NoActionBar"
-                android:screenOrientation="portrait"
+
                 android:windowSoftInputMode="stateHidden|adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -69,7 +69,7 @@
                 android:name=".MeProfile.MeProfileLogin"
                 android:configChanges="keyboard|keyboardHidden|orientation"
                 android:theme="@style/Theme.Roomme"
-                android:screenOrientation="portrait"
+
                 android:windowSoftInputMode="stateHidden|adjustResize"
                 >
             <intent-filter>
@@ -81,7 +81,7 @@
                 android:name=".MeProfile.DepartmentOffers"
                 android:configChanges="keyboard|keyboardHidden|orientation"
                 android:theme="@style/Theme.Roomme"
-                android:screenOrientation="portrait"
+
                 android:windowSoftInputMode="stateHidden|adjustResize"
                 >
             <intent-filter>
@@ -93,7 +93,7 @@
                 android:name=".MeFavs.MeFavsActivity"
                 android:configChanges="keyboard|keyboardHidden|orientation"
                 android:theme="@style/Theme.Sherlock"
-                android:screenOrientation="portrait"
+
                 android:windowSoftInputMode="stateHidden|adjustResize"
                 >
             <intent-filter>
@@ -105,7 +105,7 @@
                 android:name=".MeGo.MeGoActivity"
                 android:configChanges="keyboard|keyboardHidden|orientation"
                 android:theme="@style/Theme.Sherlock"
-                android:screenOrientation="portrait"
+
                 android:windowSoftInputMode="stateHidden|adjustResize"
                 >
             <intent-filter>
@@ -116,7 +116,7 @@
         <activity
                 android:name=".MeLookRoomie"
                 android:configChanges="keyboard|keyboardHidden|orientation"
-                android:screenOrientation="portrait"
+
                 android:windowSoftInputMode="stateHidden|adjustResize"
                 >
             <meta-data
@@ -130,7 +130,7 @@
         <activity
                 android:name=".WebViewFacebook"
                 android:configChanges="keyboard|keyboardHidden|orientation"
-                android:screenOrientation="portrait"
+
                 android:windowSoftInputMode="stateHidden|adjustResize"
                 >
             <intent-filter>
@@ -141,7 +141,7 @@
         <activity
                 android:name=".SingleDepartment"
                 android:configChanges="keyboard|keyboardHidden|orientation"
-                android:screenOrientation="portrait"
+
                 android:windowSoftInputMode="stateHidden|adjustResize"
                 >
             <intent-filter>
@@ -152,7 +152,7 @@
         <activity
                 android:name=".MeProfile.MisPublicaciones"
                 android:configChanges="keyboard|keyboardHidden|orientation"
-                android:screenOrientation="portrait"
+
                 android:windowSoftInputMode="stateHidden|adjustResize"
                 >
             <intent-filter>
@@ -163,7 +163,7 @@
         <activity
                 android:name=".MeProfile.Ofertas"
                 android:configChanges="keyboard|keyboardHidden|orientation"
-                android:screenOrientation="portrait"
+
                 android:windowSoftInputMode="stateHidden|adjustResize"
                 >
             <intent-filter>
@@ -174,7 +174,7 @@
         <activity
                 android:name=".MeProfile.PublicacionNva"
                 android:configChanges="keyboard|keyboardHidden|orientation"
-                android:screenOrientation="portrait"
+
                 android:windowSoftInputMode="stateHidden|adjustResize"
                 >
             <intent-filter>
@@ -185,7 +185,7 @@
         <activity
                 android:name=".MeProfile.MyDrafts"
                 android:configChanges="keyboard|keyboardHidden|orientation"
-                android:screenOrientation="portrait"
+
                 android:windowSoftInputMode="stateHidden|adjustResize"
                 >
             <intent-filter>
@@ -197,7 +197,7 @@
         <activity
                 android:name=".DptoSingle.ContactoActivity"
                 android:configChanges="keyboard|keyboardHidden|orientation"
-                android:screenOrientation="portrait"
+
                 android:windowSoftInputMode="stateHidden|adjustResize"
                 >
             <intent-filter>
@@ -208,7 +208,7 @@
         <activity
                 android:name=".DptoSingle.FirstDetailActivity"
                 android:configChanges="keyboard|keyboardHidden|orientation"
-                android:screenOrientation="portrait"
+
                 android:windowSoftInputMode="stateHidden|adjustResize"
                 >
             <intent-filter>
@@ -219,7 +219,7 @@
         <activity
                 android:name=".DptoSingle.SecondDetailActivity"
                 android:configChanges="keyboard|keyboardHidden|orientation"
-                android:screenOrientation="portrait"
+
                 android:windowSoftInputMode="stateHidden|adjustResize"
                 >
             <intent-filter>
@@ -230,7 +230,7 @@
         <activity
                 android:name=".DptoSingle.ComentariosActivity"
                 android:configChanges="keyboard|keyboardHidden|orientation"
-                android:screenOrientation="portrait"
+
                 android:windowSoftInputMode="stateHidden|adjustResize"
                 >
             <intent-filter>
@@ -241,7 +241,7 @@
         <activity
                 android:name=".DptoSingle.ServicesActivity"
                 android:configChanges="keyboard|keyboardHidden|orientation"
-                android:screenOrientation="portrait"
+
                 android:windowSoftInputMode="stateHidden|adjustResize"
                 >
             <intent-filter>
@@ -252,7 +252,7 @@
         <activity
             android:name=".MeProfile.DetailOffert"
             android:configChanges="keyboard|keyboardHidden|orientation"
-            android:screenOrientation="portrait"
+
             android:windowSoftInputMode="stateHidden|adjustResize"
             >
         <intent-filter>
@@ -264,7 +264,7 @@
                 android:name=".SearchActivity"
                 android:configChanges="keyboard|keyboardHidden|orientation"
                 android:theme="@style/Theme.Roomme"
-                android:screenOrientation="portrait"
+
                 android:windowSoftInputMode="stateHidden|adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

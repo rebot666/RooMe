@@ -102,6 +102,7 @@ public class FirstDetailActivity extends FragmentActivity {
             ImageLoader.getInstance().displayImage(file.getUrl(),
                     img_dpto, app.options3, app.animateFirstListener);
         }else{
+            img_dpto.setScaleType(ImageView.ScaleType.FIT_XY);
             ImageLoader.getInstance().displayImage("",
                     img_dpto, app.options3, app.animateFirstListener);
         }

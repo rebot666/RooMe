@@ -83,11 +83,14 @@ public class DepartmentAdapter extends ArrayAdapter<ParseObject> {
 
         ParseFile img_portada = dpto.getParseFile("img_portada");
         if(img_portada != null){
+            holder.department.setScaleType(ImageView.ScaleType.CENTER_CROP);
             ImageLoader.getInstance().displayImage(img_portada.getUrl(),
                     holder.department, app.options3, app.animateFirstListener);
         }else{
+            holder.department.setScaleType(ImageView.ScaleType.FIT_XY);
             ImageLoader.getInstance().displayImage("",
                     holder.department, app.options3, app.animateFirstListener);
+
         }
 
 
