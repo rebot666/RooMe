@@ -78,8 +78,6 @@
                         <LinearLayout android:layout_width="fill_parent"
                                       android:layout_height="wrap_content"
                                       android:layout_alignParentTop="true"
-                                      android:layout_gravity="center_horizontal"
-                                      android:gravity="center_horizontal"
                                 >
                             <ImageView
                                     android:layout_width="fill_parent"
@@ -87,20 +85,21 @@
                                     android:id="@+id/img_dpto"
                                     android:scaleType="centerCrop"
                                     android:adjustViewBounds="true"
-
                                     />
                         </LinearLayout>
 
-                        <LinearLayout android:layout_width="fill_parent"
-                                      android:layout_height="wrap_content"
-                                      android:layout_gravity="center_horizontal"
-                                      android:gravity="center_horizontal"
+                        <LinearLayout android:layout_width="100dp"
+                                      android:layout_height="100dp"
+                                      android:layout_alignParentTop="true"
+                                      android:layout_alignParentLeft="true"
                                 >
                             <ImageView
-                                    android:layout_width="90dp"
-                                    android:layout_height="90dp"
+                                    android:layout_width="fill_parent"
+                                    android:layout_height="fill_parent"
                                     android:id="@+id/ribbon_roomme"
-                                    android:src="@drawable/r_room"/>
+                                    android:src="@drawable/r_room"
+                                    android:scaleType="fitStart"
+                                    />
                         </LinearLayout>
 
                     </RelativeLayout>
@@ -191,7 +190,7 @@
                 <TextView android:layout_width="fill_parent"
                           android:layout_height="wrap_content"
                           android:id="@+id/title_publicacion"
-                          android:text="Título de Publicación"
+                          android:text="@string/lbl_title"
                           android:padding="15dp"
                           android:textSize="22dp"
                           android:gravity="center"
@@ -247,7 +246,7 @@
                                   android:id="@+id/linear_genero">
                         <TextView android:layout_width="fill_parent"
                                   android:layout_height="wrap_content"
-                                  android:text="Buscando:"
+                                  android:text="@string/lbl_searching_for"
                                   android:textSize="18dp"
                                   android:layout_weight=".5"
                                   android:gravity="right"
@@ -272,7 +271,6 @@
                     <TextView
                             android:layout_width="fill_parent"
                             android:layout_height="fill_parent"
-                            android:text="Fecha de Publicación"
                             android:id="@+id/txt_fecha"
                             android:padding="10dp"
                             android:gravity="center"
@@ -299,7 +297,7 @@
                     android:layout_height="fill_parent"
                     android:id="@+id/btn_one"
                     android:background="@drawable/btn_favorite_background"
-                    android:text="Agregar a Favoritos"
+                    android:text="@string/btn_add_favorites"
                     android:textColor="@color/White"
                     android:textStyle="bold"
                     android:layout_weight="1"
@@ -308,7 +306,9 @@
             <Button
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/btn_three" android:layout_weight=".5" android:background="@color/backgound_btn"
+                    android:id="@+id/btn_three"
+                    android:layout_weight=".5"
+                    android:background="@color/backgound_btn"
                     android:text="Mapa" android:textColor="@color/White"
                     android:layout_marginLeft="5dp"
                     android:visibility="gone"

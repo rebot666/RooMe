@@ -3,6 +3,10 @@
     <!--Estandarizacion de colores-->
     <color name="background_view">#D0E3E8</color>
 
+    <!--Facebook-->
+    <color name="facebook">#46629E</color>
+    <color name="facebook_dark">#23355B</color>
+
     <!--Colore Roome-->
     <color name="rojo">#ff0033</color>
     <color name="azul">#0066ff</color>
