@@ -177,7 +177,7 @@ public class ContactoActivity extends FragmentActivity {
                     View view = getLayoutInflater().inflate(R.layout.crouton_custom_view, null);
                     TextView title = (TextView) view.findViewById(R.id.title);
                     TextView subtitle = (TextView) view.findViewById(R.id.subtitle);
-                    title.setText("Este usuario estará bloqueado");
+                    title.setText(ctx.getString(R.string.lbl_report_message));
                     subtitle.setVisibility(View.GONE);
                     crouton = Crouton.make(ContactoActivity.this, view);
                     crouton.setOnClickListener(new View.OnClickListener() {

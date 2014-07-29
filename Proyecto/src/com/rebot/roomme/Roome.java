@@ -5,6 +5,7 @@ import android.content.Context;
 import android.graphics.*;
 import android.view.View;
 import android.widget.*;
+import com.bugsense.trace.BugSenseHandler;
 import com.nostra13.universalimageloader.cache.memory.impl.LruMemoryCache;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -56,10 +57,16 @@ public class Roome extends Application {
     public ParseObject publicacionNueva;
     public boolean selfPublication;
 
+    public String urlDirections;
+
     @Override
     public void onCreate() {
         super.onCreate();
         context = this.getApplicationContext();
+
+        BugSenseHandler.I_WANT_TO_DEBUG = true;
+        BugSenseHandler.initAndStartSession(context, "a22b3bc2");
+
         Parse.initialize(this, getString(R.string.parse_key), getString(R.string.app_key));
 
         FontsOverride.setDefaultFont(this, "DEFAULT", "fonts/abeezee_regular.ttf");

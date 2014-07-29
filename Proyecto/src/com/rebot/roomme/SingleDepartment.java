@@ -106,10 +106,17 @@ public class SingleDepartment extends SherlockFragmentActivity {
             String myLongitude = String.valueOf(geoPoint.getLongitude());
             String labelLocation = app.dptoSeleccionado.getString("address");
 
-            String urlAddress = "http://maps.google.com/maps?q="+ myLatitude  +"," + myLongitude
-                    +"("+ labelLocation + ")&iwloc=A&hl=es";
+            String urlAddress = "http://maps.google.com/maps?q="+ myLatitude  +"," + myLongitude +"("+ labelLocation + ")&iwloc=A&hl=es";
+            app.urlDirections = urlAddress;
+
             Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(urlAddress));
             startActivity(intent);
+
+
+            /*Intent intent = new Intent(SingleDepartment.this, DirectionsMap.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP |
+                    Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            SingleDepartment.this.startActivity(intent);*/
             return true;
         }
 

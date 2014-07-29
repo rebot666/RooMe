@@ -6,170 +6,192 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               android:background="@color/back_purple"
-              android:padding="15dp"
-
         >
-    <RelativeLayout android:layout_width="fill_parent"
-                    android:layout_height="200dp"
-                    android:layout_marginBottom="15dp"
+    <LinearLayout android:layout_width="fill_parent"
+                  android:layout_height="fill_parent"
+                  android:orientation="vertical"
+                  android:layout_weight=".1"
+                  android:padding="15dp"
             >
-        <ImageView android:layout_width="fill_parent"
-                   android:layout_height="200dp"
-                   android:id="@+id/wall_image"
-                />
-        <LinearLayout android:layout_width="fill_parent"
-                      android:layout_height="wrap_content"
-                     android:orientation="vertical"
+        <RelativeLayout android:layout_width="fill_parent"
+                        android:layout_height="200dp"
+                        android:layout_marginBottom="15dp"
                 >
-            <RelativeLayout android:layout_width="120dp"
-                            android:layout_height="120dp"
-                            android:id="@+id/layout_image_male"
-                            android:layout_gravity="center"
-                            android:gravity="center"
-                    >
-                <ImageView
-                        android:layout_width="120dp"
-                        android:layout_height="120dp"
-                        android:id="@+id/image"
-                        android:padding="15dp"
-                        />
-                <com.todddavies.components.progressbar.ProgressWheel
-                        android:id="@+id/percentage"
-                        android:layout_width="120dp"
-                        android:layout_height="120dp"
-                        ProgressWheel:rimColor="#1C5459"
-                        ProgressWheel:barLength="70dp"
-                        ProgressWheel:barColor="#FE804D"
-                        ProgressWheel:barWidth="10dp"
-                        ProgressWheel:rimWidth="10dp" />
-            </RelativeLayout>
-            <TextView android:layout_width="fill_parent"
-                      android:layout_height="wrap_content"
-                      android:gravity="center_horizontal|bottom"
-                      android:padding="15dp"
-                      android:textSize="22dp"
-                      android:textStyle="bold"
-                      android:id="@+id/percentage_text"
-                      android:visibility="invisible"
-                      android:textColor="@color/Black"
-                      android:layout_marginTop="10dp"
+            <ImageView android:layout_width="fill_parent"
+                       android:layout_height="200dp"
+                       android:id="@+id/wall_image"
                     />
-        </LinearLayout>
-
-    </RelativeLayout>
-
-    <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/background_rounded"
-            android:id="@+id/card_background_layout"
-            >
-        <ScrollView android:layout_width="fill_parent"
-                    android:layout_height="wrap_content">
             <LinearLayout android:layout_width="fill_parent"
                           android:layout_height="wrap_content"
                           android:orientation="vertical"
                     >
-                <LinearLayout android:layout_width="fill_parent"
-                              android:layout_height="wrap_content"
-                              android:orientation="horizontal"
-                              android:id="@+id/name_layout"
+                <RelativeLayout android:layout_width="120dp"
+                                android:layout_height="120dp"
+                                android:id="@+id/layout_image_male"
+                                android:layout_gravity="center"
+                                android:gravity="center"
                         >
-                    <TextView android:layout_width="fill_parent"
-                              android:layout_height="wrap_content"
-                              android:text="@string/lbl_name"
-                              android:textSize="20dp"
-                              android:textStyle="bold"
-                              android:layout_weight=".5"
-                              android:gravity="right"
-                            />
-                    <TextView android:layout_width="fill_parent" android:layout_height="wrap_content"
-                              android:gravity="left"
-                              android:padding="15dp"
-                              android:textSize="18dp"
-                              android:id="@+id/name"
-                              android:visibility="visible"
-                              android:layout_weight=".5"
-                            />
-                </LinearLayout>
-
-                <LinearLayout
-                        android:orientation="horizontal"
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center_horizontal"
-                        android:visibility="gone"
-                        >
-                    <TextView android:layout_width="wrap_content"
-                              android:layout_height="fill_parent"
-                              android:gravity="center"
-                              android:padding="15dp"
-                              android:textSize="22dp"
-                              android:textStyle="bold"
-                              android:id="@+id/gender"
-                              android:visibility="gone"
-                              android:layout_weight=".5"
-                            />
                     <ImageView
-                            android:layout_width="35dp"
-                            android:layout_height="35dp"
-                            android:id="@+id/gender_icon"
-                            android:layout_weight=".5"
-                            android:layout_marginRight="40dp"
-                            android:scaleType="fitXY"
+                            android:layout_width="120dp"
+                            android:layout_height="120dp"
+                            android:id="@+id/image"
+                            android:padding="15dp"
                             />
-                </LinearLayout>
-
-                <LinearLayout android:layout_width="fill_parent"
-                              android:layout_height="wrap_content"
-                              android:orientation="horizontal"
-                              android:id="@+id/age_layout"
-                        >
-                    <TextView android:layout_width="fill_parent"
-                              android:layout_height="wrap_content"
-                              android:text="@string/lbl_edad"
-                              android:textSize="20dp"
-                              android:textStyle="bold"
-                              android:layout_weight=".5"
-                              android:gravity="right"
-                            />
-                    <TextView android:layout_width="fill_parent"
-                              android:layout_height="wrap_content"
-                              android:padding="15dp"
-                              android:textSize="18dp"
-                              android:id="@+id/edad"
-                              android:gravity="left"
-                              android:layout_weight=".5"
-                            />
-                </LinearLayout>
-
-                <LinearLayout android:layout_width="fill_parent"
-                              android:layout_height="wrap_content"
-                              android:orientation="horizontal"
-                              android:id="@+id/locality_layout"
-                        >
-                    <TextView android:layout_width="fill_parent"
-                              android:layout_height="wrap_content"
-                              android:text="@string/lbl_location"
-                              android:textSize="20dp"
-                              android:textStyle="bold"
-                              android:layout_weight=".5"
-                              android:gravity="right"
-                            />
-                    <TextView android:layout_width="fill_parent"
-                              android:layout_height="wrap_content"
-                              android:padding="15dp"
-                              android:textSize="18dp"
-                              android:id="@+id/localidad"
-                              android:visibility="visible"
-                              android:gravity="left"
-                              android:layout_weight=".5"
-                            />
-                </LinearLayout>
-
+                    <com.todddavies.components.progressbar.ProgressWheel
+                            android:id="@+id/percentage"
+                            android:layout_width="120dp"
+                            android:layout_height="120dp"
+                            ProgressWheel:rimColor="#1C5459"
+                            ProgressWheel:barLength="70dp"
+                            ProgressWheel:barColor="#FE804D"
+                            ProgressWheel:barWidth="10dp"
+                            ProgressWheel:rimWidth="10dp" />
+                </RelativeLayout>
+                <TextView android:layout_width="fill_parent"
+                          android:layout_height="wrap_content"
+                          android:gravity="center_horizontal|bottom"
+                          android:padding="15dp"
+                          android:textSize="22dp"
+                          android:textStyle="bold"
+                          android:id="@+id/percentage_text"
+                          android:visibility="invisible"
+                          android:textColor="@color/Black"
+                          android:layout_marginTop="10dp"
+                        />
             </LinearLayout>
-        </ScrollView>
 
+        </RelativeLayout>
+
+        <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/background_rounded"
+                android:id="@+id/card_background_layout"
+                >
+            <ScrollView android:layout_width="fill_parent"
+                        android:layout_height="wrap_content">
+                <LinearLayout android:layout_width="fill_parent"
+                              android:layout_height="wrap_content"
+                              android:orientation="vertical"
+                        >
+                    <LinearLayout android:layout_width="fill_parent"
+                                  android:layout_height="wrap_content"
+                                  android:orientation="horizontal"
+                                  android:id="@+id/name_layout"
+                            >
+                        <TextView android:layout_width="fill_parent"
+                                  android:layout_height="wrap_content"
+                                  android:text="@string/lbl_name"
+                                  android:textSize="20dp"
+                                  android:textStyle="bold"
+                                  android:layout_weight=".5"
+                                  android:gravity="right"
+                                />
+                        <TextView android:layout_width="fill_parent" android:layout_height="wrap_content"
+                                  android:gravity="left"
+                                  android:padding="15dp"
+                                  android:textSize="18dp"
+                                  android:id="@+id/name"
+                                  android:visibility="visible"
+                                  android:layout_weight=".5"
+                                />
+                    </LinearLayout>
+
+                    <LinearLayout
+                            android:orientation="horizontal"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_horizontal"
+                            android:visibility="gone"
+                            >
+                        <TextView android:layout_width="wrap_content"
+                                  android:layout_height="fill_parent"
+                                  android:gravity="center"
+                                  android:padding="15dp"
+                                  android:textSize="22dp"
+                                  android:textStyle="bold"
+                                  android:id="@+id/gender"
+                                  android:visibility="gone"
+                                  android:layout_weight=".5"
+                                />
+                        <ImageView
+                                android:layout_width="35dp"
+                                android:layout_height="35dp"
+                                android:id="@+id/gender_icon"
+                                android:layout_weight=".5"
+                                android:layout_marginRight="40dp"
+                                android:scaleType="fitXY"
+                                />
+                    </LinearLayout>
+
+                    <LinearLayout android:layout_width="fill_parent"
+                                  android:layout_height="wrap_content"
+                                  android:orientation="horizontal"
+                                  android:id="@+id/age_layout"
+                            >
+                        <TextView android:layout_width="fill_parent"
+                                  android:layout_height="wrap_content"
+                                  android:text="@string/lbl_edad"
+                                  android:textSize="20dp"
+                                  android:textStyle="bold"
+                                  android:layout_weight=".5"
+                                  android:gravity="right"
+                                />
+                        <TextView android:layout_width="fill_parent"
+                                  android:layout_height="wrap_content"
+                                  android:padding="15dp"
+                                  android:textSize="18dp"
+                                  android:id="@+id/edad"
+                                  android:gravity="left"
+                                  android:layout_weight=".5"
+                                />
+                    </LinearLayout>
+
+                    <LinearLayout android:layout_width="fill_parent"
+                                  android:layout_height="wrap_content"
+                                  android:orientation="horizontal"
+                                  android:id="@+id/locality_layout"
+                            >
+                        <TextView android:layout_width="fill_parent"
+                                  android:layout_height="wrap_content"
+                                  android:text="@string/lbl_location"
+                                  android:textSize="20dp"
+                                  android:textStyle="bold"
+                                  android:layout_weight=".5"
+                                  android:gravity="right"
+                                />
+                        <TextView android:layout_width="fill_parent"
+                                  android:layout_height="wrap_content"
+                                  android:padding="15dp"
+                                  android:textSize="18dp"
+                                  android:id="@+id/localidad"
+                                  android:visibility="visible"
+                                  android:gravity="left"
+                                  android:layout_weight=".5"
+                                />
+                    </LinearLayout>
+
+                </LinearLayout>
+            </ScrollView>
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_weight=".9"
+            >
+        <Button
+                android:layout_width="fill_parent"
+                android:background="@color/Red"
+                android:textColor="@color/White"
+                android:layout_height="fill_parent"
+                android:text="@string/btn_report_user"
+                android:id="@+id/btn_reporte"
+                android:textStyle="bold"
+                />
     </LinearLayout>
 </LinearLayout>

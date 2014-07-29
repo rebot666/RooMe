@@ -2,11 +2,14 @@ package com.rebot.roomme;
 
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -24,6 +27,7 @@ import com.parse.ParseUser;
 import com.rebot.roomme.MeLook.MelookActivity;
 import com.rebot.roomme.Models.Users;
 import com.todddavies.components.progressbar.ProgressWheel;
+import de.keyboardsurfer.android.widget.crouton.Crouton;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -54,6 +58,9 @@ public class MeLookRoomie extends SherlockActivity{
     private ImageView gender_icon;
     private String idUser;
     private LinearLayout nameLayout, ageLayout, localityLayout, cardBackgroundLayout;
+    private Button btn_reporte;
+    private Context context;
+    private Crouton crouton;
 
     public void onCreate(Bundle savedInstance){
         super.onCreate(savedInstance);
@@ -75,6 +82,7 @@ public class MeLookRoomie extends SherlockActivity{
         ageLayout = (LinearLayout) findViewById(R.id.age_layout);
         localityLayout = (LinearLayout) findViewById(R.id.locality_layout);
         cardBackgroundLayout = (LinearLayout) findViewById(R.id.card_background_layout);
+        btn_reporte = (Button) findViewById(R.id.btn_reporte);
 
         app = (Roome) getApplication();
         user = app.roomieSeleccionado;
@@ -105,8 +113,20 @@ public class MeLookRoomie extends SherlockActivity{
         image.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MeLookRoomie.this, WebViewFacebook.class);
-                MeLookRoomie.this.startActivity(intent);
+                //Intent intent = new Intent(MeLookRoomie.this, WebViewFacebook.class);
+                //MeLookRoomie.this.startActivity(intent);
+                if(user.getUser().getJSONObject("profile") != null){
+                    String uri = null;
+
+                    try {
+                        uri = "fb://profile/" + user.getUser().getJSONObject("profile").getString("facebookId");
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
+                    startActivity(intent);
+                }
+
             }
         });
 
@@ -146,6 +166,13 @@ public class MeLookRoomie extends SherlockActivity{
             txt_edad.setVisibility(View.GONE);
             ageLayout.setVisibility(View.GONE);
         }
+
+        btn_reporte.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                reportUser();
+            }
+        });
 
         InternetConnection connection = new InternetConnection();
         connection.execute();
@@ -282,6 +309,41 @@ public class MeLookRoomie extends SherlockActivity{
                 wall_image.setImageDrawable(getBaseContext().getResources().getDrawable(R.drawable.background_rounded));
             }
 
+        }
+    }
+
+    public void reportUser(){
+        if(ParseUser.getCurrentUser() != null){
+            ParseUser owner = user.getUser();
+            owner.put("reported", true);
+            owner.saveInBackground();
+
+            View view = getLayoutInflater().inflate(R.layout.crouton_custom_view, null);
+            TextView title = (TextView) view.findViewById(R.id.title);
+            TextView subtitle = (TextView) view.findViewById(R.id.subtitle);
+            title.setText(context.getString(R.string.lbl_report_message));
+            subtitle.setVisibility(View.GONE);
+            crouton = Crouton.make(MeLookRoomie.this, view);
+            crouton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    crouton.cancel();
+                }
+            });
+        } else {
+            View view = getLayoutInflater().inflate(R.layout.crouton_custom_view, null);
+            TextView title = (TextView) view.findViewById(R.id.title);
+            TextView subtitle = (TextView) view.findViewById(R.id.subtitle);
+            title.setText(getResources().getString(R.string.user_enrolled));
+            subtitle.setVisibility(View.GONE);
+            crouton = Crouton.make(MeLookRoomie.this, view);
+            crouton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    crouton.cancel();
+                }
+            });
+            crouton.show();
         }
     }
 }

@@ -57,6 +57,8 @@
     <string name="lbl_name">Nombre:</string>
     <string name="lbl_edad">Edad:</string>
     <string name="lbl_location">Localidad:</string>
+    <string name="btn_report_user">Reportar Usuario</string>
+    <string name="lbl_report_message">El Usuario ha sido reportado</string>
     <!--Departamentos-->
     <!--Roommie Sencillo-->
     <!--Opciones Viewpager-->

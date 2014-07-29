@@ -289,23 +289,32 @@ public class MelookDpto extends FragmentActivity implements
                                             }
                                         }
 
-                                        app.dpto.setAdapter(new DepartmentAdapter(context,
-                                                R.layout.lookme_list_department_item, dptos, app, false));
-                                        loading_info.setVisibility(View.GONE);
-                                        loader.stopSpinning();
+                                        if(dptos.size() > 0){
+                                            app.dpto.setAdapter(new DepartmentAdapter(context,
+                                                    R.layout.lookme_list_department_item, dptos, app, false));
+                                            loading_info.setVisibility(View.GONE);
+                                            loader.stopSpinning();
 
-                                        app.dpto.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                                            @Override
-                                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                                                app.dptoSeleccionado = dptos.get(position);
-                                                app.selfPublication = false;
-                                                Intent intent = new Intent(MelookDpto.this, SingleDepartment.class);
-                                                MelookDpto.this.startActivity(intent);
-                                            }
-                                        });
-                                        //people.onRefreshComplete();
-                                        swipeLayout.setRefreshing(false);
-                                        setUpMap();
+                                            app.dpto.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                                                @Override
+                                                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                                    app.dptoSeleccionado = dptos.get(position);
+                                                    app.selfPublication = false;
+                                                    Intent intent = new Intent(MelookDpto.this, SingleDepartment.class);
+                                                    MelookDpto.this.startActivity(intent);
+                                                }
+                                            });
+                                            //people.onRefreshComplete();
+                                            swipeLayout.setRefreshing(false);
+                                            setUpMap();
+                                        }else{
+                                            loading_info.setVisibility(View.GONE);
+                                            app.noInfo.setVisibility(View.VISIBLE);
+                                            loader.stopSpinning();
+                                            //people.onRefreshComplete();
+                                            swipeLayout.setRefreshing(false);
+                                        }
+
                                     }else{
                                         loading_info.setVisibility(View.GONE);
                                         app.noInfo.setVisibility(View.VISIBLE);
