@@ -1,7 +1,10 @@
 package com.rebot.roomme.DptoSingle;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -17,6 +20,8 @@ import com.rebot.roomme.Models.Users;
 import com.rebot.roomme.R;
 import com.rebot.roomme.Roome;
 import com.todddavies.components.progressbar.ProgressWheel;
+import de.keyboardsurfer.android.widget.crouton.Configuration;
+import de.keyboardsurfer.android.widget.crouton.Crouton;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -46,6 +51,7 @@ public class FirstDetailActivity extends FragmentActivity {
     private LinearLayout no_connection;
     private RelativeLayout loading_info;
     private ParseUser currentUser;
+    private Crouton crouton;
 
     @Override
     public void onCreate(Bundle savedInstance){
@@ -88,9 +94,22 @@ public class FirstDetailActivity extends FragmentActivity {
             btn_one.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    favorito();
+                    if(isOnline()){
+                        favorito();
+                    }else{
+                        View view = getLayoutInflater().inflate(R.layout.crouton_custom_view, null);
+                        TextView title = (TextView) view.findViewById(R.id.title);
+                        TextView subtitle = (TextView) view.findViewById(R.id.subtitle);
+                        title.setText(getResources().getString(R.string.no_connection));
+                        subtitle.setVisibility(View.GONE);
+                        crouton = Crouton.make(FirstDetailActivity.this, view);
+                        crouton.setConfiguration(new Configuration.Builder().setDuration(Configuration.DURATION_LONG).build());
+                        crouton.show();
+                    }
+
                 }
             });
+
         }
 
         //Carga de datos
@@ -108,10 +127,10 @@ public class FirstDetailActivity extends FragmentActivity {
         }
 
 
-        if(!dpto.getBoolean("roommee")){
-            ribbon_roomee.setVisibility(View.GONE);
-        } else {
+        if(dpto.getBoolean("roommee")){
             ribbon_roomee.setVisibility(View.VISIBLE);
+        } else {
+            ribbon_roomee.setVisibility(View.GONE);
         }
 
         String sex = dpto.getString("sex");
@@ -156,7 +175,7 @@ public class FirstDetailActivity extends FragmentActivity {
             ImageLoader.getInstance().displayImage(file3.getUrl(),
                     photo3, app.options3, app.animateFirstListener);
         } else {
-            ribbon_roomee.setVisibility(View.GONE);
+            //ribbon_roomee.setVisibility(View.GONE);
             photo3.setVisibility(View.GONE);
             count++;
         }
@@ -207,7 +226,7 @@ public class FirstDetailActivity extends FragmentActivity {
             df.setDecimalFormatSymbols(otherSymbols);
 
             txt_precio.setVisibility(View.VISIBLE);
-            txt_precio.setText("Precio: $" + df.format(precio1));
+            txt_precio.setText(getString(R.string.lbl_precio) +" $" + df.format(precio1));
         }
 
         title_publicacion.setText(dpto.getString("title"));
@@ -216,7 +235,7 @@ public class FirstDetailActivity extends FragmentActivity {
         DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
         Date today = dpto.getCreatedAt();
         String reportDate = df.format(today);
-        txt_fecha.setText("Fecha de publicación: " + reportDate);
+        txt_fecha.setText(getString(R.string.lbl_published_at)+ " " + reportDate);
 
         photo1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -290,71 +309,98 @@ public class FirstDetailActivity extends FragmentActivity {
                     }
                 }
                 if(enFavoritos){
-                    btn_one.setText("Remover de Favoritos");
+                    btn_one.setText(getString(R.string.btn_remove_favorites));
                 }else{
-                    btn_one.setText("Agregar a Favoritos");
+                    btn_one.setText(getString(R.string.btn_add_favorites));
                 }
             }else{
-                btn_one.setText("Agregar a Favoritos");
+                btn_one.setText(getString(R.string.btn_add_favorites));
             }
 
         }
     }
 
     public void favorito(){
-        if(currentUser.getList("favorites") != null){
-            List<String> favorites = currentUser.getList("favorites");
-            if(favorites.size() <= 0){
-                favorites.add(app.dptoSeleccionado.getObjectId());
-                btn_one.setText("Remover de Favoritos");
-            }else{
-                boolean encontrado = false;
-                int indx = -1;
-                for (int i = 0; i <favorites.size() ; i++) {
-                    if(app.dptoSeleccionado.getObjectId().equals(favorites.get(i))){
-                        encontrado = true;
-                        indx = i;
-                        break;
-                    }
-                }
-                if(encontrado){
-                    favorites.remove(indx);
-                    //likeIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.like_icon));
-                    btn_one.setText("Agregar a Favoritos");
-
-                }else{
+        if(currentUser != null){
+            if(currentUser.getList("favorites") != null){
+                List<String> favorites = currentUser.getList("favorites");
+                if(favorites.size() <= 0){
                     favorites.add(app.dptoSeleccionado.getObjectId());
-                    //likeIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.like_icon_fill));
-                    btn_one.setText("Remover de Favoritos");
+                    btn_one.setText(getString(R.string.btn_remove_favorites));
+                }else{
+                    boolean encontrado = false;
+                    int indx = -1;
+                    for (int i = 0; i <favorites.size() ; i++) {
+                        if(app.dptoSeleccionado.getObjectId().equals(favorites.get(i))){
+                            encontrado = true;
+                            indx = i;
+                            break;
+                        }
+                    }
+                    if(encontrado){
+                        favorites.remove(indx);
+                        //likeIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.like_icon));
+                        btn_one.setText(getString(R.string.btn_add_favorites));
+
+                    }else{
+                        favorites.add(app.dptoSeleccionado.getObjectId());
+                        //likeIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.like_icon_fill));
+                        btn_one.setText(getString(R.string.btn_remove_favorites));
+                    }
+
                 }
 
+                currentUser.put("favorites", favorites);
+                currentUser.saveInBackground(new SaveCallback() {
+                    @Override
+                    public void done(ParseException e) {
+                        if(e == null){
+
+                        }
+                    }
+                });
+
+            }else{
+                ArrayList<String> favorites = new ArrayList<String>();
+                favorites.add(app.dptoSeleccionado.getObjectId());
+                //likeIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.like_icon_fill));
+                btn_one.setText(getString(R.string.btn_add_favorites));
+
+                currentUser.put("favorites", favorites);
+                currentUser.saveInBackground(new SaveCallback() {
+                    @Override
+                    public void done(ParseException e) {
+                        if(e == null){
+
+                        }
+                    }
+                });
             }
-
-            currentUser.put("favorites", favorites);
-            currentUser.saveInBackground(new SaveCallback() {
-                @Override
-                public void done(ParseException e) {
-                    if(e == null){
-
-                    }
-                }
-            });
-
         }else{
-            ArrayList<String> favorites = new ArrayList<String>();
-            favorites.add(app.dptoSeleccionado.getObjectId());
-            //likeIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.like_icon_fill));
-            btn_one.setText("Agregar a Favoritos");
-
-            currentUser.put("favorites", favorites);
-            currentUser.saveInBackground(new SaveCallback() {
+            View view = getLayoutInflater().inflate(R.layout.crouton_custom_view, null);
+            TextView title = (TextView) view.findViewById(R.id.title);
+            TextView subtitle = (TextView) view.findViewById(R.id.subtitle);
+            title.setText(getResources().getString(R.string.user_enrolled));
+            subtitle.setVisibility(View.GONE);
+            crouton = Crouton.make(FirstDetailActivity.this, view);
+            crouton.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void done(ParseException e) {
-                    if(e == null){
-
-                    }
+                public void onClick(View view) {
+                    crouton.cancel();
                 }
             });
+            crouton.show();
         }
+
+    }
+
+    public boolean isOnline() {
+        ConnectivityManager cm =
+                (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = cm.getActiveNetworkInfo();
+        if (netInfo != null && netInfo.isConnectedOrConnecting()) {
+            return true;
+        }
+        return false;
     }
 }

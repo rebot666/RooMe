@@ -40,6 +40,7 @@ import com.rebot.roomme.R;
 import com.rebot.roomme.Roome;
 import com.rebot.roomme.WorkaroundMapFragment;
 import com.todddavies.components.progressbar.ProgressWheel;
+import de.keyboardsurfer.android.widget.crouton.Configuration;
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -228,15 +229,10 @@ public class PublicacionNva extends SherlockFragmentActivity {
                         View view = getLayoutInflater().inflate(R.layout.crouton_custom_view, null);
                         TextView title = (TextView) view.findViewById(R.id.title);
                         TextView subtitle = (TextView) view.findViewById(R.id.subtitle);
-                        title.setVisibility(View.GONE);
-                        subtitle.setText("Favor de verificar que los datos sean correctos");
+                        title.setText(getResources().getString(R.string.required_fields));
+                        subtitle.setVisibility(View.GONE);
                         crouton = Crouton.make(PublicacionNva.this, view);
-                        crouton.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                crouton.cancel();
-                            }
-                        });
+                        crouton.setConfiguration(new Configuration.Builder().setDuration(Configuration.DURATION_LONG).build());
                         crouton.show();
                     }
                 } else if(linear_two.getVisibility() == View.VISIBLE){
@@ -253,15 +249,10 @@ public class PublicacionNva extends SherlockFragmentActivity {
                         View view = getLayoutInflater().inflate(R.layout.crouton_custom_view, null);
                         TextView title = (TextView) view.findViewById(R.id.title);
                         TextView subtitle = (TextView) view.findViewById(R.id.subtitle);
-                        title.setVisibility(View.GONE);
-                        subtitle.setText("Favor de verificar que los datos sean correctos");
+                        title.setText(getResources().getString(R.string.required_fields));
+                        subtitle.setVisibility(View.GONE);
                         crouton = Crouton.make(PublicacionNva.this, view);
-                        crouton.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                crouton.cancel();
-                            }
-                        });
+                        crouton.setConfiguration(new Configuration.Builder().setDuration(Configuration.DURATION_LONG).build());
                         crouton.show();
                     }
                 }else{
@@ -460,7 +451,9 @@ public class PublicacionNva extends SherlockFragmentActivity {
                             }
                             //nuevosServicios.add(nuevoServ);
                             //parseServicio.saveInBackground();
-                            app.services.add(new Services(parseServicio));
+                            Services serv = new Services(parseServicio);
+                            serv.setChecked(true);
+                            app.services.add(serv);
                             adapterGrid.notifyDataSetChanged();
 
                             dialog.dismiss();
@@ -682,7 +675,7 @@ public class PublicacionNva extends SherlockFragmentActivity {
                         TextView title = (TextView) view.findViewById(R.id.title);
                         TextView subtitle = (TextView) view.findViewById(R.id.subtitle);
                         title.setVisibility(View.GONE);
-                        subtitle.setText("Error el departamento no se pudo encontrar");
+                        subtitle.setText(getString(R.string.error_dpto));
                         crouton = Crouton.make(PublicacionNva.this, view);
                         crouton.setOnClickListener(new View.OnClickListener() {
                             @Override
@@ -728,7 +721,7 @@ public class PublicacionNva extends SherlockFragmentActivity {
                         TextView title = (TextView) view.findViewById(R.id.title);
                         TextView subtitle = (TextView) view.findViewById(R.id.subtitle);
                         title.setVisibility(View.GONE);
-                        subtitle.setText("Error los servicios no pudieron cargarse");
+                        subtitle.setText(getString(R.string.error_services));
                         crouton = Crouton.make(PublicacionNva.this, view);
                         crouton.setOnClickListener(new View.OnClickListener() {
                             @Override
@@ -821,22 +814,38 @@ public class PublicacionNva extends SherlockFragmentActivity {
 
         if(item.getItemId() == R.id.save){
             //Guardar
-            pd = ProgressDialog.show(PublicacionNva.this, "Roomme" ,"Guardando borrador...(Puede tardar unos minutos)",true,false,null);
+            pd = ProgressDialog.show(PublicacionNva.this, getString(R.string.app_name) ,getString(R.string.save_draft),true,false,null);
             if(validaDatos()){
                 prepararPublicacion(true);
             }else{
                 pd.dismiss();
+                View view = getLayoutInflater().inflate(R.layout.crouton_custom_view, null);
+                TextView title = (TextView) view.findViewById(R.id.title);
+                TextView subtitle = (TextView) view.findViewById(R.id.subtitle);
+                title.setText(getResources().getString(R.string.required_fields));
+                subtitle.setVisibility(View.GONE);
+                crouton = Crouton.make(PublicacionNva.this, view);
+                crouton.setConfiguration(new Configuration.Builder().setDuration(Configuration.DURATION_LONG).build());
+                crouton.show();
             }
 
         }
 
         if(item.getItemId() == R.id.publish){
             //Publicar
-            pd = ProgressDialog.show(PublicacionNva.this, "Roomme" ,"Subiendo publicación...(Puede tardar unos minutos)",true,false,null);
+            pd = ProgressDialog.show(PublicacionNva.this, getString(R.string.app_name) ,getString(R.string.save_publish),true,false,null);
             if(validaDatos()) {
                 prepararPublicacion(false);
             }else{
                 pd.dismiss();
+                View view = getLayoutInflater().inflate(R.layout.crouton_custom_view, null);
+                TextView title = (TextView) view.findViewById(R.id.title);
+                TextView subtitle = (TextView) view.findViewById(R.id.subtitle);
+                title.setText(getResources().getString(R.string.required_fields));
+                subtitle.setVisibility(View.GONE);
+                crouton = Crouton.make(PublicacionNva.this, view);
+                crouton.setConfiguration(new Configuration.Builder().setDuration(Configuration.DURATION_LONG).build());
+                crouton.show();
             }
         }
 
@@ -1014,7 +1023,7 @@ public class PublicacionNva extends SherlockFragmentActivity {
                 photoFile2 = new ParseFile("image1.png", byteArray2);
             }
 
-
+            final boolean draft = isDraftLocal;
 
             if(object != null){
                 object.put("owner", owner);
@@ -1036,6 +1045,7 @@ public class PublicacionNva extends SherlockFragmentActivity {
                 object.put("adicionales", adicionales);
                 object.put("location", location);
                 object.put("offers", 0);
+                object.put("destacado", destacado);
                 object.put("servicios", servicesParse);
                 if(bitmap1 != null){object.put("img_portada", photoFile1);}
                 if(bitmap2 != null){object.put("img_uno", photoFile2);}
@@ -1045,6 +1055,7 @@ public class PublicacionNva extends SherlockFragmentActivity {
                     public void done(ParseException e) {
                         if(e == null){
                             pd.dismiss();
+                            finalAnswer(draft, e);
                             finish();
                         }
                     }
@@ -1070,6 +1081,7 @@ public class PublicacionNva extends SherlockFragmentActivity {
                 publicacion.put("adicionales", adicionales);
                 publicacion.put("location", location);
                 publicacion.put("offers", 0);
+                publicacion.put("destacado", destacado);
                 publicacion.put("servicios", servicesParse);
                 if(bitmap1 != null){publicacion.put("img_portada", photoFile1);}
                 if(bitmap2 != null){publicacion.put("img_uno", photoFile2);}
@@ -1079,13 +1091,58 @@ public class PublicacionNva extends SherlockFragmentActivity {
                     public void done(ParseException e) {
                         pd.dismiss();
                         if(e == null){
-
+                            finalAnswer(draft, e);
                             finish();
                         }
                     }
                 });
             }
 
+        }
+    }
+
+    public void finalAnswer(boolean draft, ParseException e){
+        if(e == null){
+            if(draft){
+                View view = getLayoutInflater().inflate(R.layout.crouton_custom_view, null);
+                TextView title = (TextView) view.findViewById(R.id.title);
+                TextView subtitle = (TextView) view.findViewById(R.id.subtitle);
+                title.setText(getResources().getString(R.string.draft_correct));
+                subtitle.setVisibility(View.GONE);
+                crouton = Crouton.make(PublicacionNva.this, view);
+                crouton.setConfiguration(new Configuration.Builder().setDuration(Configuration.DURATION_LONG).build());
+                crouton.show();
+            }else{
+                View view = getLayoutInflater().inflate(R.layout.crouton_custom_view, null);
+                TextView title = (TextView) view.findViewById(R.id.title);
+                TextView subtitle = (TextView) view.findViewById(R.id.subtitle);
+                title.setText(getResources().getString(R.string.publish_correct));
+                subtitle.setVisibility(View.GONE);
+                crouton = Crouton.make(PublicacionNva.this, view);
+                crouton.setConfiguration(new Configuration.Builder().setDuration(Configuration.DURATION_LONG).build());
+                crouton.show();
+            }
+
+        }else{
+            if(draft){
+                View view = getLayoutInflater().inflate(R.layout.crouton_custom_view, null);
+                TextView title = (TextView) view.findViewById(R.id.title);
+                TextView subtitle = (TextView) view.findViewById(R.id.subtitle);
+                title.setText(getResources().getString(R.string.draft_incorrect));
+                subtitle.setVisibility(View.GONE);
+                crouton = Crouton.make(PublicacionNva.this, view);
+                crouton.setConfiguration(new Configuration.Builder().setDuration(Configuration.DURATION_LONG).build());
+                crouton.show();
+            }else{
+                View view = getLayoutInflater().inflate(R.layout.crouton_custom_view, null);
+                TextView title = (TextView) view.findViewById(R.id.title);
+                TextView subtitle = (TextView) view.findViewById(R.id.subtitle);
+                title.setText(getResources().getString(R.string.publish_incorrect));
+                subtitle.setVisibility(View.GONE);
+                crouton = Crouton.make(PublicacionNva.this, view);
+                crouton.setConfiguration(new Configuration.Builder().setDuration(Configuration.DURATION_LONG).build());
+                crouton.show();
+            }
         }
     }
 

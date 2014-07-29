@@ -1,9 +1,11 @@
 package com.rebot.roomme.Adapters;
 
+import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import com.rebot.roomme.DptoSingle.*;
+import com.rebot.roomme.R;
 
 /**
  * Created by Strike on 6/5/14.
@@ -11,13 +13,15 @@ import com.rebot.roomme.DptoSingle.*;
 public class FragmentAdapter extends FragmentPagerAdapter {
     private String[] titles;
     private int mCount;
+    private Context context;
 
-    public FragmentAdapter(FragmentManager fm, boolean self) {
+    public FragmentAdapter(FragmentManager fm, boolean self, Context context) {
         super(fm);
+        this.context = context;
         if(!self) {
-            titles = new String[]{"Departamento", "Detalles", "Servicios", "Contacto", "Comentarios"};
+            titles = context.getResources().getStringArray(R.array.title_options);
         }else{
-            titles = new String[]{"Departamento", "Detalles", "Servicios"};
+            titles = context.getResources().getStringArray(R.array.my_publish_viewpager_options);
         }
         mCount = titles.length;
     }

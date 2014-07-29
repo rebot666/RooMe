@@ -18,6 +18,7 @@ import com.rebot.roomme.Adapters.LookMeAdpater;
 import com.rebot.roomme.Models.Users;
 import com.rebot.roomme.R;
 import com.todddavies.components.progressbar.ProgressWheel;
+import de.keyboardsurfer.android.widget.crouton.Configuration;
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 
 import java.util.ArrayList;
@@ -76,13 +77,13 @@ public class MelookActivity extends FragmentActivity {
 
         profiles = new ArrayList<Users>();
 
-        if(isOnline()){
-            loader.spin();
-            queryLoadData_roomies();
-        }else{
-            loading_info.setVisibility(View.GONE);
-            no_connection.setVisibility(View.VISIBLE);
-        }
+        conectarDatos();
+        no_connection.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                conectarDatos();
+            }
+        });
 
         if (ParseUser.getCurrentUser() == null){
             //crouton = Crouton.makeText(MelookActivity.this, "Inicia sesión para ver compatibilidad", Style.ALERT);
@@ -90,9 +91,10 @@ public class MelookActivity extends FragmentActivity {
             View view = getLayoutInflater().inflate(R.layout.crouton_custom_view, null);
             TextView title = (TextView) view.findViewById(R.id.title);
             TextView subtitle = (TextView) view.findViewById(R.id.subtitle);
-            title.setVisibility(View.GONE);
-            subtitle.setText(getResources().getString(R.string.no_session));
+            subtitle.setVisibility(View.GONE);
+            title.setText(getResources().getString(R.string.no_session));
             crouton = Crouton.make(MelookActivity.this, view);
+            crouton.setConfiguration(new Configuration.Builder().setDuration(Configuration.DURATION_LONG).build());
             crouton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -114,7 +116,7 @@ public class MelookActivity extends FragmentActivity {
 
     public void queryLoadData_roomies(){
         ParseQuery<ParseUser>  query = ParseUser.getQuery();
-        //query.setCachePolicy(ParseQuery.CachePolicy.CACHE_THEN_NETWORK);
+        query.setLimit(1000);
         query.findInBackground(new FindCallback<ParseUser>() {
             @Override
             public void done(List<ParseUser> list, ParseException e) {
@@ -163,7 +165,7 @@ public class MelookActivity extends FragmentActivity {
                 } else {
                     Log.d("", "");
                     loading_info.setVisibility(View.GONE);
-                    no_info.setVisibility(View.VISIBLE);
+                    app.noInfo.setVisibility(View.VISIBLE);
                     loader.stopSpinning();
                 }
 
@@ -181,5 +183,17 @@ public class MelookActivity extends FragmentActivity {
             return true;
         }
         return false;
+    }
+
+    public void conectarDatos(){
+        loading_info.setVisibility(View.VISIBLE);
+        no_connection.setVisibility(View.GONE);
+        if(isOnline()){
+            loader.spin();
+            queryLoadData_roomies();
+        }else{
+            loading_info.setVisibility(View.GONE);
+            no_connection.setVisibility(View.VISIBLE);
+        }
     }
 }

@@ -1,5 +1,6 @@
 package com.rebot.roomme;
 
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -22,6 +23,7 @@ public class SingleDepartment extends SherlockFragmentActivity {
     private FragmentAdapter mAdapter;
     private TitlePageIndicator mIndicator;
     private Boolean user;
+    private Context context = this;
 
     @Override
     public void onCreate(Bundle savedInstance){
@@ -31,7 +33,7 @@ public class SingleDepartment extends SherlockFragmentActivity {
 
         app = (Roome) getApplication();
 
-        mAdapter = new FragmentAdapter(getSupportFragmentManager(), app.selfPublication);
+        mAdapter = new FragmentAdapter(getSupportFragmentManager(), app.selfPublication, context);
 
         mPager = (ViewPager)findViewById(R.id.pager);
         mPager.setAdapter(mAdapter);
@@ -42,12 +44,14 @@ public class SingleDepartment extends SherlockFragmentActivity {
 
         ParseUser currentUser = ParseUser.getCurrentUser();
         if(currentUser != null){
-            if(app.dptoSeleccionado.getParseUser("owner").getObjectId().equalsIgnoreCase(currentUser.getObjectId())){
-                user = true;
-                app.user = true;
-            } else {
-                user = false;
-                app.user = false;
+            if(app.dptoSeleccionado != null){
+                if(app.dptoSeleccionado.getParseUser("owner").getObjectId().equalsIgnoreCase(currentUser.getObjectId())){
+                    user = true;
+                    app.user = true;
+                } else {
+                    user = false;
+                    app.user = false;
+                }
             }
         } else {
             user = false;

@@ -7,14 +7,14 @@
     <EditText android:layout_width="fill_parent"
               android:layout_height="wrap_content"
               android:id="@+id/nombre_servicio"
-              android:hint="Nombre del Servicio"
+              android:hint="@string/lbl_name_service"
               android:layout_marginTop="15dp"
               android:layout_marginBottom="15dp"
             />
     <Button
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="Aceptar"
+            android:text="@string/btn_accept"
             android:id="@+id/btn_aceptar"
             android:background="@drawable/btn_favorite_background"
             android:textColor="@color/White"

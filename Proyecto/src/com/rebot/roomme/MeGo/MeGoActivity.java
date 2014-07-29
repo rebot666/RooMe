@@ -40,6 +40,7 @@ import com.rebot.roomme.R;
 import com.rebot.roomme.Roome;
 import com.rebot.roomme.WorkaroundMapFragment;
 import com.todddavies.components.progressbar.ProgressWheel;
+import de.keyboardsurfer.android.widget.crouton.Configuration;
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -54,7 +55,6 @@ import java.util.List;
 public class MeGoActivity extends FragmentActivity {
     private Roome app;
     private Context ctx = this;
-    private Crouton crouton;
     private Button next, back;
     private ParseObject object;
 
@@ -99,6 +99,7 @@ public class MeGoActivity extends FragmentActivity {
     private ArrayList<Services> nuevosServicios;
     private Bitmap bitmap1, bitmap2;
     private ProgressDialog pd;
+    private Crouton crouton;
 
 
     @Override
@@ -228,15 +229,10 @@ public class MeGoActivity extends FragmentActivity {
                         View view = getLayoutInflater().inflate(R.layout.crouton_custom_view, null);
                         TextView title = (TextView) view.findViewById(R.id.title);
                         TextView subtitle = (TextView) view.findViewById(R.id.subtitle);
-                        title.setVisibility(View.GONE);
-                        subtitle.setText("Favor de verificar que los datos sean correctos");
+                        title.setText(getResources().getString(R.string.required_fields));
+                        subtitle.setVisibility(View.GONE);
                         crouton = Crouton.make(MeGoActivity.this, view);
-                        crouton.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                crouton.cancel();
-                            }
-                        });
+                        crouton.setConfiguration(new Configuration.Builder().setDuration(Configuration.DURATION_LONG).build());
                         crouton.show();
                     }
                 } else if(linear_two.getVisibility() == View.VISIBLE){
@@ -253,15 +249,10 @@ public class MeGoActivity extends FragmentActivity {
                         View view = getLayoutInflater().inflate(R.layout.crouton_custom_view, null);
                         TextView title = (TextView) view.findViewById(R.id.title);
                         TextView subtitle = (TextView) view.findViewById(R.id.subtitle);
-                        title.setVisibility(View.GONE);
-                        subtitle.setText("Favor de verificar que los datos sean correctos");
+                        title.setText(getResources().getString(R.string.required_fields));
+                        subtitle.setVisibility(View.GONE);
                         crouton = Crouton.make(MeGoActivity.this, view);
-                        crouton.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                crouton.cancel();
-                            }
-                        });
+                        crouton.setConfiguration(new Configuration.Builder().setDuration(Configuration.DURATION_LONG).build());
                         crouton.show();
                     }
                 }else{
@@ -460,7 +451,9 @@ public class MeGoActivity extends FragmentActivity {
                             }
                             //nuevosServicios.add(nuevoServ);
                             //parseServicio.saveInBackground();
-                            app.services.add(new Services(parseServicio));
+                            Services serv = new Services(parseServicio);
+                            serv.setChecked(true);
+                            app.services.add(serv);
                             adapterGrid.notifyDataSetChanged();
 
                             dialog.dismiss();
@@ -519,7 +512,7 @@ public class MeGoActivity extends FragmentActivity {
 
             String price = object.getNumber("price") + "";
             if(!price.equalsIgnoreCase("")){
-                precio.setText("Precio: $" + price);
+                precio.setText(price);
             }
 
             String sex = object.getString("sex");
@@ -672,7 +665,7 @@ public class MeGoActivity extends FragmentActivity {
                         TextView title = (TextView) view.findViewById(R.id.title);
                         TextView subtitle = (TextView) view.findViewById(R.id.subtitle);
                         title.setVisibility(View.GONE);
-                        subtitle.setText("Error el departamento no se pudo encontrar");
+                        subtitle.setText(getString(R.string.error_dpto));
                         crouton = Crouton.make(MeGoActivity.this, view);
                         crouton.setOnClickListener(new View.OnClickListener() {
                             @Override
@@ -718,7 +711,7 @@ public class MeGoActivity extends FragmentActivity {
                         TextView title = (TextView) view.findViewById(R.id.title);
                         TextView subtitle = (TextView) view.findViewById(R.id.subtitle);
                         title.setVisibility(View.GONE);
-                        subtitle.setText("Error los servicios no pudieron cargarse");
+                        subtitle.setText(getString(R.string.error_services));
                         crouton = Crouton.make(MeGoActivity.this, view);
                         crouton.setOnClickListener(new View.OnClickListener() {
                             @Override
@@ -841,15 +834,34 @@ public class MeGoActivity extends FragmentActivity {
             // Extract data included in the Intent
             boolean isPublish = intent.getBooleanExtra("publish", false);
             if(isPublish){
-                pd = ProgressDialog.show(MeGoActivity.this, "Roomme" ,"Subiendo publicación...(Puede tardar unos minutos)",true,false,null);
+                pd = ProgressDialog.show(MeGoActivity.this, getString(R.string.app_name) ,getString(R.string.save_publish),true,false,null);
                 if(validaDatos()){
                     prepararPublicacion(false);
-
+                }else{
+                    pd.dismiss();
+                    View view = getLayoutInflater().inflate(R.layout.crouton_custom_view, null);
+                    TextView title = (TextView) view.findViewById(R.id.title);
+                    TextView subtitle = (TextView) view.findViewById(R.id.subtitle);
+                    title.setText(getResources().getString(R.string.required_fields));
+                    subtitle.setVisibility(View.GONE);
+                    crouton = Crouton.make(MeGoActivity.this, view);
+                    crouton.setConfiguration(new Configuration.Builder().setDuration(Configuration.DURATION_LONG).build());
+                    crouton.show();
                 }
             }else{
-                pd = ProgressDialog.show(MeGoActivity.this, "Roomme", "Guardando borrador...(Puede tardar unos minutos)", true, false, null);
+                pd = ProgressDialog.show(MeGoActivity.this, getString(R.string.app_name), getString(R.string.save_draft), true, false, null);
                 if(validaDatos()){
                     prepararPublicacion(true);
+                }else{
+                    pd.dismiss();
+                    View view = getLayoutInflater().inflate(R.layout.crouton_custom_view, null);
+                    TextView title = (TextView) view.findViewById(R.id.title);
+                    TextView subtitle = (TextView) view.findViewById(R.id.subtitle);
+                    title.setText(getResources().getString(R.string.required_fields));
+                    subtitle.setVisibility(View.GONE);
+                    crouton = Crouton.make(MeGoActivity.this, view);
+                    crouton.setConfiguration(new Configuration.Builder().setDuration(Configuration.DURATION_LONG).build());
+                    crouton.show();
                 }
             }
         }
@@ -993,7 +1005,7 @@ public class MeGoActivity extends FragmentActivity {
             }
 
 
-
+            final boolean draft = isDraftLocal;
             if(object != null){
                 object.put("owner", owner);
                 object.put("title", title);
@@ -1014,6 +1026,7 @@ public class MeGoActivity extends FragmentActivity {
                 object.put("adicionales", adicionales);
                 object.put("location", location);
                 object.put("offers", 0);
+                object.put("destacado", destacado);
                 object.put("servicios", servicesParse);
                 if(bitmap1 != null){object.put("img_portada", photoFile1);}
                 if(bitmap2 != null){object.put("img_uno", photoFile2);}
@@ -1023,7 +1036,7 @@ public class MeGoActivity extends FragmentActivity {
                     public void done(ParseException e) {
                         if(e == null){
                             pd.dismiss();
-
+                            finalAnswer(draft, e);
                         }
                     }
                 });
@@ -1048,6 +1061,7 @@ public class MeGoActivity extends FragmentActivity {
                 publicacion.put("adicionales", adicionales);
                 publicacion.put("location", location);
                 publicacion.put("offers", 0);
+                publicacion.put("destacado", destacado);
                 publicacion.put("servicios", servicesParse);
                 if(bitmap1 != null){publicacion.put("img_portada", photoFile1);}
                 if(bitmap2 != null){publicacion.put("img_uno", photoFile2);}
@@ -1056,9 +1070,7 @@ public class MeGoActivity extends FragmentActivity {
                     @Override
                     public void done(ParseException e) {
                         pd.dismiss();
-                        if(e == null){
-
-                        }
+                        finalAnswer(draft, e);
                     }
                 });
             }
@@ -1068,6 +1080,76 @@ public class MeGoActivity extends FragmentActivity {
         }
     }
 
+    public void finalAnswer(boolean draft, ParseException e){
+        if(e == null){
+            titulo.setText("");
+            ch_roomme.setChecked(false);
+            precio.setText("");
+            direccion.setText("");
+            descripcion.setText("");
+            tamano.setText("");
+            plantas.setText("");
+            cuartos.setText("");
+            banos.setText("");
+            cocina.setText("");
+            comedor.setText("");
+            amueblado.setChecked(false);
+            estacionamiento.setText("");
+            adicional.setText("");
+            googleMap.clear();
+            getQueryServicios();
+            thirdLayout.setVisibility(View.GONE);
+            grid_services.setVisibility(View.GONE);
+            plus_service.setVisibility(View.GONE);
+            back.setVisibility(View.GONE);
+            one.setVisibility(View.VISIBLE);
+            linear_one.setVisibility(View.VISIBLE);
+            mapLayout.setVisibility(View.GONE);
+            two.setVisibility(View.GONE);
+            linear_two.setVisibility(View.GONE);
+            next.setVisibility(View.VISIBLE);
 
+            if(draft){
+                View view = getLayoutInflater().inflate(R.layout.crouton_custom_view, null);
+                TextView title = (TextView) view.findViewById(R.id.title);
+                TextView subtitle = (TextView) view.findViewById(R.id.subtitle);
+                title.setText(getResources().getString(R.string.draft_correct));
+                subtitle.setVisibility(View.GONE);
+                crouton = Crouton.make(MeGoActivity.this, view);
+                crouton.setConfiguration(new Configuration.Builder().setDuration(Configuration.DURATION_LONG).build());
+                crouton.show();
+            }else{
+                View view = getLayoutInflater().inflate(R.layout.crouton_custom_view, null);
+                TextView title = (TextView) view.findViewById(R.id.title);
+                TextView subtitle = (TextView) view.findViewById(R.id.subtitle);
+                title.setText(getResources().getString(R.string.publish_correct));
+                subtitle.setVisibility(View.GONE);
+                crouton = Crouton.make(MeGoActivity.this, view);
+                crouton.setConfiguration(new Configuration.Builder().setDuration(Configuration.DURATION_LONG).build());
+                crouton.show();
+            }
+
+        }else{
+            if(draft){
+                View view = getLayoutInflater().inflate(R.layout.crouton_custom_view, null);
+                TextView title = (TextView) view.findViewById(R.id.title);
+                TextView subtitle = (TextView) view.findViewById(R.id.subtitle);
+                title.setText(getResources().getString(R.string.draft_incorrect));
+                subtitle.setVisibility(View.GONE);
+                crouton = Crouton.make(MeGoActivity.this, view);
+                crouton.setConfiguration(new Configuration.Builder().setDuration(Configuration.DURATION_LONG).build());
+                crouton.show();
+            }else{
+                View view = getLayoutInflater().inflate(R.layout.crouton_custom_view, null);
+                TextView title = (TextView) view.findViewById(R.id.title);
+                TextView subtitle = (TextView) view.findViewById(R.id.subtitle);
+                title.setText(getResources().getString(R.string.publish_incorrect));
+                subtitle.setVisibility(View.GONE);
+                crouton = Crouton.make(MeGoActivity.this, view);
+                crouton.setConfiguration(new Configuration.Builder().setDuration(Configuration.DURATION_LONG).build());
+                crouton.show();
+            }
+        }
+    }
 }
 

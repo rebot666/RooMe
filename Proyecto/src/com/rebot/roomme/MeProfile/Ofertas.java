@@ -31,7 +31,7 @@ public class Ofertas extends SherlockActivity{
     private ListView list_offers;
     private ArrayList<ParseObject> my_offers;
 
-    private LinearLayout no_connection;
+    private LinearLayout no_connection, no_info;
     private RelativeLayout loading_info;
     private ProgressWheel loader;
 
@@ -45,13 +45,15 @@ public class Ofertas extends SherlockActivity{
 
         list_offers = (ListView) findViewById(R.id.offers);
         loading_info = (RelativeLayout) findViewById(R.id.loading_info);
-        no_connection = (LinearLayout) findViewById(R.id.no_connection);
+        no_connection = (LinearLayout) findViewById(R.id.layout_no_connection);
         loader = (ProgressWheel) findViewById(R.id.pw_spinner);
+        no_info = (LinearLayout) findViewById(R.id.layout_no_info);
 
         my_offers = new ArrayList<ParseObject>();
 
         if(isOnline()){
             no_connection.setVisibility(View.GONE);
+            loading_info.setVisibility(View.VISIBLE);
             loader.spin();
 
             ParseUser currentUser = ParseUser.getCurrentUser();
@@ -60,6 +62,25 @@ public class Ofertas extends SherlockActivity{
             }
         } else {
             no_connection.setVisibility(View.VISIBLE);
+            loading_info.setVisibility(View.GONE);
+            no_connection.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(isOnline()){
+                        no_connection.setVisibility(View.GONE);
+                        loading_info.setVisibility(View.VISIBLE);
+                        loader.spin();
+
+                        ParseUser currentUser = ParseUser.getCurrentUser();
+                        if(currentUser != null){
+                            query_offers(currentUser);
+                        }
+                    } else {
+                        no_connection.setVisibility(View.VISIBLE);
+                        loading_info.setVisibility(View.GONE);
+                    }
+                }
+            });
         }
     }
 
@@ -95,9 +116,16 @@ public class Ofertas extends SherlockActivity{
 
                         loading_info.setVisibility(View.GONE);
                         loader.stopSpinning();
+                    }else{
+                        loading_info.setVisibility(View.GONE);
+                        loader.stopSpinning();
+                        no_info.setVisibility(View.VISIBLE);
                     }
                 } else {
                     Log.e("hola", "");
+                    loading_info.setVisibility(View.GONE);
+                    loader.stopSpinning();
+                    no_info.setVisibility(View.VISIBLE);
                 }
             }
         });

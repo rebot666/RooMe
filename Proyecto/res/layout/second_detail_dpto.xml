@@ -18,7 +18,8 @@
                 <ImageView
                         android:layout_width="150dp"
                         android:layout_height="150dp"
-                        android:id="@+id/imageView" android:src="@drawable/wifi_indigo"
+                        android:id="@+id/imageView"
+                        android:src="@drawable/wifi_indigo"
                         android:layout_gravity="center"/>
                 <TextView
                         android:layout_width="wrap_content"
@@ -41,7 +42,7 @@
                 <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Descripción"
+                        android:text="@string/lbl_description"
                         android:id="@+id/lbl_desc"
                         android:textStyle="bold"
                         android:textSize="18dp"
@@ -49,15 +50,15 @@
                 <TextView
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
-                        android:text="New Text"
-                        android:id="@+id/txt_descripcion" android:layout_marginTop="5dp"
+                        android:id="@+id/txt_descripcion"
+                        android:layout_marginTop="5dp"
                         android:textSize="16dp"
                         />
             </LinearLayout>
             <TextView
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:text="Especificaciones"
+                    android:text="@string/lbl_specifications"
                     android:id="@+id/txt_especificaciones"
                     android:textStyle="bold"
                     android:layout_marginTop="15dp"
@@ -77,7 +78,6 @@
                     <TextView
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
-                            android:text="Tamaño15"
                             android:id="@+id/txt_tamano"
                             android:paddingTop="5dp"
                             android:paddingBottom="5dp"
@@ -86,7 +86,6 @@
                     <TextView
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
-                            android:text="Plantas16"
                             android:id="@+id/txt_plantas"
                             android:paddingBottom="5dp"
                             android:paddingTop="5dp"
@@ -95,7 +94,6 @@
                     <TextView
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
-                            android:text="Cuartos15"
                             android:id="@+id/txt_cuartos"
                             android:paddingTop="5dp"
                             android:paddingBottom="5dp"
@@ -104,7 +102,6 @@
                     <TextView
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
-                            android:text="Baños18"
                             android:id="@+id/txt_banos"
                             android:paddingTop="5dp"
                             android:textSize="16dp"
@@ -119,7 +116,6 @@
                     <TextView
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
-                            android:text="Cocina18"
                             android:id="@+id/txt_cocina"
                             android:paddingTop="5dp"
                             android:paddingBottom="5dp"
@@ -128,7 +124,6 @@
                     <TextView
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
-                            android:text="Comedor14"
                             android:id="@+id/txt_comedor"
                             android:paddingTop="5dp"
                             android:paddingBottom="5dp"
@@ -137,7 +132,6 @@
                     <TextView
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
-                            android:text="Amueblado11"
                             android:id="@+id/txt_amueblado"
                             android:paddingTop="5dp"
                             android:paddingBottom="5dp"
@@ -146,7 +140,6 @@
                     <TextView
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
-                            android:text="Estacionamiento2"
                             android:id="@+id/txt_estacionamiento"
                             android:paddingTop="5dp"
                             android:textSize="16dp"
@@ -161,7 +154,7 @@
                 <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Notas Adicionales"
+                        android:text="@string/lbl_extras"
                         android:id="@+id/lbl_adicional"
                         android:textStyle="bold"
                         android:textSize="18dp"
@@ -169,7 +162,6 @@
                 <TextView
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
-                        android:text="New Text"
                         android:id="@+id/txt_adicional"
                         android:layout_marginTop="5dp"
                         android:textSize="16dp"
@@ -188,7 +180,7 @@
                     <TextView
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
-                            android:text="Usuario Desde:"
+                            android:text="@string/lbl_user_from"
                             android:id="@+id/lbl_user_since"
                             android:textStyle="bold"
                             android:layout_weight=".5"

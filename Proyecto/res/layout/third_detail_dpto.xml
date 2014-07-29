@@ -53,7 +53,6 @@
                 <TextView
                         android:layout_width="fill_parent"
                         android:layout_height="fill_parent"
-                        android:text="New Text"
                         android:id="@+id/txt_user_name"
                         android:gravity="center_vertical|center_horizontal"
                         android:textStyle="bold"
@@ -78,7 +77,7 @@
                     <TextView
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
-                            android:text="Correo Electrónico (*)"
+                            android:text="@string/lbl_mail_offers"
                             android:id="@+id/lbl_email"
                             android:visibility="gone"
                             android:textSize="18dp"
@@ -89,7 +88,7 @@
                             android:inputType="textEmailAddress"
                             android:ems="10"
                             android:id="@+id/txt_email"
-                            android:hint="Correo Electrónico (*)"
+                            android:hint="@string/lbl_mail"
                             />
                 </LinearLayout>
                 <LinearLayout
@@ -103,7 +102,7 @@
                         <TextView
                                 android:layout_width="fill_parent"
                                 android:layout_height="wrap_content"
-                                android:text="Teléfono"
+                                android:text="@string/lbl_telephone_number"
                                 android:id="@+id/lbl_tel"
                                 android:layout_weight=".5"
                                 android:visibility="gone"
@@ -113,14 +112,14 @@
                                 android:layout_width="fill_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_weight=".5"
-                                android:hint="Teléfono"
+                                android:hint="@string/lbl_telephone_number"
                                 android:inputType="phone"
                                 android:ems="10"
                                 android:id="@+id/txt_tel"/>
                         <CheckBox
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="WhatsApp?"
+                                android:text="@string/lbl_whatsapp"
                                 android:id="@+id/ch_whats"
                                 android:textSize="18dp"
                                 />
@@ -131,7 +130,7 @@
                           android:layout_height="wrap_content"
                           android:layout_marginTop="10dp"
                           android:textColor="@color/Blue"
-                          android:text="@string/tel_alterno"
+                          android:text="@string/lbl_extra_phone_plus"
                           android:id="@+id/text_alterno"
                           android:textSize="18dp"
                         />
@@ -150,7 +149,7 @@
                         <TextView
                                 android:layout_width="fill_parent"
                                 android:layout_height="wrap_content"
-                                android:text="Teléfono 2"
+                                android:text="@string/lbl_telephone_number_2"
                                 android:id="@+id/lbl_tel2"
                                 android:layout_weight=".5"
                                 android:textSize="18dp"
@@ -163,12 +162,12 @@
                                 android:ems="10"
                                 android:id="@+id/txt_tel2"
                                 android:layout_weight=".5"
-                                android:hint="Teléfono 2"
+                                android:hint="@string/lbl_telephone_number_2"
                                 />
                         <CheckBox
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="WhatsApp?"
+                                android:text="@string/lbl_whatsapp"
                                 android:id="@+id/ch_whats2"
                                 android:textSize="18dp"
                                 />
@@ -185,7 +184,7 @@
                     <TextView
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
-                            android:text="Mensaje"
+                            android:text="@string/lbl_contact_message"
                             android:id="@+id/lbl_msnj"
                             android:textSize="18dp"
                             android:visibility="gone"
@@ -195,7 +194,7 @@
                             android:layout_height="fill_parent"
                             android:id="@+id/txt_comment"
                             android:layout_marginBottom="50dp"
-                            android:hint="Mensaje"
+                            android:hint="@string/lbl_contact_message"
                             android:maxLines="5"
                             android:lines="5"
                             />
@@ -214,7 +213,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
                 android:background="@drawable/btn_oferta_background"
-                android:text="Enviar Oferta"
+                android:text="@string/btn_send_offer"
                 android:id="@+id/btn_enviar"
                 android:textColor="@color/White"
                 android:textStyle="bold"

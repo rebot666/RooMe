@@ -60,7 +60,7 @@ public class Roome extends Application {
     public void onCreate() {
         super.onCreate();
         context = this.getApplicationContext();
-        Parse.initialize(this, "jbaHqREvwHAb7zukf78Ot7B9zb6AFsy5NHHUq2SA", "5k7ozpMi1BrlDy1wranTtV2Us5xeytE7M9rn8orL");
+        Parse.initialize(this, getString(R.string.parse_key), getString(R.string.app_key));
 
         FontsOverride.setDefaultFont(this, "DEFAULT", "fonts/abeezee_regular.ttf");
         //FontsOverride.setDefaultFont(this, "MONOSPACE", "MyFontAsset2.ttf");

@@ -12,6 +12,8 @@ import com.parse.*;
 import com.rebot.roomme.Adapters.CommentAdapter;
 import com.rebot.roomme.R;
 import com.rebot.roomme.Roome;
+import de.keyboardsurfer.android.widget.crouton.Configuration;
+import de.keyboardsurfer.android.widget.crouton.Crouton;
 import org.json.JSONException;
 
 import java.text.DateFormat;
@@ -33,6 +35,7 @@ public class ComentariosActivity extends FragmentActivity {
     private LinearLayout loadingLayout, commentLayout;
     private EditText nuevoComentario;
     private Button enviarComentario;
+    private Crouton crouton;
 
     @Override
     public void onCreate(Bundle savedInstance){
@@ -61,37 +64,59 @@ public class ComentariosActivity extends FragmentActivity {
                 @Override
                 public void onClick(View v) {
                     if(isOnline()){
-                        if(!nuevoComentario.getText().toString().equals("") && ParseUser.getCurrentUser() != null){
+                        if(ParseUser.getCurrentUser() != null){
+                            if(!nuevoComentario.getText().toString().equals("")){
 
-                            ParseObject comentario = new ParseObject("Comentarios");
-                            ParseObject temp = ParseObject.createWithoutData("Departamento",app.dptoSeleccionado.getObjectId());
+                                ParseObject comentario = new ParseObject("Comentarios");
+                                ParseObject temp = ParseObject.createWithoutData("Departamento",app.dptoSeleccionado.getObjectId());
 
-                            String nombre = "";
-                            try {
-                                nombre = ParseUser.getCurrentUser().getJSONObject("profile").getString("name");
-                            } catch (JSONException e) {
-                                nombre = "";
-                            }
-                            comentario.put("nombre", nombre);
-                            comentario.put("rating", 5);
-                            comentario.put("comentario", nuevoComentario.getText().toString());
-                            comentario.put("dpto", temp);
-                            comentario.saveInBackground(new SaveCallback() {
-                                @Override
-                                public void done(ParseException e) {
-                                    if(e == null){
-                                        nuevoComentario.setText("");
-                                        cargaTabla();
-                                    }else{
+                                String nombre = "";
+                                try {
+                                    nombre = ParseUser.getCurrentUser().getJSONObject("profile").getString("name");
+                                } catch (JSONException e) {
+                                    nombre = "";
+                                }
+                                comentario.put("nombre", nombre);
+                                comentario.put("rating", 5);
+                                comentario.put("comentario", nuevoComentario.getText().toString());
+                                comentario.put("dpto", temp);
+                                comentario.saveInBackground(new SaveCallback() {
+                                    @Override
+                                    public void done(ParseException e) {
+                                        if(e == null){
+                                            nuevoComentario.setText("");
+                                            cargaTabla();
+                                        }else{
 
+                                        }
                                     }
+                                });
+                            }
+                        }else{
+                            View view = getLayoutInflater().inflate(R.layout.crouton_custom_view, null);
+                            TextView title = (TextView) view.findViewById(R.id.title);
+                            TextView subtitle = (TextView) view.findViewById(R.id.subtitle);
+                            title.setText(getResources().getString(R.string.user_enrolled));
+                            subtitle.setVisibility(View.GONE);
+                            crouton = Crouton.make(ComentariosActivity.this, view);
+                            crouton.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    crouton.cancel();
                                 }
                             });
-                        }else{
-
+                            crouton.show();
                         }
-                    }else{
 
+                    }else{
+                        View view = getLayoutInflater().inflate(R.layout.crouton_custom_view, null);
+                        TextView title = (TextView) view.findViewById(R.id.title);
+                        TextView subtitle = (TextView) view.findViewById(R.id.subtitle);
+                        title.setText(getResources().getString(R.string.no_connection));
+                        subtitle.setVisibility(View.GONE);
+                        crouton = Crouton.make(ComentariosActivity.this, view);
+                        crouton.setConfiguration(new Configuration.Builder().setDuration(Configuration.DURATION_LONG).build());
+                        crouton.show();
                     }
                 }
             });

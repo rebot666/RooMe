@@ -26,10 +26,12 @@ import com.google.android.gms.maps.model.*;
 import com.markupartist.android.widget.PullToRefreshListView;
 import com.parse.*;
 import com.rebot.roomme.Adapters.DepartmentAdapter;
+import com.rebot.roomme.MeGo.MeGoActivity;
 import com.rebot.roomme.R;
 import com.rebot.roomme.Roome;
 import com.rebot.roomme.SingleDepartment;
 import com.todddavies.components.progressbar.ProgressWheel;
+import de.keyboardsurfer.android.widget.crouton.Configuration;
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 
 import java.util.ArrayList;
@@ -71,8 +73,10 @@ public class MelookDpto extends FragmentActivity implements
     private double latitud = 23.081897;
     private double longitud =  -102.427222;
 
+
+
     @Override
-    public void onCreate(Bundle savedInstance){
+    public void onCreate(Bundle savedInstance) {
         super.onCreate(savedInstance);
         setContentView(R.layout.dpto_layout);
 
@@ -98,23 +102,25 @@ public class MelookDpto extends FragmentActivity implements
 
         dptos = new ArrayList<ParseObject>();
 
+        conectarDatos();
+
         btn_map.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String btn_title = btn_map.getText().toString();
-                if (btn_title.equalsIgnoreCase("Mapa")) {
+                if (btn_title.equalsIgnoreCase(getString(R.string.btn_map))) {
                     linear_list.setVisibility(View.GONE);
                     linear_map.setVisibility(View.VISIBLE);
                     try {
                         // Loading map
-                        btn_map.setText("Lista");
+                        btn_map.setText(getString(R.string.btn_list));
                         initilizeMap();
 
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
                 } else {
-                    btn_map.setText("Mapa");
+                    btn_map.setText(getString(R.string.btn_map));
                     linear_list.setVisibility(View.VISIBLE);
                     linear_map.setVisibility(View.GONE);
                     queryLoadData_dptos();
@@ -122,13 +128,12 @@ public class MelookDpto extends FragmentActivity implements
             }
         });
 
-        if(isOnline()){
-            loader.spin();
-            queryLoadData_dptos();
-        }else{
-            loading_info.setVisibility(View.GONE);
-            no_connection.setVisibility(View.VISIBLE);
-        }
+        no_connection.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                conectarDatos();
+            }
+        });
 
         swipeLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -147,6 +152,8 @@ public class MelookDpto extends FragmentActivity implements
                 queryLoadData_dptos();
             }
         });
+
+
     }
 
     @Override
@@ -187,7 +194,7 @@ public class MelookDpto extends FragmentActivity implements
 
         for(ParseObject dpto : dptos){
             ParseGeoPoint geoPoint = dpto.getParseGeoPoint("location");
-            String title = dpto.getString("address");
+            String title = dpto.getString("title");
             if(geoPoint != null){
                 LatLng lng = new LatLng(geoPoint.getLatitude(), geoPoint.getLongitude());
 
@@ -196,6 +203,20 @@ public class MelookDpto extends FragmentActivity implements
                                 .position(lng)
                                 .icon(BitmapDescriptorFactory.fromResource(R.drawable.pin_house))
                                 .title(title));
+                googleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+                    @Override
+                    public boolean onMarkerClick(Marker marker) {
+                        for(ParseObject departamentoSeleccionado : dptos){
+                            if(marker.getTitle().equals(departamentoSeleccionado.getString("title"))){
+                                app.dptoSeleccionado = departamentoSeleccionado;
+                                app.selfPublication = false;
+                                Intent intent = new Intent(MelookDpto.this, SingleDepartment.class);
+                                MelookDpto.this.startActivity(intent);
+                            }
+                        }
+                        return true;
+                    }
+                });
             }
         }
     }
@@ -206,7 +227,6 @@ public class MelookDpto extends FragmentActivity implements
             midnight.setHours(0);
             midnight.setMinutes(0);
             midnight.setSeconds(0);
-            midnight.setDate(midnight.getDay()-3);
 
             Date elevenfiftynine = new Date();
             elevenfiftynine.setHours(23);
@@ -220,54 +240,98 @@ public class MelookDpto extends FragmentActivity implements
             if(currentUser != null){
                 query.whereNotEqualTo("owner", currentUser);
             }
+            query.whereEqualTo("destacado", true);
             query.include("owner");
             query.orderByDescending("updatedAt");
+            query.setLimit(1000);
             query.findInBackground(new FindCallback<ParseObject>() {
                 @Override
-                public void done(List<ParseObject> list, ParseException e) {
-                    if (e == null) {
-                        if (list.size() > 0) {
-                            dptos.clear();
-                            for (ParseObject temp : list) {
-                                if (!temp.getBoolean("isSell") && !temp.getBoolean("isDraft")) {
-                                    dptos.add(temp);
+                public void done(List<ParseObject> parseObjects, ParseException e) {
+                    if(e == null){
+                        dptos.clear();
+                        for (ParseObject temp : parseObjects) {
+                            if (!temp.getBoolean("isSell") && !temp.getBoolean("isDraft")) {
+                                dptos.add(temp);
+                            }
+                        }
+
+                        Date midnight = new Date();
+                        midnight.setHours(0);
+                        midnight.setMinutes(0);
+                        midnight.setSeconds(0);
+                        midnight.setDate(midnight.getDay()-3);
+
+                        Date elevenfiftynine = new Date();
+                        elevenfiftynine.setHours(23);
+                        elevenfiftynine.setMinutes(59);
+                        elevenfiftynine.setSeconds(59);
+
+                        ParseUser currentUser = ParseUser.getCurrentUser();
+
+                        ParseQuery<ParseObject> query = ParseQuery.getQuery("Departamento");
+                        query.whereGreaterThan("updatedAt", midnight);
+                        query.whereLessThan("updatedAt", elevenfiftynine);
+                        if(currentUser != null){
+                            query.whereNotEqualTo("owner", currentUser);
+                        }
+                        query.include("owner");
+                        query.whereEqualTo("destacado", false);
+                        query.orderByDescending("updatedAt");
+                        query.setLimit(1000);
+                        query.findInBackground(new FindCallback<ParseObject>() {
+                            @Override
+                            public void done(List<ParseObject> list, ParseException e) {
+                                if (e == null) {
+                                    if (list.size() > 0) {
+                                        for (ParseObject temp : list) {
+                                            if (!temp.getBoolean("isSell") && !temp.getBoolean("isDraft")) {
+                                                dptos.add(temp);
+                                            }
+                                        }
+
+                                        app.dpto.setAdapter(new DepartmentAdapter(context,
+                                                R.layout.lookme_list_department_item, dptos, app, false));
+                                        loading_info.setVisibility(View.GONE);
+                                        loader.stopSpinning();
+
+                                        app.dpto.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                                            @Override
+                                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                                app.dptoSeleccionado = dptos.get(position);
+                                                app.selfPublication = false;
+                                                Intent intent = new Intent(MelookDpto.this, SingleDepartment.class);
+                                                MelookDpto.this.startActivity(intent);
+                                            }
+                                        });
+                                        //people.onRefreshComplete();
+                                        swipeLayout.setRefreshing(false);
+                                        setUpMap();
+                                    }else{
+                                        loading_info.setVisibility(View.GONE);
+                                        app.noInfo.setVisibility(View.VISIBLE);
+                                        loader.stopSpinning();
+                                        //people.onRefreshComplete();
+                                        swipeLayout.setRefreshing(false);
+                                    }
+                                } else {
+                                    Log.d("", "");
+                                    loading_info.setVisibility(View.GONE);
+                                    app.noInfo.setVisibility(View.VISIBLE);
+                                    loader.stopSpinning();
+                                    //people.onRefreshComplete();
+                                    swipeLayout.setRefreshing(false);
                                 }
                             }
-
-                            app.dpto.setAdapter(new DepartmentAdapter(context,
-                                    R.layout.lookme_list_department_item, dptos, app, false));
-                            loading_info.setVisibility(View.GONE);
-                            loader.stopSpinning();
-
-                            app.dpto.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                                @Override
-                                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                                    app.dptoSeleccionado = dptos.get(position);
-                                    app.selfPublication = false;
-                                    Intent intent = new Intent(MelookDpto.this, SingleDepartment.class);
-                                    MelookDpto.this.startActivity(intent);
-                                }
-                            });
-                            //people.onRefreshComplete();
-                            swipeLayout.setRefreshing(false);
-                            setUpMap();
-                        }else{
-                            loading_info.setVisibility(View.GONE);
-                            app.noInfo.setVisibility(View.VISIBLE);
-                            loader.stopSpinning();
-                            //people.onRefreshComplete();
-                            swipeLayout.setRefreshing(false);
-                        }
-                    } else {
-                        Log.d("", "");
+                        });
+                    }else{
                         loading_info.setVisibility(View.GONE);
                         app.noInfo.setVisibility(View.VISIBLE);
                         loader.stopSpinning();
-                        //people.onRefreshComplete();
-                        swipeLayout.setRefreshing(false);
                     }
                 }
             });
+
+
         } else {
             Log.d("", "");
             loading_info.setVisibility(View.GONE);
@@ -360,6 +424,18 @@ public class MelookDpto extends FragmentActivity implements
              * user with the error.
              */
             //showErrorDialog(connectionResult.getErrorCode());
+        }
+    }
+
+    public void conectarDatos(){
+        loading_info.setVisibility(View.VISIBLE);
+        no_connection.setVisibility(View.GONE);
+        if(isOnline()){
+            loader.spin();
+            queryLoadData_dptos();
+        }else{
+            loading_info.setVisibility(View.GONE);
+            no_connection.setVisibility(View.VISIBLE);
         }
     }
 }

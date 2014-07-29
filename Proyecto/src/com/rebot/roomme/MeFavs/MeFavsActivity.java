@@ -52,34 +52,16 @@ public class MeFavsActivity extends FragmentActivity {
         show_dptos = new ArrayList<ParseObject>();
         loading_info = (RelativeLayout) findViewById(R.id.loading_info);
         no_info = (LinearLayout) findViewById(R.id.layout_no_info);
+        no_connection = (LinearLayout) findViewById(R.id.layout_no_connection);
 
-        if(!isOnline()){
-            no_connection.setVisibility(View.VISIBLE);
-            favorites.setVisibility(View.GONE);
-        } else {
-            no_connection.setVisibility(View.GONE);
-            favorites.setVisibility(View.VISIBLE);
-            ParseUser currentUser = ParseUser.getCurrentUser();
-            if(currentUser != null){
-                loader.spin();
-                //getQuery(currentUser);
-                loadFavorites(currentUser);
-            } else {
-                View view = getLayoutInflater().inflate(R.layout.crouton_custom_view, null);
-                TextView title = (TextView) view.findViewById(R.id.title);
-                TextView subtitle = (TextView) view.findViewById(R.id.subtitle);
-                title.setText(getResources().getString(R.string.user_enrolled));
-                subtitle.setVisibility(View.GONE);
-                crouton = Crouton.make(MeFavsActivity.this, view);
-                crouton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        crouton.cancel();
-                    }
-                });
-                crouton.show();
+        conectarDatos();
+
+        no_connection.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                conectarDatos();
             }
-        }
+        });
     }
 
     public void getQuery(ParseUser user){
@@ -189,5 +171,40 @@ public class MeFavsActivity extends FragmentActivity {
             return true;
         }
         return false;
+    }
+
+    public void conectarDatos(){
+        no_connection.setVisibility(View.GONE);
+        favorites.setVisibility(View.VISIBLE);
+        if(!isOnline()){
+            no_connection.setVisibility(View.VISIBLE);
+            favorites.setVisibility(View.GONE);
+        } else {
+            no_connection.setVisibility(View.GONE);
+            favorites.setVisibility(View.VISIBLE);
+            ParseUser currentUser = ParseUser.getCurrentUser();
+            if(currentUser != null){
+                loader.spin();
+                //getQuery(currentUser);
+                loadFavorites(currentUser);
+            } else {
+                loading_info.setVisibility(View.GONE);
+                loader.stopSpinning();
+                no_info.setVisibility(View.VISIBLE);
+                View view = getLayoutInflater().inflate(R.layout.crouton_custom_view, null);
+                TextView title = (TextView) view.findViewById(R.id.title);
+                TextView subtitle = (TextView) view.findViewById(R.id.subtitle);
+                title.setText(getResources().getString(R.string.user_enrolled));
+                subtitle.setVisibility(View.GONE);
+                crouton = Crouton.make(MeFavsActivity.this, view);
+                crouton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        crouton.cancel();
+                    }
+                });
+                crouton.show();
+            }
+        }
     }
 }

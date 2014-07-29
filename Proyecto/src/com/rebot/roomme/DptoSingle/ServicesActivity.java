@@ -45,7 +45,7 @@ public class ServicesActivity extends FragmentActivity {
         loading = (RelativeLayout) findViewById(R.id.loading_info);
         pw_loader = (ProgressWheel) findViewById(R.id.pw_spinner);
         services_grid = (GridView) findViewById(R.id.services_grid);
-        no_connection = (LinearLayout) findViewById(R.id.no_connection);
+        no_connection = (LinearLayout) findViewById(R.id.layout_no_connection);
         noInfo = (LinearLayout) findViewById(R.id.layout_no_info);
 
         services = new ArrayList<ParseObject>();
@@ -56,6 +56,21 @@ public class ServicesActivity extends FragmentActivity {
         } else {
             loading.setVisibility(View.GONE);
             no_connection.setVisibility(View.VISIBLE);
+
+            no_connection.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    loading.setVisibility(View.VISIBLE);
+                    no_connection.setVisibility(View.GONE);
+                    if(isOnline()){
+                        pw_loader.spin();
+                        getQuery();
+                    } else {
+                        loading.setVisibility(View.GONE);
+                        no_connection.setVisibility(View.VISIBLE);
+                    }
+                }
+            });
         }
     }
 

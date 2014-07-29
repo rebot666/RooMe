@@ -32,7 +32,7 @@ public class MyDrafts extends SherlockActivity {
     private Context context = this;
     private ListView drafts;
 
-    private LinearLayout no_connection;
+    private LinearLayout no_connection, no_info;
     private RelativeLayout loading_info;
     private ProgressWheel loader;
 
@@ -49,7 +49,8 @@ public class MyDrafts extends SherlockActivity {
         drafts = (ListView) findViewById(R.id.drafts);
         loading_info = (RelativeLayout) findViewById(R.id.loading_info);
         loader = (ProgressWheel) findViewById(R.id.pw_spinner);
-
+        no_connection = (LinearLayout) findViewById(R.id.layout_no_connection);
+        no_info = (LinearLayout) findViewById(R.id.layout_no_info);
     }
 
     public void getQuery(ParseUser user){
@@ -83,9 +84,16 @@ public class MyDrafts extends SherlockActivity {
 
                         loading_info.setVisibility(View.GONE);
                         loader.stopSpinning();
+                    }else{
+                        loading_info.setVisibility(View.GONE);
+                        loader.stopSpinning();
+                        no_info.setVisibility(View.VISIBLE);
                     }
                 } else {
                     Log.e("hola", "");
+                    loading_info.setVisibility(View.GONE);
+                    loader.stopSpinning();
+                    no_info.setVisibility(View.VISIBLE);
                 }
             }
         });
@@ -117,6 +125,24 @@ public class MyDrafts extends SherlockActivity {
             loader.spin();
             ParseUser user = ParseUser.getCurrentUser();
             getQuery(user);
+        }else{
+            no_connection.setVisibility(View.VISIBLE);
+            loading_info.setVisibility(View.GONE);
+            no_connection.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(isOnline()){
+                        no_connection.setVisibility(View.GONE);
+                        loading_info.setVisibility(View.VISIBLE);
+                        loader.spin();
+                        ParseUser user = ParseUser.getCurrentUser();
+                        getQuery(user);
+                    }else{
+                        no_connection.setVisibility(View.VISIBLE);
+                        loading_info.setVisibility(View.GONE);
+                    }
+                }
+            });
         }
     }
 }

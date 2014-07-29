@@ -8,9 +8,12 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.actionbarsherlock.app.SherlockActivity;
 import com.actionbarsherlock.view.MenuItem;
+import com.daimajia.androidanimations.library.Techniques;
+import com.daimajia.androidanimations.library.YoYo;
 import com.facebook.HttpMethod;
 import com.facebook.Request;
 import com.facebook.Response;
@@ -50,6 +53,7 @@ public class MeLookRoomie extends SherlockActivity{
     private TextView percentageText, txt_name, txt_edad, txt_localidad, txt_genero;
     private ImageView gender_icon;
     private String idUser;
+    private LinearLayout nameLayout, ageLayout, localityLayout, cardBackgroundLayout;
 
     public void onCreate(Bundle savedInstance){
         super.onCreate(savedInstance);
@@ -67,9 +71,17 @@ public class MeLookRoomie extends SherlockActivity{
         txt_localidad = (TextView) findViewById(R.id.localidad);
         txt_genero = (TextView) findViewById(R.id.gender);
         gender_icon = (ImageView) findViewById(R.id.gender_icon);
+        nameLayout = (LinearLayout) findViewById(R.id.name_layout);
+        ageLayout = (LinearLayout) findViewById(R.id.age_layout);
+        localityLayout = (LinearLayout) findViewById(R.id.locality_layout);
+        cardBackgroundLayout = (LinearLayout) findViewById(R.id.card_background_layout);
 
         app = (Roome) getApplication();
         user = app.roomieSeleccionado;
+
+        YoYo.with(Techniques.FadeInDown)
+                .duration(2000)
+                .playOn(cardBackgroundLayout);
 
         ParseUser userParseInfo = user.getUser();
         JSONObject profile = userParseInfo.getJSONObject("profile");
@@ -104,7 +116,7 @@ public class MeLookRoomie extends SherlockActivity{
         DecimalFormat df = new DecimalFormat("###.##", otherSymbols);
 
         percentageText.setText(df.format(user.getPercentage()) + "%");
-        txt_name.setText("Nombre: " + profile.optString("name", ""));
+        txt_name.setText("" + profile.optString("name", ""));
 
         String genero = profile.optString("gender","");
         if(genero.equalsIgnoreCase("male")){
@@ -112,19 +124,27 @@ public class MeLookRoomie extends SherlockActivity{
         } else {
             gender_icon.setImageResource(R.drawable.female_icon);
         }
-        txt_genero.setText("Género: ");
+        txt_genero.setText("");
 
 
-        String localidad = "Localidad: " + profile.optString("location", "");
-        if(!localidad.equalsIgnoreCase("Localidad: ")){
-            txt_localidad.setText(localidad);
+        String localidad = profile.optString("location", "");
+        if(localidad.equals("")){
+            localityLayout.setVisibility(View.GONE);
+        }else{
+            if(!localidad.equalsIgnoreCase("Localidad: ")){
+                txt_localidad.setText(localidad);
+            }else{
+                localityLayout.setVisibility(View.GONE);
+            }
         }
 
-        String edad = "Edad: " + Integer.toString(cumpleanos(profile.optString("birthday")));
+
+        String edad = "" + Integer.toString(cumpleanos(profile.optString("birthday"))) + " años";
         if(!edad.equalsIgnoreCase("Edad: ")){
             txt_edad.setText(edad);
         }else{
             txt_edad.setVisibility(View.GONE);
+            ageLayout.setVisibility(View.GONE);
         }
 
         InternetConnection connection = new InternetConnection();

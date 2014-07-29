@@ -44,7 +44,7 @@ public class DetailOffert extends SherlockFragmentActivity {
 
     private RelativeLayout loading_info;
     private ProgressWheel loader;
-    private LinearLayout no_connection, contact, contact2;
+    private LinearLayout no_connection, contact, contact2, layoutMensaje, layoutTel1, layoutTel2;
 
     private TextView txt_comments, who_offers, txt_email, txt_phone, txt_phone2;
     private ImageView img_w, img_user, img_w2;
@@ -59,7 +59,7 @@ public class DetailOffert extends SherlockFragmentActivity {
 
         loading_info = (RelativeLayout) findViewById(R.id.loading_info);
         loader = (ProgressWheel) findViewById(R.id.pw_spinner);
-        no_connection = (LinearLayout) findViewById(R.id.no_connection);
+        no_connection = (LinearLayout) findViewById(R.id.layout_no_connection);
         contact = (LinearLayout) findViewById(R.id.linear_contact);
         contact2 = (LinearLayout) findViewById(R.id.linear_contact2);
 
@@ -71,13 +71,57 @@ public class DetailOffert extends SherlockFragmentActivity {
         img_w = (ImageView) findViewById(R.id.img_whats);
         img_w2 = (ImageView) findViewById(R.id.img_whats2);
         img_user = (ImageView) findViewById(R.id.img_user);
+        layoutMensaje = (LinearLayout) findViewById(R.id.layout_mensaje);
+        layoutTel1 = (LinearLayout) findViewById(R.id.tel_layout);
+        layoutTel2 = (LinearLayout) findViewById(R.id.tel2_layout);
 
+        conectaDatos();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item){
+        if(item.getItemId() == android.R.id.home){
+            super.onBackPressed();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    public boolean isOnline() {
+        ConnectivityManager cm =
+                (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = cm.getActiveNetworkInfo();
+        if (netInfo != null && netInfo.isConnectedOrConnecting()) {
+            return true;
+        }
+        return false;
+    }
+
+    private boolean appInstalledOrNot(String uri) {
+        PackageManager pm = getPackageManager();
+        boolean app_installed = false;
+        try {
+            pm.getPackageInfo(uri, PackageManager.GET_ACTIVITIES);
+            app_installed = true;
+        }
+        catch (PackageManager.NameNotFoundException e) {
+            app_installed = false;
+        }
+        return app_installed ;
+    }
+
+    public void conectaDatos(){
         if(isOnline()){
             no_connection.setVisibility(View.GONE);
 
             //Oferta
             ParseObject offer = app.ofertaSeleccionada;
-            txt_comments.setText(offer.getString("comments"));
+            if(offer.getString("comments") == null || offer.getString("comments").equals("")){
+                layoutMensaje.setVisibility(View.GONE);
+            }else{
+                txt_comments.setText(offer.getString("comments"));
+            }
+
 
             String email = offer.getString("email");
             if(email != null){
@@ -89,7 +133,7 @@ public class DetailOffert extends SherlockFragmentActivity {
                 content.setSpan(new ForegroundColorSpan(Color.BLUE), 0,
                         content.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 
-                txt_email.setText(TextUtils.concat("Correo electrónico: ", content));
+                txt_email.setText(content);
 
                 txt_email.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -104,6 +148,9 @@ public class DetailOffert extends SherlockFragmentActivity {
                 txt_email.setVisibility(View.GONE);
             }
 
+            if(offer.getString("phone") == null || offer.getString("phone").equals("")){
+                layoutTel1.setVisibility(View.GONE);
+            }
             String phone = offer.getString("phone");
             if(phone != null){
                 final String tel = phone;
@@ -115,7 +162,7 @@ public class DetailOffert extends SherlockFragmentActivity {
                 content.setSpan(new ForegroundColorSpan(Color.BLUE), 0,
                         content.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 
-                txt_phone.setText(TextUtils.concat("Tel/Cel: ",content));
+                txt_phone.setText(content);
 
                 txt_phone.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -165,18 +212,21 @@ public class DetailOffert extends SherlockFragmentActivity {
                 contact.setVisibility(View.GONE);
             }
 
+            if(offer.getString("phone2") == null || offer.getString("phone2").equals("")){
+                layoutTel2.setVisibility(View.GONE);
+            }
             String phone2 = offer.getString("phone2");
             if(phone2 != null){
                 final String tel = phone;
                 contact2.setVisibility(View.VISIBLE);
                 txt_phone2.setVisibility(View.VISIBLE);
 
-                SpannableString content = new SpannableString(phone);
+                SpannableString content = new SpannableString(phone2);
                 content.setSpan(new UnderlineSpan(), 0, content.length(), 0);
                 content.setSpan(new ForegroundColorSpan(Color.BLUE), 0,
                         content.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 
-                txt_phone2.setText(TextUtils.concat("Tel/Cel: ",content));
+                txt_phone2.setText(content);
 
                 txt_phone2.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -187,7 +237,7 @@ public class DetailOffert extends SherlockFragmentActivity {
                     }
                 });
 
-                if(offer.getBoolean("whatsap2")){
+                if(offer.getBoolean("whats2")){
                     img_w2.setVisibility(View.VISIBLE);
 
                     img_w2.setOnClickListener(new View.OnClickListener() {
@@ -234,41 +284,15 @@ public class DetailOffert extends SherlockFragmentActivity {
                     img_user, app.options, app.animateFirstListener);
 
             String name = profile.optString("name");
-            who_offers.setText("!Oferta de " + name + "!");
+            who_offers.setText(getString(R.string.you_got_an_offer) + " " +name);
         } else {
             no_connection.setVisibility(View.VISIBLE);
+            no_connection.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    conectaDatos();
+                }
+            });
         }
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item){
-        if(item.getItemId() == android.R.id.home){
-            super.onBackPressed();
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-    public boolean isOnline() {
-        ConnectivityManager cm =
-                (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo netInfo = cm.getActiveNetworkInfo();
-        if (netInfo != null && netInfo.isConnectedOrConnecting()) {
-            return true;
-        }
-        return false;
-    }
-
-    private boolean appInstalledOrNot(String uri) {
-        PackageManager pm = getPackageManager();
-        boolean app_installed = false;
-        try {
-            pm.getPackageInfo(uri, PackageManager.GET_ACTIVITIES);
-            app_installed = true;
-        }
-        catch (PackageManager.NameNotFoundException e) {
-            app_installed = false;
-        }
-        return app_installed ;
     }
 }

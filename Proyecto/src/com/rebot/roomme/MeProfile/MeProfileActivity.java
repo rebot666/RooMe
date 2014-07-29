@@ -55,6 +55,7 @@ public class MeProfileActivity extends FragmentActivity {
     private ToggleButton esRoomie;
     public ArrayList<String> interestList;
     private ImageView profilePicture;
+    private Button facebookBtn;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -81,6 +82,7 @@ public class MeProfileActivity extends FragmentActivity {
 
         this.esRoomie = (ToggleButton) findViewById(R.id.toggle_roomie);
         this.profilePicture = (ImageView) findViewById(R.id.profile_picture);
+        this.facebookBtn = (Button) findViewById(R.id.btn_facebook_sign);
 
         ParseUser user = ParseUser.getCurrentUser();
 
@@ -91,6 +93,10 @@ public class MeProfileActivity extends FragmentActivity {
             }else{
                 this.esRoomie.setChecked(false);
             }
+
+            this.facebookBtn.setText(getString(R.string.logout));
+        }else{
+            this.facebookBtn.setText(getString(R.string.login));
         }
 
         this.esRoomie.setOnClickListener(new View.OnClickListener() {
@@ -111,12 +117,7 @@ public class MeProfileActivity extends FragmentActivity {
                             title.setText(getResources().getString(R.string.si_roomie));
                             subtitle.setVisibility(View.GONE);
                             crouton = Crouton.make(MeProfileActivity.this, view);
-                            crouton.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View view) {
-                                    crouton.cancel();
-                                }
-                            });
+                            crouton.setConfiguration(new Configuration.Builder().setDuration(Configuration.DURATION_LONG).build());
                             crouton.show();
                         }
                     });
@@ -132,12 +133,7 @@ public class MeProfileActivity extends FragmentActivity {
                             title.setText(getResources().getString(R.string.no_roomie));
                             subtitle.setText(getResources().getString(R.string.comparator));
                             crouton = Crouton.make(MeProfileActivity.this, view);
-                            crouton.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View view) {
-                                    crouton.cancel();
-                                }
-                            });
+                            crouton.setConfiguration(new Configuration.Builder().setDuration(Configuration.DURATION_LONG).build());
                             crouton.show();
                         }
                     });
@@ -145,6 +141,23 @@ public class MeProfileActivity extends FragmentActivity {
             }
         });
         //Acciones de los botones
+        this.facebookBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(ParseUser.getCurrentUser() == null){
+                    Intent signIn = new Intent(MeProfileActivity.this, MeProfileLogin.class);
+                    startActivity(signIn);
+                    facebookBtn.setText(getString(R.string.logout));
+                }else{
+                    ParseUser.logOut();
+                    Session session = Session.getActiveSession();
+                    session.closeAndClearTokenInformation();
+                    onResume();
+                    facebookBtn.setText(getString(R.string.login));
+                }
+            }
+        });
+
         this.btn_sign_facebook.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -238,7 +251,7 @@ public class MeProfileActivity extends FragmentActivity {
                     View view = getLayoutInflater().inflate(R.layout.crouton_custom_view, null);
                     TextView title = (TextView) view.findViewById(R.id.title);
                     TextView subtitle = (TextView) view.findViewById(R.id.subtitle);
-                    title.setText("Este usuario estará bloqueado");
+                    title.setText(getString(R.string.blocked_user));
                     subtitle.setVisibility(View.GONE);
                     crouton = Crouton.make(MeProfileActivity.this, view);
                     crouton.setOnClickListener(new View.OnClickListener() {

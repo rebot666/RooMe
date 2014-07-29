@@ -3,7 +3,9 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:orientation="vertical"
               android:layout_width="match_parent"
-              android:layout_height="match_parent">
+              android:layout_height="match_parent"
+              android:background="@color/background_view"
+        >
     <ScrollView
             xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="fill_parent"
@@ -20,7 +22,7 @@
             <EditText android:layout_width="fill_parent"
                       android:layout_height="wrap_content"
                       android:id="@+id/title_publicacion"
-                      android:hint="Título de Publicación (*)"
+                      android:hint="@string/lbl_title"
                       android:padding="15dp"
                       android:textSize="16sp"
                       android:gravity="center"
@@ -52,7 +54,7 @@
                         <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="¿Buscas Roomie?"
+                                android:text="@string/lbl_search_for_roomme"
                                 android:id="@+id/txt_fecha"
                                 android:padding="10dp"
                                 android:gravity="center"/>
@@ -62,7 +64,7 @@
                     </LinearLayout>
                     <TextView android:layout_width="fill_parent"
                               android:layout_height="wrap_content"
-                              android:text="Transacción: "
+                              android:text="@string/lbl_transaction"
                               android:textStyle="bold"
                               android:textSize="16sp"
                               android:layout_weight=".4"
@@ -80,13 +82,14 @@
                                 android:id="@+id/rb_renta"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Renta"
+                                android:text="@string/lbl_renta"
                                 />
                         <RadioButton
                                 android:id="@+id/rb_venta"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Venta" android:checked="false"/>
+                                android:text="@string/lbl_venta"
+                                android:checked="false"/>
                     </RadioGroup>
                     <EditText android:layout_width="fill_parent"
                               android:layout_height="wrap_content"
@@ -99,7 +102,7 @@
                             />
                     <EditText android:layout_width="fill_parent"
                               android:layout_height="wrap_content"
-                              android:hint="$ Precio (*)"
+                              android:hint="@string/lbl_precio_nueva_publicacion"
                               android:id="@+id/txt_precio"
                               android:textSize="16sp"
                               android:padding="10dp"
@@ -109,7 +112,7 @@
                             />
                     <TextView android:layout_width="fill_parent"
                               android:layout_height="wrap_content"
-                              android:text="Se Busca Género: "
+                              android:text="@string/lbl_search_gender"
                               android:textStyle="bold"
                               android:textSize="16sp"
                               android:layout_weight=".4"
@@ -127,18 +130,18 @@
                                 android:id="@+id/rb_fem"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="F"
+                                android:text="@string/feminine"
                                 />
                         <RadioButton
                                 android:id="@+id/rb_male"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="M"/>
+                                android:text="@string/masculine"/>
                         <RadioButton
                                 android:id="@+id/rb_both"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Ambos"/>
+                                android:text="@string/both"/>
                     </RadioGroup>
                 </LinearLayout>
             </LinearLayout>
@@ -150,7 +153,7 @@
                 <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Foto Adicional:"
+                        android:text="@string/more_photos"
                         android:textStyle="bold"
                         android:textSize="16sp"
                         android:id="@+id/txt_two"
@@ -160,7 +163,7 @@
                               android:orientation="horizontal"
                         >
                     <ImageView android:layout_width="fill_parent"
-                               android:layout_height="105dp"
+                               android:layout_height="135dp"
                                android:id="@+id/photo1"
                                android:layout_weight=".5"
                                android:src="@drawable/camera"
@@ -173,7 +176,7 @@
                                android:id="@+id/photo2"
                                android:adjustViewBounds="true"
                                android:src="@drawable/camera"
-                               android:visibility="gone"
+                               android:visibility="invisible"
                             />
                     <ImageView android:layout_width="fill_parent"
                                android:layout_height="fill_parent"
@@ -181,7 +184,7 @@
                                android:id="@+id/photo3"
                                android:adjustViewBounds="true"
                                android:src="@drawable/camera"
-                               android:visibility="gone"
+                               android:visibility="invisible"
                             />
                     <ImageView android:layout_width="fill_parent"
                                android:layout_height="fill_parent"
@@ -189,7 +192,7 @@
                                android:id="@+id/photo4"
                                android:adjustViewBounds="true"
                                android:src="@drawable/camera"
-                               android:visibility="gone"
+                               android:visibility="invisible"
                             />
                 </LinearLayout>
             </LinearLayout>
@@ -205,7 +208,7 @@
                     android:layout_height="fill_parent"
                     android:id="@+id/txt_direccion"
                     android:layout_gravity="center_horizontal"
-                    android:hint="Dirección (*)"
+                    android:hint="@string/address"
                     android:textColorHint="@color/Red"
                     android:layout_marginTop="15dp"
                     />
@@ -234,20 +237,20 @@
                 <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Descripción"
+                        android:text="@string/lbl_description_nueva_publicacion"
                         android:id="@+id/lbl_desc"
                         android:textStyle="bold"/>
                 <EditText
                         android:layout_width="fill_parent"
                         android:layout_height="100dp"
-                        android:hint="Descripción de Zona, Búsqeda, etc"
+                        android:hint="@string/lbl_hint_description"
                         android:id="@+id/txt_descripcion"
                         android:layout_marginTop="5dp"/>
             </LinearLayout>
             <TextView
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:text="Especificaciones"
+                    android:text="@string/lbl_specifications_nueva_publicacion"
                     android:id="@+id/txt_especificaciones"
                     android:textStyle="bold"
                     android:layout_marginTop="15dp"/>
@@ -268,7 +271,7 @@
                         <TextView
                                 android:layout_width="fill_parent"
                                 android:layout_height="wrap_content"
-                                android:text="Tamaño: "
+                                android:text="@string/lbl_tamanio_nueva_publicacion"
                                 android:paddingTop="5dp"
                                 android:paddingBottom="5dp"
                                 android:layout_weight=".3"/>
@@ -289,7 +292,7 @@
                         <TextView
                                 android:layout_width="fill_parent"
                                 android:layout_height="wrap_content"
-                                android:text="No. Plantas:"
+                                android:text="@string/lbl_plantas_nueva_publicacion"
                                 android:paddingBottom="5dp"
                                 android:paddingTop="5dp"
                                 android:layout_weight=".3"/>
@@ -310,7 +313,7 @@
                         <TextView
                                 android:layout_width="fill_parent"
                                 android:layout_height="wrap_content"
-                                android:text="No. Cuartos: "
+                                android:text="@string/lbl_cuartos_nueva_publicacion"
                                 android:paddingTop="5dp"
                                 android:paddingBottom="5dp"
                                 android:layout_weight=".3"/>
@@ -331,7 +334,7 @@
                         <TextView
                                 android:layout_width="fill_parent"
                                 android:layout_height="wrap_content"
-                                android:text="No. Baños"
+                                android:text="@string/lbl_banos_nueva_publicacion"
                                 android:paddingTop="5dp"
                                 android:layout_weight=".3"/>
                         <EditText
@@ -357,7 +360,7 @@
                         <TextView
                                 android:layout_width="fill_parent"
                                 android:layout_height="wrap_content"
-                                android:text="No. Cocina"
+                                android:text="@string/lbl_cocina_nueva_publicacion"
                                 android:paddingTop="5dp"
                                 android:paddingBottom="5dp"
                                 android:layout_weight=".3"/>
@@ -378,7 +381,7 @@
                         <TextView
                                 android:layout_width="fill_parent"
                                 android:layout_height="wrap_content"
-                                android:text="No. Comedor"
+                                android:text="@string/lbl_comedor_nueva_publicacion"
                                 android:paddingTop="5dp"
                                 android:paddingBottom="5dp"
                                 android:layout_weight=".3"/>
@@ -399,7 +402,7 @@
                         <TextView
                                 android:layout_width="fill_parent"
                                 android:layout_height="wrap_content"
-                                android:text="¿Amueblado?"
+                                android:text="@string/lbl_amueblado_nueva_publicacion"
                                 android:paddingTop="5dp"
                                 android:paddingBottom="5dp"
                                 android:layout_weight=".2"/>
@@ -417,7 +420,7 @@
                         <TextView
                                 android:layout_width="fill_parent"
                                 android:layout_height="wrap_content"
-                                android:text="Estacionamiento"
+                                android:text="@string/lbl_parking_nueva_publicacion"
                                 android:paddingTop="5dp"
                                 android:layout_weight=".3"/>
                         <EditText
@@ -440,13 +443,13 @@
                 <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Notas Adicionales"
+                        android:text="@string/lbl_extras_nueva_publicacion"
                         android:id="@+id/lbl_adicional"
                         android:textStyle="bold"/>
                 <EditText
                         android:layout_width="fill_parent"
                         android:layout_height="100dp"
-                        android:hint="Notas adicionales que se quieran agregar al departameno"
+                        android:hint="@string/lbl_hint_extras_nueva_publicacion"
                         android:id="@+id/txt_adicional"
                         android:layout_marginTop="5dp"/>
             </LinearLayout>
@@ -460,7 +463,7 @@
                 <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Ubicación"
+                        android:text="@string/lbl_location_nueva_publicacion"
                         android:textStyle="bold"
                         android:layout_marginBottom="15dp"
                         />
@@ -571,7 +574,7 @@
         <Button
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
-                android:text="Regresar"
+                android:text="@string/btn_back"
                 android:id="@+id/btn_regresar"
                 android:background="@drawable/btn_favorite_background"
                 android:textColor="@color/White"
@@ -582,7 +585,7 @@
         <Button
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
-                android:text="Continuar"
+                android:text="@string/btn_continue"
                 android:id="@+id/btn_siguiente"
                 android:background="@drawable/ab_solid_roomme"
                 android:textColor="@color/MidnightBlue"

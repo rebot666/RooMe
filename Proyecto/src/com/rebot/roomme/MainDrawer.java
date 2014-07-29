@@ -246,8 +246,10 @@ public class MainDrawer extends SherlockFragmentActivity {
             MenuItem item = menu.getItem(0);
             if(mDrawerList.getCheckedItemPosition() == 4){
                 item.setIcon(R.drawable.icon_social);
+                getSupportActionBar().setTitle(getString(R.string.dpto_title));
             } else {
                 item.setIcon(R.drawable.icon_color);
+                getSupportActionBar().setTitle(getString(R.string.roomies_title));
             }
 
         }

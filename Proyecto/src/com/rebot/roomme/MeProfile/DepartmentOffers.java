@@ -31,7 +31,7 @@ public class DepartmentOffers extends SherlockFragmentActivity {
     private ListView list_offers;
     private ArrayList<ParseObject> my_offers;
 
-    private LinearLayout no_connection;
+    private LinearLayout no_connection, no_info;
     private RelativeLayout loading_info;
     private ProgressWheel loader;
 
@@ -45,6 +45,8 @@ public class DepartmentOffers extends SherlockFragmentActivity {
         list_offers = (ListView) findViewById(R.id.offers);
         loader = (ProgressWheel) findViewById(R.id.pw_spinner);
         loading_info = (RelativeLayout) findViewById(R.id.loading_info);
+        no_connection = (LinearLayout) findViewById(R.id.layout_no_connection);
+        no_info = (LinearLayout) findViewById(R.id.layout_no_info);
 
         my_offers = new ArrayList<ParseObject>();
 
@@ -52,6 +54,24 @@ public class DepartmentOffers extends SherlockFragmentActivity {
             loader.spin();
             ParseUser user = ParseUser.getCurrentUser();
             getQuery(user);
+        }else{
+            no_connection.setVisibility(View.VISIBLE);
+            loading_info.setVisibility(View.GONE);
+            no_connection.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(isOnline()){
+                        no_connection.setVisibility(View.GONE);
+                        loading_info.setVisibility(View.VISIBLE);
+                        loader.spin();
+                        ParseUser user = ParseUser.getCurrentUser();
+                        getQuery(user);
+                    }else{
+                        no_connection.setVisibility(View.VISIBLE);
+                        loading_info.setVisibility(View.GONE);
+                    }
+                }
+            });
         }
     }
 
@@ -85,9 +105,16 @@ public class DepartmentOffers extends SherlockFragmentActivity {
 
                         loading_info.setVisibility(View.GONE);
                         loader.stopSpinning();
+                    }else{
+                        loading_info.setVisibility(View.GONE);
+                        loader.stopSpinning();
+                        no_info.setVisibility(View.VISIBLE);
                     }
                 } else {
                     Log.e("hola", "");
+                    loading_info.setVisibility(View.GONE);
+                    loader.stopSpinning();
+                    no_info.setVisibility(View.VISIBLE);
                 }
             }
         });

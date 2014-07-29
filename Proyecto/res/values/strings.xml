@@ -1,61 +1,187 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">RoomMe</string>
+    <!--Globales-->
+        <string name="app_name">RoomMe</string>
+        <!--Internet-->
+            <!-- Facebook -->
+            <string name="app_id">618912721522669</string>
+            <!--Parse Key-->
+                <string name="parse_key">jbaHqREvwHAb7zukf78Ot7B9zb6AFsy5NHHUq2SA</string>
+                <string name="app_key">5k7ozpMi1BrlDy1wranTtV2Us5xeytE7M9rn8orL</string>
+        <!-- Opciones -->
+        <string name="si">Yes</string>
+        <string name="no">No</string>
+
+        <!--Mensajes de Retroalimentación-->
+            <!--Vistas-->
+            <string name="no_connection">There is no network Available</string>
+            <string name="no_info">There is no information available</string>
+            <string name="no_functionality">Soon more functionality</string>
+            <!--Croutones-->
+            <string name="si_roomie">You are a rommie</string>
+            <string name="no_roomie">You are not a rommie anymore</string>
+            <string name="comparator">Other rommies cannot see you, change your state</string>
+            <string name="no_session">Discover your likeness with other rommies logging in</string>
+            <string name="required_fields">You must fill the required fields</string>
+            <string name="publish_correct">The department was published correctly</string>
+            <string name="publish_incorrect">The department cannot be published at this time, please try again</string>
+            <string name="draft_correct">The draft was saved correctly</string>
+            <string name="draft_incorrect">The draft cannot be saved at this time, please try again</string>
+            <string name="blocked_user">This user is blocked</string>
+            <string name="error_dpto">The department cannot be found</string>
+            <string name="error_services">The services cannot be loaded correctly</string>
+
+    <!--Splashscreen-->
     <string name="slogan1">
         LA EXPERIENCIA DE ROOMIES Y
     </string>
     <string name="slogan2">
         DEPARTAMENTOS QUE TU NECESITAS
     </string>
-    <string-array name="drawer_options">
-        <item>Roommies/Departamentos</item>
-        <item>Favoritos</item>
-        <item>Perfil</item>
-        <item>Nueva Publicación</item>
-    </string-array>
 
-    <string-array name="title_options">
-        <item>Departamento</item>
-        <item>Detalles</item>
-        <item>Contacto</item>
-    </string-array>
+    <!--Drawer-->
+        <string-array name="drawer_options">
+            <item>Roomies/Departaments</item>
+            <item>Favorites</item>
+            <item>Profile</item>
+            <item>New Publish</item>
+        </string-array>
+        <string name="dpto_title">Departments</string>
+        <string name="roomies_title">Roomies</string>
+        <string name="btn_map">Map of Departaments</string>
+        <string name="btn_list">List of Departaments</string>
 
-    <string name="no_connection">No hay Conexión Disponible</string>
-    <string name="no_info">No hay Información Disponible. \nClic para recargar</string>
-    <string name="no_functionality">Próximamente más Funcionalidad</string>
-    <string name="si_roomie">Actualmente eres roomie</string>
-    <string name="no_roomie">Actualemente no eres roomie</string>
-    <string name="comparator">Si quieres conocer tú compatibilidad con otros Roomies, cambia tu estado</string>
-    <string name="no_session">Si quieres conocer tú compatibilidad con otros Roomies, inicia sesión</string>
+    <!--Roommies y Departamentos-->
+        <!--Roommies-->
+            <!--Roommie Sencillo-->
+            <string name="lbl_name">Name:</string>
+            <string name="lbl_edad">Age:</string>
+            <string name="lbl_location">Location:</string>
+        <!--Departamentos-->
+            <!--Roommie Sencillo-->
+            <!--Opciones Viewpager-->
+            <string-array name="title_options">
+                <item>Department</item>
+                <item>Details</item>
+                <item>Services</item>
+                <item>Contact</item>
+                <item>Comments</item>
+            </string-array>
+            <!--Primer detalle-->
+                <string name="lbl_precio">Price:</string>
+                <string name="lbl_searching_for">Searching:</string>
+                <string name="lbl_published_at">Date of Publish:</string>
+                <string name="btn_add_favorites">Add to Favorites</string>
+                <string name="btn_remove_favorites">Remove from Favorites</string>
+            <!--Segundo detalle-->
+                <string name="lbl_description">Description:</string>
+                <string name="lbl_specifications">Specifications:</string>
+                <string name="lbl_tamanio">Size:</string>
+                <string name="lbl_plantas">Levels:</string>
+                <string name="lbl_cuartos">Rooms:</string>
+                <string name="lbl_banos">Bathrooms:</string>
+                <string name="lbl_cocina">Kitchen:</string>
+                <string name="lbl_comedor">Dinning Room:</string>
+                <string name="lbl_amueblado">Furnished:</string>
+                <string name="lbl_parking">Parking:</string>
+                <string name="lbl_extras">Additional Notes:</string>
+                <string name="lbl_user_from">User From:</string>
+                <string name="lbl_none">None</string>
+            <!--Servicios detalle-->
+            <!--Contacto detalle-->
+                <string name="lbl_offer_send">Send an offer to</string>
+                <string name="lbl_mail">E-Mail</string>
+                <string name="lbl_telephone_number">Telephone</string>
+                <string name="lbl_whatsapp">WhatsApp?</string>
+                <string name="lbl_extra_phone_plus">Add Alternate Phone Number +</string>
+                <string name="lbl_extra_phone_minus">Add Alternate Phone Number -</string>
+                <string name="lbl_telephone_number_2">Telephone 2</string>
+                <string name="lbl_contact_message">Message</string>
+                <string name="btn_send_offer">Send Offer</string>
+            <!--Comentarios-->
+                <string name="lbl_comment">Comment</string>
+                <string name="btn_send_comment">Sent</string>
+    <!--Favoritos-->
+    <!--Perfil de Usuario-->
+        <!--Vista Principal-->
+            <string name="pregunta_roomie">Am I a Roomie?</string>
+            <string name="login">Login</string>
+            <string name="logout">Logout</string>
+        <!--Mis Publicaciones-->
+            <string-array name="my_publish_viewpager_options">
+                <item>Department</item>
+                <item>Details</item>
+                <item>Services</item>
+            </string-array>
+            <string name="btn_continue">Continue</string>
+            <string name="btn_back">Back</string>
+        <!--Mis Borradores-->
+        <!--Mis Ofertas-->
+            <string name="lbl_mail_offers">E-Mail:</string>
+            <string name="lbl_phone_offers">Tel/Cel:</string>
+            <string name="lbl_message_offers">Message:</string>
+            <string name="you_got_an_offer">You got an offer from</string>
+        <!--Publicación Nueva-->
+            <!--Paso 1-->
+            <string name="lbl_title">Title of the advertisement</string>
+            <string name="lbl_search_for_roomme">Looking for Roomie?</string>
+            <string name="lbl_transaction">Transaction:</string>
+            <string name="lbl_renta">Rent</string>
+            <string name="lbl_venta">Selling</string>
+            <string name="lbl_precio_nueva_publicacion">Price</string>
+            <string name="lbl_search_gender">Looking for gender:</string>
+            <string name="feminine">F</string>
+            <string name="masculine">M</string>
+            <string name="both">Both</string>
+            <string name="more_photos">Additional Photo:</string>
+            <string name="address">Address</string>
+            <!--Paso 2-->
+            <string name="lbl_description_nueva_publicacion">Description:</string>
+            <string name="lbl_hint_description">Zone description, search area, others.</string>
+            <string name="lbl_specifications_nueva_publicacion">Specifications:</string>
+            <string name="lbl_tamanio_nueva_publicacion">Size:</string>
+            <string name="lbl_plantas_nueva_publicacion">Levels:</string>
+            <string name="lbl_cuartos_nueva_publicacion">Rooms:</string>
+            <string name="lbl_banos_nueva_publicacion">Bathrooms:</string>
+            <string name="lbl_cocina_nueva_publicacion">Kitchen:</string>
+            <string name="lbl_comedor_nueva_publicacion">Dining Room:</string>
+            <string name="lbl_amueblado_nueva_publicacion">Furnished:</string>
+            <string name="lbl_parking_nueva_publicacion">Parking:</string>
+            <string name="lbl_extras_nueva_publicacion">Additional Notes:</string>
+            <string name="lbl_hint_extras_nueva_publicacion">Additional information loaded to the advertisement</string>
+            <string name="lbl_location_nueva_publicacion">Location:</string>
+            <!--Paso 3-->
+                <!--Dialog nuevo servicio-->
+                <string name="lbl_name_service">Name of the Service</string>
+                <string name="btn_accept">Accept</string>
+        <string name="save_draft">Uploading draft...(Can take some minutes)</string>
+        <string name="save_publish">Uploading advertisement...(Can take some minutes)</string>
 
     <string name="drawer_open">Open navigation drawer</string>
     <string name="drawer_close">Close navigation drawer</string>
     <string name="pressed">Pressed Item</string>
     <string name="loading">Loading&#8230;</string>
 
-    <!-- Opciones -->
-    <string name="si">Sí</string>
-    <string name="no">No</string>
-    <string name="pregunta_roomie">¿Soy Roomie?</string>
-    <string name="logout">Cerrar Sesión</string>
 
-    <!-- Facebook -->
-    <string name="app_id">618912721522669</string>
 
-    <!-- Layout strings -->
-    <string name="text_rooMe">Text_RooMe</string>
-    <string name="img_content">RoommImage</string>
-    <string name="btn_text_register">Registrate!</string>
-    <string name="btn_text_facebook">Facebook!</string>
-    <string name="settings">Ajustes</string>
-    <string name="whats">Error! La aplicación de WhatsAp no está instalada</string>
-    <string name="tel_alterno">Agregar Teléfono Alterno +</string>
-    <string name="hide_tel_alterno">Agregar Teléfono Alterno -</string>
-    <string name="user_enrolled">Error el usuario debe estar dado de alta</string>
 
-    <!-- Profile buttons -->
-    <string name="btn_text_publicaciones">Mis Publicaciones</string>
-    <string name="btn_text_borradores">Borradores</string>
-    <string name="btn_text_nuevo">Publica +1</string>
-    <string name="btn_text_ofertas">Ofertas</string>
+
+    <!--Extras-->
+    <!--_________________________________________________________________________________________-->
+        <!-- Layout strings -->
+            <string name="text_rooMe">Text_RooMe</string>
+            <string name="img_content">RoommImage</string>
+            <string name="btn_text_register">Register!</string>
+            <string name="btn_text_facebook">Facebook!</string>
+            <string name="settings">Settings</string>
+            <string name="whats">Error! WhatsApp not installed</string>
+            <string name="user_enrolled">Error, User must be Registered</string>
+
+        <!-- Profile buttons -->
+            <string name="btn_text_publicaciones">My Publishsing</string>
+            <string name="btn_text_borradores">Drafts</string>
+            <string name="btn_text_nuevo">Publish +1</string>
+            <string name="btn_text_ofertas">Offers</string>
+    <!--_________________________________________________________________________________________-->
+
 </resources>
