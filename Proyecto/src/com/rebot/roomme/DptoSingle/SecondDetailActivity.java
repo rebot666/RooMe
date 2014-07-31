@@ -122,12 +122,13 @@ public class SecondDetailActivity extends FragmentActivity {
             estacionamiento.setVisibility(View.GONE);
         }
 
-        String add = dpto.getString("adicionales");
-        if(add != null || !add.equals("")){
+        if(dpto.getString("adicionales") != null && !dpto.getString("adicionales").equals("")){
+            String add = dpto.getString("adicionales");
             adicional.setText(add);
-        } else {
+        }else{
             adicional.setText(getString(R.string.lbl_none));
         }
+
 
         ParseUser user = dpto.getParseUser("owner");
         DateFormat df = new SimpleDateFormat("MM/dd/yyyy");

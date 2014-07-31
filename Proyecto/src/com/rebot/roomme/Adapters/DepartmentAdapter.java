@@ -58,6 +58,7 @@ public class DepartmentAdapter extends ArrayAdapter<ParseObject> {
             holder.ribbon_destacado = (ImageView) row.findViewById(R.id.ribbon_destacado);
             holder.ribbon_roomme = (ImageView) row.findViewById(R.id.ribbon_roomme);
             holder.cardBakground = (LinearLayout) row.findViewById(R.id.card_background_layout);
+            holder.globalLayout = (LinearLayout) row.findViewById(R.id.global_layout);
 
             row.setTag(holder);
         } else {
@@ -108,8 +109,14 @@ public class DepartmentAdapter extends ArrayAdapter<ParseObject> {
             if(dpto.getBoolean("destacado")){
                 holder.ribbon_destacado.setBackgroundResource(R.drawable.ribbon_d);
                 holder.ribbon_destacado.setVisibility(View.VISIBLE);
+                /*LinearLayout.LayoutParams params = (LinearLayout.LayoutParams)holder.globalLayout.getLayoutParams();
+                params.setMargins(10, 20, 10, 20);
+                holder.globalLayout.setLayoutParams(params);*/
             } else {
                 holder.ribbon_destacado.setVisibility(View.GONE);
+                /*LinearLayout.LayoutParams params = (LinearLayout.LayoutParams)holder.globalLayout.getLayoutParams();
+                params.setMargins(15, 30, 15, 30);
+                holder.globalLayout.setLayoutParams(params);*/
             }
         } else {
             holder.ribbon_destacado.setVisibility(View.VISIBLE);
@@ -132,6 +139,6 @@ public class DepartmentAdapter extends ArrayAdapter<ParseObject> {
         ImageView department, ribbon_roomme, img_sex, ribbon_destacado;
         TextView price_dpto, address_dpto, title_dpto, txt_count;
         Button favorite;
-        LinearLayout cardBakground;
+        LinearLayout cardBakground, globalLayout;
     }
 }

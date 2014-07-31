@@ -35,6 +35,7 @@ import de.keyboardsurfer.android.widget.crouton.Configuration;
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -223,10 +224,16 @@ public class MelookDpto extends FragmentActivity implements
 
     public void queryLoadData_dptos(){
         if(isOnline()){
+
             Date midnight = new Date();
             midnight.setHours(0);
             midnight.setMinutes(0);
             midnight.setSeconds(0);
+
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(midnight);
+            cal.add(Calendar.DATE, -3);
+            midnight = cal.getTime();
 
             Date elevenfiftynine = new Date();
             elevenfiftynine.setHours(23);
@@ -259,7 +266,11 @@ public class MelookDpto extends FragmentActivity implements
                         midnight.setHours(0);
                         midnight.setMinutes(0);
                         midnight.setSeconds(0);
-                        midnight.setDate(midnight.getDay()-3);
+
+                        Calendar cal = Calendar.getInstance();
+                        cal.setTime(midnight);
+                        cal.add(Calendar.DATE, -3);
+                        midnight = cal.getTime();
 
                         Date elevenfiftynine = new Date();
                         elevenfiftynine.setHours(23);
