@@ -25,10 +25,10 @@ import de.keyboardsurfer.android.widget.crouton.Style;
 import kankan.wheel.widget.OnWheelChangedListener;
 import kankan.wheel.widget.OnWheelScrollListener;
 import kankan.wheel.widget.WheelView;
+import org.json.JSONObject;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 /**
  * Created by Strike on 7/8/14.
@@ -128,9 +128,9 @@ public class SearchRoomme extends DialogFragment {
 
                 int gen = genero.getCheckedRadioButtonId();
                 if(gen == R.id.masculino) {
-                    app.genre = "M";
+                    app.genre = "male";
                 } else if(gen == R.id.femenino){
-                    app.genre = "F";
+                    app.genre = "female";
                 } else {
                     app.genre = "B";
                 }
@@ -193,19 +193,11 @@ public class SearchRoomme extends DialogFragment {
 
     public void querySearchRoomie() {
         ParseQuery<ParseUser> roomie = ParseUser.getQuery();
-
-        if(app.age != 0){
-            roomie.whereGreaterThanOrEqualTo("", app.age);
-        }
-
-        if(!app.genre.equalsIgnoreCase("B")){
-            roomie.whereEqualTo("", app.genre);
-        }
-
         roomie.findInBackground(new FindCallback<ParseUser>() {
             @Override
             public void done(List<ParseUser> parseUsers, ParseException e) {
                 if(e == null){
+                    dialog.dismiss();
                     if(parseUsers.size() > 0){
                         roomies.clear();
                         ParseUser me = ParseUser.getCurrentUser();
@@ -217,7 +209,28 @@ public class SearchRoomme extends DialogFragment {
 
                                         if(porcentaje >= app.mincomp && porcentaje <= app.maxcomp){
                                             Users tempUser = new Users(temp, porcentaje);
-                                            roomies.add(tempUser);
+
+                                            JSONObject profile = temp.getJSONObject("profile");
+
+                                            if(!app.genre.equalsIgnoreCase("B")){
+                                                if(profile.optString("gender").equalsIgnoreCase(app.genre)) {
+                                                    if(app.age != 0){
+                                                        int edad = cumpleanos(profile.optString("birthday"));
+                                                        if(edad >= app.age){
+                                                            roomies.add(tempUser);
+                                                        }
+                                                    } else {
+                                                        roomies.add(tempUser);
+                                                    }
+                                                }
+                                            } else if(app.age != 0){
+                                                int edad = cumpleanos(profile.optString("birthday"));
+                                                if(edad >= app.age){
+                                                    roomies.add(tempUser);
+                                                }
+                                            } else {
+                                                roomies.add(tempUser);
+                                            }
                                         }
                                     }
                                 }
@@ -228,8 +241,30 @@ public class SearchRoomme extends DialogFragment {
                             for(ParseUser temp : parseUsers){
                                 if(temp.getBoolean("esRoomie")){
                                     double porcentaje = -1.0;
+
                                     Users tempUser = new Users(temp, porcentaje);
-                                    roomies.add(tempUser);
+
+                                    JSONObject profile = temp.getJSONObject("profile");
+
+                                    if(!app.genre.equalsIgnoreCase("B")){
+                                        if(profile.optString("gender").equalsIgnoreCase(app.genre)) {
+                                            if(app.age != 0){
+                                                int edad = cumpleanos(profile.optString("birthday"));
+                                                if(edad >= app.age){
+                                                    roomies.add(tempUser);
+                                                }
+                                            } else {
+                                                roomies.add(tempUser);
+                                            }
+                                        }
+                                    } else if(app.age != 0){
+                                        int edad = cumpleanos(profile.optString("birthday"));
+                                        if(edad >= app.age){
+                                            roomies.add(tempUser);
+                                        }
+                                    } else {
+                                        roomies.add(tempUser);
+                                    }
                                 }
 
                             }
@@ -245,6 +280,7 @@ public class SearchRoomme extends DialogFragment {
                                 context.startActivity(intent);
                             }
                         });
+
                         Crouton.makeText((Activity) context, "Resultados de búsqueda", Style.INFO).show();
                     }
                 } else {
@@ -313,5 +349,26 @@ public class SearchRoomme extends DialogFragment {
             state.setViewAdapter(new CountryAdapter(context, cities));
             state.setCurrentItem(0);
         }
+    }
+
+    public static int cumpleanos(String current){
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+        Date actual = new Date();
+
+        try {
+            Date birthdayCurrent = formatter.parse(current);
+
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(birthdayCurrent);
+            int yearCurrent = cal.get(Calendar.YEAR);
+            cal.setTime(actual);
+            int yearActual = cal.get(Calendar.YEAR);
+
+            return yearActual-yearCurrent;
+
+        } catch (java.text.ParseException e) {
+            e.printStackTrace();
+        }
+        return 0;
     }
 }

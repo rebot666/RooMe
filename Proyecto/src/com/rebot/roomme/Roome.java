@@ -50,7 +50,7 @@ public class Roome extends Application {
     //Roomies
     public int maxcomp, mincomp;
     public String genre;
-    public int age;
+    public int age = 0;
 
     public ArrayList<Services> services;
     public ParseObject publicacionNueva;

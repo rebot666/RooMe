@@ -138,7 +138,6 @@ public class LookMeAdpater extends ArrayAdapter<Users> {
 
                 }
 
-
                 ImageLoader.getInstance().displayImage("http://graph.facebook.com/"+idUser+"/picture?type=large",
                         holder.female, app.options, app.animateFirstListener);
 

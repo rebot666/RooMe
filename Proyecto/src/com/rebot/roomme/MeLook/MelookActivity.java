@@ -107,7 +107,7 @@ public class MelookActivity extends FragmentActivity {
         app.noInfo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dptos.clear();
+                //dptos.clear();
                 app.noInfo.setVisibility(View.GONE);
                 queryLoadData_roomies();
             }
