@@ -45,9 +45,8 @@
         <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:paddingTop="10dp"
-                android:layout_marginTop="20dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
                 android:background="@android:color/transparent"
                 android:paddingLeft="20dp"
                 android:paddingRight="20dp">
@@ -55,7 +54,8 @@
                     android:orientation="horizontal"
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent"
-                    android:paddingBottom="10dp">
+                    android:paddingTop="20dp"
+                    android:paddingBottom="30dp">
                 <TextView
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
@@ -103,14 +103,14 @@
                     android:text="Recámaras: "
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:id="@+id/textView2"
-                    android:paddingTop="10dp"
+                    android:paddingTop="20dp"
                     android:paddingBottom="10dp"
                     android:textColor="@color/White"/>
             <LinearLayout
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:paddingBottom="10dp"
+                    android:paddingBottom="30dp"
                     >
                 <Button android:layout_width="fill_parent"
                         android:layout_height="45dp"
@@ -119,7 +119,7 @@
                         android:textAppearance="?android:attr/textAppearanceLarge"
                         android:background="@drawable/btn_favorite_background"
                         android:textColor="@color/White"
-                        android:text="--"/>
+                        android:text="-"/>
                 <EditText android:layout_width="fill_parent"
                           android:layout_height="wrap_content"
                           android:layout_weight=".4"
@@ -141,15 +141,17 @@
                     android:layout_width="fill_parent"
                     android:textColor="@color/White"
                     android:layout_height="wrap_content"
-                    android:text="País: "
+                    android:text="Ubicación: "
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:id="@+id/textView3"
                     android:layout_marginTop="10dp"
                     android:paddingTop="10dp"
-                    android:paddingBottom="10dp"/>
+                    android:paddingBottom="10dp"
+                    android:visibility="gone"/>
             <LinearLayout android:layout_width="fill_parent"
                           android:layout_height="fill_parent"
-                          android:orientation="horizontal">
+                          android:orientation="horizontal"
+                          android:visibility="gone">
                 <kankan.wheel.widget.WheelView
                         android:id="@+id/country"
                         android:layout_height="110dp"
@@ -200,12 +202,13 @@
                 </LinearLayout>
             </LinearLayout>
             <CheckBox android:layout_width="fill_parent"
-                      android:layout_height="fill_parent"
+                      android:layout_height="wrap_content"
                       android:text="Con Fotos?"
                       android:textAppearance="?android:attr/textAppearanceMedium"
                       android:id="@+id/ch_fotos"
                       android:textColor="@color/White"
-                      android:layout_marginTop="20dp"/>
+                      android:layout_marginTop="20dp"
+                      />
         </LinearLayout>
     </ScrollView>
     <Button

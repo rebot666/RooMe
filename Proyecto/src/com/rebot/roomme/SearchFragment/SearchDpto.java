@@ -12,10 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
 import com.actionbarsherlock.view.Window;
-import com.parse.FindCallback;
-import com.parse.ParseException;
-import com.parse.ParseObject;
-import com.parse.ParseQuery;
+import com.parse.*;
 import com.rebot.roomme.Adapters.CountryAdapter;
 import com.rebot.roomme.Adapters.DepartmentAdapter;
 import com.rebot.roomme.MeLook.MelookDpto;
@@ -223,6 +220,7 @@ public class SearchDpto extends DialogFragment {
     }
 
     public void querySearchDpto(){
+        ParseUser currentUser = ParseUser.getCurrentUser();
         ParseQuery<ParseObject> dpto = ParseQuery.getQuery("Departamento");
 
         if(app.rooms != 0){
@@ -237,11 +235,16 @@ public class SearchDpto extends DialogFragment {
             dpto.whereGreaterThan("no_photos", 0);
         }
 
+        if(currentUser != null){
+            dpto.whereNotEqualTo("owner", currentUser);
+        }
+
         dpto.whereGreaterThanOrEqualTo("price", app.minprice);
         dpto.whereLessThanOrEqualTo("price", app.maxprice);
 
         dpto.include("owner");
         dpto.include("lugar_pub");
+        dpto.setLimit(1000);
         dpto.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> parseObjects, ParseException e) {
@@ -250,12 +253,31 @@ public class SearchDpto extends DialogFragment {
                     if(parseObjects.size() != 0){
                         dptos.clear();
 
+                        String pais = countries.get(country.getCurrentItem());
+                        String estado = cities.get(state.getCurrentItem());
+
                         for(ParseObject obj : parseObjects){
                             if(!obj.getBoolean("isSell") && !obj.getBoolean("isDraft")){
-                                //if((obj.getParseObject("lugar_pub").getString("pais").equalsIgnoreCase("PAISBUSQUEDA"))
-                                  //      && (obj.getParseObject("lugar_pub").getString("state").equalsIgnoreCase("ESTADOBUSQUEDA"))){
-                                    dptos.add(obj);
-                                //}
+                                ParseObject countryObject = obj.getParseObject("lugar_pub");
+
+                                if(countryObject != null){
+                                    if(!pais.equalsIgnoreCase("Todos") && !estado.equalsIgnoreCase("Todos")) {
+                                        if(countryObject.getString("pais").equalsIgnoreCase(pais)
+                                                && countryObject.getString("state").equalsIgnoreCase(estado)){
+                                            dptos.add(obj);
+                                        }
+                                    } else if(!pais.equalsIgnoreCase("Todos") && estado.equalsIgnoreCase("Todos")){
+                                        if(countryObject.getString("pais").equalsIgnoreCase(pais)){
+                                            dptos.add(obj);
+                                        }
+                                    } else {
+                                        dptos.add(obj);
+                                    }
+                                } else {
+                                    if(pais.equalsIgnoreCase("Todos") || estado.equalsIgnoreCase("Todos")){
+                                        dptos.add(obj);
+                                    }
+                                }
                             }
                         }
 
@@ -290,6 +312,7 @@ public class SearchDpto extends DialogFragment {
             public void done(List<ParseObject> parseObjects, ParseException e) {
                 if(e == null){
                     countries.clear();
+                    countries.add("Todos");
                     if(parseObjects.size() != 0){
                         for(ParseObject object : parseObjects){
                             if(!countries.contains(object.getString("pais"))){
@@ -310,26 +333,35 @@ public class SearchDpto extends DialogFragment {
     }
 
     public void updateCities(int country){
-        ParseQuery<ParseObject> get_states = ParseQuery.getQuery("Paises");
-        get_states.whereEqualTo("pais", countries.get(country));
-        get_states.orderByAscending("state");
-        get_states.findInBackground(new FindCallback<ParseObject>() {
-            @Override
-            public void done(List<ParseObject> parseObjects, ParseException e) {
-                if(e == null){
-                    cities.clear();
-                    if(parseObjects.size() != 0){
-                        for(ParseObject object : parseObjects){
-                            cities.add(object.getString("state"));
+        if(country != 0){
+            ParseQuery<ParseObject> get_states = ParseQuery.getQuery("Paises");
+            get_states.whereEqualTo("pais", countries.get(country));
+            get_states.orderByAscending("state");
+            get_states.findInBackground(new FindCallback<ParseObject>() {
+                @Override
+                public void done(List<ParseObject> parseObjects, ParseException e) {
+                    if(e == null){
+                        cities.clear();
+                        cities.add("Todos");
+                        if(parseObjects.size() != 0){
+                            for(ParseObject object : parseObjects){
+                                cities.add(object.getString("state"));
+                            }
+
+                            state.setVisibleItems(parseObjects.size());
+                            state.setViewAdapter(new CountryAdapter(context, cities));
+
+                            state.setCurrentItem(0);
                         }
-
-                        state.setVisibleItems(parseObjects.size());
-                        state.setViewAdapter(new CountryAdapter(context, cities));
-
-                        state.setCurrentItem(0);
                     }
-                }
-            }
-        });
+                    }
+            });
+        } else {
+            cities.clear();
+            cities.add("Todos");
+            state.setVisibleItems(1);
+            state.setViewAdapter(new CountryAdapter(context, cities));
+            state.setCurrentItem(0);
+        }
     }
 }

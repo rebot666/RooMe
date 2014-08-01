@@ -1028,6 +1028,7 @@ public class MeGoActivity extends FragmentActivity {
                 object.put("offers", 0);
                 object.put("destacado", destacado);
                 object.put("servicios", servicesParse);
+                object.put("isSell", false);
                 if(bitmap1 != null){object.put("img_portada", photoFile1);}
                 if(bitmap2 != null){object.put("img_uno", photoFile2);}
                 if(isDraftLocal){object.put("isDraft", true);}else{object.put("isDraft", false);}
@@ -1063,6 +1064,7 @@ public class MeGoActivity extends FragmentActivity {
                 publicacion.put("offers", 0);
                 publicacion.put("destacado", destacado);
                 publicacion.put("servicios", servicesParse);
+                publicacion.put("isSell", false);
                 if(bitmap1 != null){publicacion.put("img_portada", photoFile1);}
                 if(bitmap2 != null){publicacion.put("img_uno", photoFile2);}
                 if(isDraftLocal){publicacion.put("isDraft", true);}else{publicacion.put("isDraft", false);}
@@ -1074,9 +1076,6 @@ public class MeGoActivity extends FragmentActivity {
                     }
                 });
             }
-
-
-
         }
     }
 

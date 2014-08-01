@@ -235,7 +235,6 @@ public class SearchRoomme extends DialogFragment {
                             }
                         }
 
-
                         app.list_roomie.setAdapter(new LookMeAdpater(context,
                                 R.layout.lookme_list_item, roomies, app));
                         app.list_roomie.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -263,6 +262,7 @@ public class SearchRoomme extends DialogFragment {
             public void done(List<ParseObject> parseObjects, ParseException e) {
                 if(e == null){
                     countries.clear();
+                    countries.add("Todos");
                     if(parseObjects.size() != 0){
                         for(ParseObject object : parseObjects){
                             if(!countries.contains(object.getString("pais"))){
@@ -283,26 +283,35 @@ public class SearchRoomme extends DialogFragment {
     }
 
     public void updateCities(int country){
-        ParseQuery<ParseObject> get_states = ParseQuery.getQuery("Paises");
-        get_states.whereEqualTo("pais", countries.get(country));
-        get_states.orderByAscending("state");
-        get_states.findInBackground(new FindCallback<ParseObject>() {
-            @Override
-            public void done(List<ParseObject> parseObjects, ParseException e) {
-                if(e == null){
-                    cities.clear();
-                    if(parseObjects.size() != 0){
-                        for(ParseObject object : parseObjects){
-                            cities.add(object.getString("state"));
+        if(country != 0){
+            ParseQuery<ParseObject> get_states = ParseQuery.getQuery("Paises");
+            get_states.whereEqualTo("pais", countries.get(country));
+            get_states.orderByAscending("state");
+            get_states.findInBackground(new FindCallback<ParseObject>() {
+                @Override
+                public void done(List<ParseObject> parseObjects, ParseException e) {
+                    if(e == null){
+                        cities.clear();
+                        cities.add("Todos");
+                        if(parseObjects.size() != 0){
+                            for(ParseObject object : parseObjects){
+                                cities.add(object.getString("state"));
+                            }
+
+                            state.setVisibleItems(parseObjects.size());
+                            state.setViewAdapter(new CountryAdapter(context, cities));
+
+                            state.setCurrentItem(0);
                         }
-
-                        state.setVisibleItems(parseObjects.size());
-                        state.setViewAdapter(new CountryAdapter(context, cities));
-
-                        state.setCurrentItem(0);
                     }
                 }
-            }
-        });
+            });
+        } else {
+            cities.clear();
+            cities.add("Todos");
+            state.setVisibleItems(1);
+            state.setViewAdapter(new CountryAdapter(context, cities));
+            state.setCurrentItem(0);
+        }
     }
 }

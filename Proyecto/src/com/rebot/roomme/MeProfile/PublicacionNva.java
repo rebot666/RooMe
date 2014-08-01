@@ -1047,6 +1047,7 @@ public class PublicacionNva extends SherlockFragmentActivity {
                 object.put("offers", 0);
                 object.put("destacado", destacado);
                 object.put("servicios", servicesParse);
+                object.put("isSell", false);
                 if(bitmap1 != null){object.put("img_portada", photoFile1);}
                 if(bitmap2 != null){object.put("img_uno", photoFile2);}
                 if(isDraftLocal){object.put("isDraft", true);}else{object.put("isDraft", false);}
@@ -1083,7 +1084,7 @@ public class PublicacionNva extends SherlockFragmentActivity {
                 publicacion.put("offers", 0);
                 publicacion.put("destacado", destacado);
                 publicacion.put("servicios", servicesParse);
-                if(bitmap1 != null){publicacion.put("img_portada", photoFile1);}
+                publicacion.put("isSell", false);                if(bitmap1 != null){publicacion.put("img_portada", photoFile1);}
                 if(bitmap2 != null){publicacion.put("img_uno", photoFile2);}
                 if(isDraftLocal){publicacion.put("isDraft", true);}else{publicacion.put("isDraft", false);}
                 publicacion.saveInBackground(new SaveCallback() {
@@ -1145,6 +1146,4 @@ public class PublicacionNva extends SherlockFragmentActivity {
             }
         }
     }
-
-
 }

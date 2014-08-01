@@ -241,6 +241,7 @@ public class MelookDpto extends FragmentActivity implements
             elevenfiftynine.setSeconds(59);
 
             ParseUser currentUser = ParseUser.getCurrentUser();
+
             ParseQuery<ParseObject> query = ParseQuery.getQuery("Departamento");
             query.whereGreaterThan("updatedAt", midnight);
             query.whereLessThan("updatedAt", elevenfiftynine);

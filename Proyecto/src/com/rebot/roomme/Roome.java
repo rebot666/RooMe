@@ -17,7 +17,6 @@ import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
 import com.nostra13.universalimageloader.utils.StorageUtils;
 import com.parse.Parse;
-import com.parse.ParseFacebookUtils;
 import com.parse.ParseObject;
 import com.rebot.roomme.Models.Services;
 import com.rebot.roomme.Models.Users;
