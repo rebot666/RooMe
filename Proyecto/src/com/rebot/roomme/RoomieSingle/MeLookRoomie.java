@@ -1,4 +1,4 @@
-package com.rebot.roomme;
+package com.rebot.roomme.RoomieSingle;
 
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.app.FragmentActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -17,14 +18,11 @@ import com.actionbarsherlock.app.SherlockActivity;
 import com.actionbarsherlock.view.MenuItem;
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
-import com.facebook.HttpMethod;
-import com.facebook.Request;
-import com.facebook.Response;
-import com.facebook.Session;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.parse.*;
-import com.rebot.roomme.MeLook.MelookActivity;
+import com.rebot.roomme.*;
 import com.rebot.roomme.Models.Users;
+import com.rebot.roomme.R;
 import com.todddavies.components.progressbar.ProgressWheel;
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import org.json.JSONException;
@@ -38,14 +36,13 @@ import java.net.URLConnection;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
 /**
  * Created by Toshiba on 3/05/14.
  */
-public class MeLookRoomie extends SherlockActivity{
+public class MeLookRoomie extends FragmentActivity {
     private ImageView image, wall_image;
     private ProgressWheel progressWheel;
     private Roome app;
@@ -63,8 +60,8 @@ public class MeLookRoomie extends SherlockActivity{
 
     public void onCreate(Bundle savedInstance){
         super.onCreate(savedInstance);
-        setContentView(R.layout.lookme_roomite_layout);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        setContentView(com.rebot.roomme.R.layout.lookme_roomite_layout);
+        //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         ParseFacebookUtils.initialize(getString(R.string.app_id));
 
@@ -252,6 +249,7 @@ public class MeLookRoomie extends SherlockActivity{
         }
     };
 
+    /*
     @Override
     public boolean onOptionsItemSelected(MenuItem item){
         if(item.getItemId() == android.R.id.home){
@@ -260,6 +258,7 @@ public class MeLookRoomie extends SherlockActivity{
         }
         return super.onOptionsItemSelected(item);
     }
+    */
 
     private class InternetConnection extends AsyncTask<String,Void,String> {
         private ProgressDialog pd;

@@ -114,7 +114,7 @@
         </activity>
 
         <activity
-                android:name=".MeLookRoomie"
+                android:name=".RoomieSingle.MeLookRoomie"
                 android:configChanges="keyboard|keyboardHidden|orientation"
 
                 android:windowSoftInputMode="stateHidden|adjustResize"
@@ -272,7 +272,18 @@
         </activity>
 
         <activity
-                android:name=".DirectionsMap"
+            android:name=".RoomieSingle.SingleRoomieViewPagerContainer"
+            android:configChanges="keyboard|keyboardHidden|orientation"
+
+            android:windowSoftInputMode="stateHidden|adjustResize"
+            >
+        <intent-filter>
+            <action android:name="android.intent.action.MAIN" />
+        </intent-filter>
+    </activity>
+
+        <activity
+                android:name=".RoomieSingle.RoomieChat"
                 android:configChanges="keyboard|keyboardHidden|orientation"
 
                 android:windowSoftInputMode="stateHidden|adjustResize"
@@ -281,6 +292,7 @@
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>
         </activity>
+
 
 
         <activity android:name="com.facebook.LoginActivity"/>
@@ -303,6 +315,13 @@
 
         <meta-data android:name="com.facebook.sdk.ApplicationId"
                    android:value="@string/app_id"/>
+        <service android:name="com.parse.PushService" />
+
+        <receiver android:name="com.rebot.roomme.NotificationReceiver" android:exported="false">
+            <intent-filter>
+                <action android:name="com.rebot.roomme.UPDATE_STATUS" />
+            </intent-filter>
+        </receiver>
     </application>
 
     <uses-feature
@@ -314,6 +333,7 @@
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.VIBRATE" />
 
     <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
 
@@ -322,4 +342,15 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.CALL_PHONE" android:required="false"/>
     <uses-feature    android:name="android.hardware.telephony" android:required="false"/>
+
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
+
+    <!--
+      IMPORTANT: Change "com.parse.tutorials.pushnotifications.permission.C2D_MESSAGE" in the lines below
+      to match your app's package name + ".permission.C2D_MESSAGE".
+    -->
+    <permission android:protectionLevel="signature"
+                android:name="com.rebot.roomme.permission.C2D_MESSAGE" />
+    <uses-permission android:name="com.rebot.roomme.permission.C2D_MESSAGE" />
 </manifest>

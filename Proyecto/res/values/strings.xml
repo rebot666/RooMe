@@ -54,11 +54,24 @@
     <!--Roommies y Departamentos-->
         <!--Roommies-->
             <!--Roommie Sencillo-->
+            <string-array name="roomie_single_view_pager_title">
+                <item>Detail</item>
+                <item>Chat</item>
+            </string-array>
+            <string-array name="roomie_single_view_pager_title_no_account">
+                <item>Detail</item>
+            </string-array>
+            <string name="lbl_send">Send</string>
+            <string name="lbl_message_chat">Write here</string>
+            <string name="main_empty_list">There are no new messages available. Write a new message.</string>
+            <!--Detalle-->
             <string name="lbl_name">Name:</string>
             <string name="lbl_edad">Age:</string>
             <string name="lbl_location">Location:</string>
             <string name="btn_report_user">Report User</string>
             <string name="lbl_report_message">User has been reported</string>
+            <!--Conversación-->
+
         <!--Departamentos-->
             <!--Roommie Sencillo-->
             <!--Opciones Viewpager-->

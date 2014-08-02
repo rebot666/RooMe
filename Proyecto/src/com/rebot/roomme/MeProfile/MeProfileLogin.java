@@ -1,5 +1,6 @@
 package com.rebot.roomme.MeProfile;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -10,6 +11,7 @@ import com.facebook.Session;
 import com.facebook.model.GraphUser;
 import com.parse.*;
 import com.rebot.roomme.R;
+import com.rebot.roomme.RoomieSingle.SingleRoomieViewPagerContainer;
 import com.todddavies.components.progressbar.ProgressWheel;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -25,6 +27,7 @@ import java.util.List;
 public class MeProfileLogin extends SherlockFragmentActivity {
     public ArrayList<String> interestList;
     private ProgressWheel loader;
+    private Context context = this;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -56,6 +59,8 @@ public class MeProfileLogin extends SherlockFragmentActivity {
                     //Mensaje de error
                     //NavUtils.navigateUpFromSameTask(MeProfileLogin.this);
                     //requestPicture();
+                    PushService.subscribe(context, ParseUser.getCurrentUser().getObjectId(), SingleRoomieViewPagerContainer.class);
+
                     onBackPressed();
                 }
             }
@@ -198,7 +203,8 @@ public class MeProfileLogin extends SherlockFragmentActivity {
                                 current.saveInBackground();
                                 onBackPressed();
                                 //requestPicture();
-
+                                // When users indicate they are Giants fans, we subscribe them to that channel.
+                                PushService.subscribe(context, current.getObjectId(), SingleRoomieViewPagerContainer.class);
 
                                 //NavUtils.navigateUpFromSameTask(MeProfileLogin.this);
                             } catch (JSONException e) {

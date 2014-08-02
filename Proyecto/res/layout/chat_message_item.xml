@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="fill_parent"
+              android:layout_height="wrap_content"
+              android:orientation="vertical"
+              android:padding="15dp"
+              android:id="@+id/layout_mensaje"
+        >
+
+    <TextView
+            android:id="@+id/name_message"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:shadowColor="@color/textShadow"
+            android:shadowDx="1"
+            android:shadowDy="1"
+            android:text="tostada_rosadita"
+            android:textStyle="bold|italic"
+            android:textColor="@color/Black"
+            android:textSize="22sp"
+            android:layout_marginBottom="2dp"
+
+
+            />
+    <TextView
+            android:id="@+id/message_text"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:shadowColor="@color/textShadow"
+            android:shadowDx="1"
+            android:shadowDy="1"
+            android:text="hola"
+            android:textColor="@color/Black"
+            android:textSize="20sp"
+
+            />
+
+</LinearLayout>

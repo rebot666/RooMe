@@ -16,10 +16,10 @@ import com.nostra13.universalimageloader.core.assist.SimpleImageLoadingListener;
 import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
 import com.nostra13.universalimageloader.utils.StorageUtils;
-import com.parse.Parse;
-import com.parse.ParseObject;
+import com.parse.*;
 import com.rebot.roomme.Models.Services;
 import com.rebot.roomme.Models.Users;
+import com.rebot.roomme.RoomieSingle.SingleRoomieViewPagerContainer;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -58,6 +58,9 @@ public class Roome extends Application {
 
     public String urlDirections;
 
+    public int pestanaSingleRoomie;
+    public boolean active;
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -67,6 +70,9 @@ public class Roome extends Application {
         BugSenseHandler.initAndStartSession(context, "a22b3bc2");
 
         Parse.initialize(this, getString(R.string.parse_key), getString(R.string.app_key));
+        ParseInstallation.getCurrentInstallation().saveInBackground();
+        PushService.setDefaultPushCallback(this, SingleRoomieViewPagerContainer.class);
+
 
         FontsOverride.setDefaultFont(this, "DEFAULT", "fonts/abeezee_regular.ttf");
         //FontsOverride.setDefaultFont(this, "MONOSPACE", "MyFontAsset2.ttf");

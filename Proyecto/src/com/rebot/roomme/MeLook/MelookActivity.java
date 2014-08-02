@@ -10,13 +10,13 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.View;
 import android.widget.*;
-import com.markupartist.android.widget.PullToRefreshListView;
 import com.parse.*;
 import com.rebot.roomme.*;
 
 import com.rebot.roomme.Adapters.LookMeAdpater;
 import com.rebot.roomme.Models.Users;
 import com.rebot.roomme.R;
+import com.rebot.roomme.RoomieSingle.SingleRoomieViewPagerContainer;
 import com.todddavies.components.progressbar.ProgressWheel;
 import de.keyboardsurfer.android.widget.crouton.Configuration;
 import de.keyboardsurfer.android.widget.crouton.Crouton;
@@ -157,7 +157,8 @@ public class MelookActivity extends FragmentActivity {
                             @Override
                             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                                 app.roomieSeleccionado = profiles.get(position);
-                                Intent intent = new Intent(MelookActivity.this, MeLookRoomie.class);
+                                app.pestanaSingleRoomie = 0;
+                                Intent intent = new Intent(MelookActivity.this, SingleRoomieViewPagerContainer.class);
                                 MelookActivity.this.startActivity(intent);
                             }
                         });
