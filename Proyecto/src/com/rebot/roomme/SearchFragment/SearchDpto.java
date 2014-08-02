@@ -50,6 +50,10 @@ public class SearchDpto extends DialogFragment {
     private CheckBox checkBox;
     private int maxp, minp;
 
+    public SearchDpto(){
+
+    }
+
     public SearchDpto(Context ctx, Roome app){
         this.app = app;
         this.context = ctx;

@@ -7,10 +7,13 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Matrix;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.location.LocationManager;
+import android.media.ExifInterface;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -18,6 +21,7 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.util.Log;
 import android.view.View;
 import android.widget.*;
 import com.actionbarsherlock.app.SherlockActivity;
@@ -336,7 +340,7 @@ public class PublicacionNva extends SherlockFragmentActivity {
         photo2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent pickIntent = new Intent();
+                /*Intent pickIntent = new Intent();
                 pickIntent.setType("image/*");
                 pickIntent.setAction(Intent.ACTION_GET_CONTENT);
 
@@ -350,14 +354,14 @@ public class PublicacionNva extends SherlockFragmentActivity {
                                 new Intent[] { takePhotoIntent }
                         );
 
-                startActivityForResult(chooserIntent, PHOTO_2);
+                startActivityForResult(chooserIntent, PHOTO_2);*/
             }
         });
 
         photo3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent pickIntent = new Intent();
+                /*Intent pickIntent = new Intent();
                 pickIntent.setType("image/*");
                 pickIntent.setAction(Intent.ACTION_GET_CONTENT);
 
@@ -371,14 +375,14 @@ public class PublicacionNva extends SherlockFragmentActivity {
                                 new Intent[] { takePhotoIntent }
                         );
 
-                startActivityForResult(chooserIntent, PHOTO_3);
+                startActivityForResult(chooserIntent, PHOTO_3);*/
             }
         });
 
         photo4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent pickIntent = new Intent();
+                /*Intent pickIntent = new Intent();
                 pickIntent.setType("image/*");
                 pickIntent.setAction(Intent.ACTION_GET_CONTENT);
 
@@ -392,7 +396,7 @@ public class PublicacionNva extends SherlockFragmentActivity {
                                 new Intent[] { takePhotoIntent }
                         );
 
-                startActivityForResult(chooserIntent, PHOTO_4);
+                startActivityForResult(chooserIntent, PHOTO_4);*/
             }
         });
 
@@ -464,10 +468,6 @@ public class PublicacionNva extends SherlockFragmentActivity {
                 });
 
                 dialog.show();
-
-
-
-
             }
         });
 
@@ -764,8 +764,7 @@ public class PublicacionNva extends SherlockFragmentActivity {
 
             //Link to the image
             final String imageFilePath = cursor.getString(0);
-            Drawable d = Drawable.createFromPath(imageFilePath);
-
+            Drawable d = null;
 
             /*
             do {
@@ -778,15 +777,97 @@ public class PublicacionNva extends SherlockFragmentActivity {
             //Bitmap bMap = BitmapFactory.decodeByteArray(baos.toByteArray(), 0, baos.toByteArray().length);
 
             if(requestCode == SELECT_PICTURE){
-                img_dpto.setImageDrawable(d);
-                img_dpto.setScaleType(ImageView.ScaleType.CENTER_CROP);
-                bitmap1 = ((BitmapDrawable)d).getBitmap();
+                int rotate = 0;
+                try {
+                    getContentResolver().notifyChange(_uri, null);
+                    File imageFile = new File(imageFilePath);
+                    ExifInterface exif = new ExifInterface(
+                            imageFile.getAbsolutePath());
+                    int orientation = exif.getAttributeInt(
+                            ExifInterface.TAG_ORIENTATION,
+                            ExifInterface.ORIENTATION_NORMAL);
+
+                    switch (orientation) {
+                        case ExifInterface.ORIENTATION_ROTATE_270:
+                            rotate = 270;
+                            break;
+                        case ExifInterface.ORIENTATION_ROTATE_180:
+                            rotate = 180;
+                            break;
+                        case ExifInterface.ORIENTATION_ROTATE_90:
+                            rotate = 90;
+                            break;
+                    }
+
+                    BitmapFactory.Options options = new BitmapFactory.Options();
+                    options.inPreferredConfig = Bitmap.Config.ARGB_8888;
+                    Bitmap bitmap = BitmapFactory.decodeFile(imageFilePath, options);
+                    Bitmap rotatedBitmap;
+
+                    Matrix matrix = new Matrix();
+                    matrix.setRotate(rotate, 0, 0);
+                    matrix.postTranslate(bitmap.getHeight(), 0);
+
+                    rotatedBitmap = Bitmap.createBitmap(bitmap, 0, 0,
+                            bitmap.getWidth(), bitmap.getHeight(),
+                            matrix, true);
+
+                    //d = Drawable.createFromPath(imageFilePath);
+                    //img_dpto.setImageDrawable(d);
+                    img_dpto.setImageBitmap(rotatedBitmap);
+                    Log.v("", "Exif orientation: " + orientation);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                //img_dpto.setScaleType(ImageView.ScaleType.CENTER_CROP);
+
+                //bitmap1 = ((BitmapDrawable)d).getBitmap();
 
             } else if(requestCode == PHOTO_1){
-                photo1.setImageDrawable(d);
-                photo1.setScaleType(ImageView.ScaleType.CENTER_CROP);
+                int rotate = 0;
+                try {
+                    getContentResolver().notifyChange(_uri, null);
+                    File imageFile = new File(imageFilePath);
+                    ExifInterface exif = new ExifInterface(
+                            imageFile.getAbsolutePath());
+                    int orientation = exif.getAttributeInt(
+                            ExifInterface.TAG_ORIENTATION,
+                            ExifInterface.ORIENTATION_NORMAL);
+
+                    switch (orientation) {
+                        case ExifInterface.ORIENTATION_ROTATE_270:
+                            rotate = 270;
+                            break;
+                        case ExifInterface.ORIENTATION_ROTATE_180:
+                            rotate = 180;
+                            break;
+                        case ExifInterface.ORIENTATION_ROTATE_90:
+                            rotate = 90;
+                            break;
+                    }
+
+                    BitmapFactory.Options options = new BitmapFactory.Options();
+                    options.inPreferredConfig = Bitmap.Config.ARGB_8888;
+                    Bitmap bitmap = BitmapFactory.decodeFile(imageFilePath, options);
+                    Bitmap rotatedBitmap;
+
+                    Matrix matrix = new Matrix();
+                    matrix.setRotate(rotate, 0, 0);
+                    matrix.postTranslate(bitmap.getHeight(), 0);
+
+                    rotatedBitmap = Bitmap.createBitmap(bitmap, 0, 0,
+                            bitmap.getWidth(), bitmap.getHeight(),
+                            matrix, true);
+
+                    //d = Drawable.createFromPath(imageFilePath);
+                    //img_dpto.setImageDrawable(d);
+                    photo1.setImageBitmap(rotatedBitmap);
+                    Log.v("", "Exif orientation: " + orientation);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
                 //bitmap2 = ((BitmapDrawable)d).getBitmap();
-            } else if(requestCode == PHOTO_2){
+            } /*else if(requestCode == PHOTO_2){
                 photo2.setImageDrawable(d);
                 photo2.setScaleType(ImageView.ScaleType.CENTER_CROP);
 
@@ -796,7 +877,7 @@ public class PublicacionNva extends SherlockFragmentActivity {
             } else if(requestCode == PHOTO_4){
                 photo4.setImageDrawable(d);
                 photo4.setScaleType(ImageView.ScaleType.CENTER_CROP);
-            }
+            }*/
 
             cursor.close();
         }

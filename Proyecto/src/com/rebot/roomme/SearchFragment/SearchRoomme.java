@@ -51,6 +51,9 @@ public class SearchRoomme extends DialogFragment {
     private int maxc, minc;
     private EditText edit;
 
+    public SearchRoomme(){
+
+    }
 
     public SearchRoomme(Context ctx, Roome app){
         this.app = app;
